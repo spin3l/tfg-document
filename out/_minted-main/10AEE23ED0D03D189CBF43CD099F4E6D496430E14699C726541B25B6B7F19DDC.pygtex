@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{def} \PYG{n+nf}{plots\PYGZus{}balancing}\PYG{p}{(}\PYG{n}{df}\PYG{p}{,} \PYG{n}{df\PYGZus{}balanced}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{fig}\PYG{p}{,} \PYG{n}{axis} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}\PYG{n}{ncols}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{fig}\PYG{o}{.}\PYG{n}{suptitle}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Balance of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{src}\PYG{o}{.}\PYG{n}{utils}\PYG{o}{.}\PYG{n}{dev\PYGZus{}config}\PYG{o}{.}\PYG{n}{OBJECTIVE\PYGZus{}COLUMN}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{axis}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Before balancing }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{src}\PYG{o}{.}\PYG{n}{utils}\PYG{o}{.}\PYG{n}{dev\PYGZus{}config}\PYG{o}{.}\PYG{n}{OBJECTIVE\PYGZus{}COLUMN}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{axis}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{After balancing }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{src}\PYG{o}{.}\PYG{n}{utils}\PYG{o}{.}\PYG{n}{dev\PYGZus{}config}\PYG{o}{.}\PYG{n}{OBJECTIVE\PYGZus{}COLUMN}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{plot\PYGZus{}balance}\PYG{p}{(}\PYG{n}{df}\PYG{p}{,} \PYG{n}{ax}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{n}{plot\PYGZus{}balance}\PYG{p}{(}\PYG{n}{df\PYGZus{}balanced}\PYG{p}{,} \PYG{n}{ax}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{f}\PYG{o}{.}\PYG{n}{tight\PYGZus{}layout}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{z}
+
+\PYG{k}{def} \PYG{n+nf}{plot\PYGZus{}balance}\PYG{p}{(}\PYG{n}{df}\PYG{p}{,} \PYG{n}{axis}\PYG{p}{,} \PYG{n}{axis\PYGZus{}number}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{return} \PYG{n}{sns}\PYG{o}{.}\PYG{n}{histplot}\PYG{p}{(}\PYG{n}{df}\PYG{p}{[}\PYG{n}{src}\PYG{o}{.}\PYG{n}{utils}\PYG{o}{.}\PYG{n}{dev\PYGZus{}config}\PYG{o}{.}\PYG{n}{OBJECTIVE\PYGZus{}COLUMN}\PYG{p}{]}\PYG{p}{,} \PYG{n}{ax}\PYG{o}{=}\PYG{n}{axis}\PYG{p}{[}\PYG{n}{axis\PYGZus{}number}\PYG{p}{]} \PYG{k}{if} \PYG{n}{axis\PYGZus{}number} \PYG{k}{else} \PYG{n}{axis}\PYG{p}{)}
+\end{Verbatim}

@@ -1,7 +1,7 @@
 \section{Marco teórico, conceptos clave del ML}
 
 \begin{quote}
-    ``\gls{ml}: the use and development of computer systems that are able to learn and adapt without following explicit instructions, by using algorithms and statistical models to analyse and draw inferences from patterns in data.`` \cite{machinel18:online}
+    `\gls{ml}: the use and development of computer systems that are able to learn and adapt without following explicit instructions, by using algorithms and statistical models to analyse and draw inferences from patterns in data'\ \cite{machinel18:online}
 \end{quote}
 
 Es decir, un sistema que es capaz de inferir patrones de unos datos y realizar predicciones sobre nuevos datos a raíz de los patrones encontrados. 
@@ -9,11 +9,11 @@ Es decir, un sistema que es capaz de inferir patrones de unos datos y realizar p
 
 \subsection{Tipos de aprendizaje y modelos}
 
-Hay cuatro tipos de aprendizaje en el ML: supervisado, no supervisado, semi-supervisado y de refuerzo \cite{homl56}.
+Hay cuatro tipos de aprendizaje en el ML:\@ supervisado, no supervisado, semi-supervisado y de refuerzo\ \cite{homl56}.
 
-Como parte de nuestros datos están etiquetados, podemos utilizar tanto el aprendizaje supervisado como el semi-supervisado. En un sistema supervisado se requiere que todos los datos estén etiquetados con la categoría deseada, en nuestro caso la contaminación. Sin embargo, para el semi-supervisado no es necesario que todos los datos estén etiquetados, pues utilizan tanto los datos etiquetados como los que no (datos parcialmente etiquetados) para tratar de generalizar mejor \cite{homl56}.
+Como parte de nuestros datos están etiquetados, podemos utilizar tanto el aprendizaje supervisado como el semi-supervisado. En un sistema supervisado se requiere que todos los datos estén etiquetados con la categoría deseada, en nuestro caso la contaminación. Sin embargo, para el semi-supervisado no es necesario que todos los datos estén etiquetados, pues utilizan tanto los datos etiquetados como los que no (datos parcialmente etiquetados) para tratar de generalizar mejor\ \cite{homl56}.
 
-No utilizaremos el no supervisado, pues consiste en un conjunto de técnicas utilizadas para agrupar automáticamente datos no etiquetados a base de similitudes sin tener supervisión previa. El objetivo es que los datos dentro de un mismo grupo sean más similares entre sí que con los otros grupos \cite{Clustera13:online}. Sin embargo, como tenemos una cantidad más o menos considerable de información etiquetada, no nos hace falta.
+No utilizaremos el no supervisado, pues consiste en un conjunto de técnicas utilizadas para agrupar automáticamente datos no etiquetados a base de similitudes sin tener supervisión previa. El objetivo es que los datos dentro de un mismo grupo sean más similares entre sí que con los otros grupos\ \cite{Clustera13:online}. Sin embargo, como tenemos una cantidad más o menos considerable de información etiquetada, no nos hace falta.
 
 Tampoco utilizaremos el aprendizaje por refuerzo, pues no se encuentra implementado dentro de la librería que utilizamos \textit{\href{https://scikit-learn.org/stable/}{sklearn}} y tampoco está dentro de los objetivos del proyecto.
 
@@ -23,31 +23,30 @@ Tampoco utilizaremos el aprendizaje por refuerzo, pues no se encuentra implement
 Nuestro proyecto ha tenido las fases que nombramos a continuación:
 
 \begin{enumerate}
-    \item Obtención de datos (\textit{apartado \ref{sec:obtencion}})
+    \item Obtención de datos (\textit{apartado\ \ref{sec:obtencion}})
         \begin{enumerate}
             \item Recolección de información de los \acrshort{bil}.
         \end{enumerate}
-    \item Preparación de datos (\textit{apartado \ref{sec:preprocesado}})
+    \item Preparación de datos (\textit{apartado\ \ref{sec:preprocesado}})
         \begin{enumerate}
             \item Selección de métodos de preprocesado
         \end{enumerate}
-    \item Entrenamiento de los modelos (\textit{apartado \ref{sec:entrenamiento}})
+    \item Entrenamiento de los modelos (\textit{apartado\ \ref{sec:entrenamiento}})
         \begin{enumerate}
-            \item Entrenamiento ``básico`` de modelos
+            \item Entrenamiento `básico' de modelos
             \item Selección y refinamiento
         \end{enumerate}
-    \item Evaluación de resultados (\textit{apartado \ref{sec:resultados}})
+    \item Evaluación de resultados (\textit{apartado\ \ref{sec:resultados}})
         
     \item Monitoreo de los modelos
 \end{enumerate}
 
-Para generalizar la hoja de ruta de un proyecto es más o menos como la de la \textit{figura \ref{fig:ml-development-cycle}}. Cabe destacar que el proceso de entrenar un modelo de \gls{ml}, como bien muestra la imagen, es un proceso cíclico en búsqueda de mejores resultados a base de probar metodologías distintas, añadir pasos, el cambio de requisitos, etc.
+Para generalizar la hoja de ruta de un proyecto es más o menos como la de la \textit{figura\ \ref{fig:ml-development-cycle}}. Cabe destacar que el proceso de entrenar un modelo de \gls{ml}, como bien muestra la imagen, es un proceso cíclico en búsqueda de mejores resultados a base de probar metodologías distintas, añadir pasos, el cambio de requisitos, etc.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{media/images/ml-development-cycle.png}
-    \caption{Esquema del proceso del desarrollo de un proyecto de \gls{ml}, fuente \cite{Organizi22:online}}
-    \label{fig:ml-development-cycle}
+    \caption{Esquema del proceso del desarrollo de un proyecto de \gls{ml}, fuente\ \cite{Organizi22:online}}\ \label{fig:ml-development-cycle}
 \end{figure}
 
 
@@ -57,7 +56,7 @@ Antes de continuar con el entrenamiento de modelos, su mejora y la selección de
 
 \subsubsection{Clasificación supervisada y semi-supervisada}
 
-Primeramente, explicaremos las partes de una matriz de confusión como la que podemos ver en la \textit{figura \ref{fig:confusion-matrix-example}}. Podemos ver que tiene cuatro partes:
+Primeramente, explicaremos las partes de una matriz de confusión como la que podemos ver en la \textit{figura\ \ref{fig:confusion-matrix-example}}. Podemos ver que tiene cuatro partes:
 
 \begin{itemize}
     \item \textit{True Positive (tp)}, las muestras que el modelo clasifica como positivas que realmente son positivas.
@@ -71,11 +70,10 @@ Estos cuatro valores son la base del resto de métricas que comentaremos a conti
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\linewidth]{media/images/confusion-matrix-example.png}
-    \caption{Ejemplo de matriz de confusión, fuente \cite{Confusio71:online}}
-    \label{fig:confusion-matrix-example}
+    \caption{Ejemplo de matriz de confusión, fuente\ \cite{Confusio71:online}}\ \label{fig:confusion-matrix-example}
 \end{figure}
 
-Antes de explicar estas métricas, comentaremos otras más básicas que son utilizadas para calcular que utilizaremos \cite{Precisio23:online}.
+Antes de explicar estas métricas, comentaremos otras más básicas que son utilizadas para calcular que utilizaremos\ \cite{Precisio23:online}.
 \textit{Sensitivity} permite saber la probabilidad de que una predicción positiva sea realmente positiva.
     \begin{equation}
         tp/(tp+fn)
@@ -95,12 +93,12 @@ Antes de explicar estas métricas, comentaremos otras más básicas que son util
 
 Con estas métricas básicas podemos definir las que realmente compararemos, ya que tienen en cuenta el balanceo del \gls{dataset}:
 
-\textit{fbeta score} es la media harmónica ponderada entre \textit{Precision} y \textit{Recall}. El parámetro \textit{beta} representa la importancia de \textit{Recall} por encima de \textit{Precision}. Es decir, \(beta>1\) le da más importancia a \textit{Recall} y, contrariamente, \(beta<1\) le da más peso a \textit{Precision}. \cite{FscoreWi30:online}
+\textit{fbeta score} es la media harmónica ponderada entre \textit{Precision} y \textit{Recall}. El parámetro \textit{beta} representa la importancia de \textit{Recall} por encima de \textit{Precision}. Es decir, \(beta>1\) le da más importancia a \textit{Recall} y, contrariamente, \(beta<1\) le da más peso a \textit{Precision}.\ \cite{FscoreWi30:online}
     \begin{equation}
         f_\beta = (1 + \beta^2)*\frac{precision*recall}{(\beta^2*precision)+recall}
     \end{equation}
 
-\textit{Balanced accuracy} es la media aritmética de \textit{Sensitivity} y \textit{Specificity}. Se utiliza principalmente cuando tratamos con datos desbalanceados. \cite{Balanced44:online}
+\textit{Balanced accuracy} es la media aritmética de \textit{Sensitivity} y \textit{Specificity}. Se utiliza principalmente cuando tratamos con datos desbalanceados.\ \cite{Balanced44:online}
     \begin{equation}
         balanced\_accuracy =\frac{sensitivity + specificity}{2}
     \end{equation}

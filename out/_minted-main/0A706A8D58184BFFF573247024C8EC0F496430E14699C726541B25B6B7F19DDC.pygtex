@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}
+    \PYG{n}{zscore} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{stats}\PYG{o}{.}\PYG{n}{zscore}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{data\PYGZus{}clean} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{p}{(}\PYG{n}{zscore} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{3}\PYG{p}{)}\PYG{o}{.}\PYG{n}{all}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{]}
+    \PYG{n}{df} \PYG{o}{=} \PYG{n}{data\PYGZus{}clean}
+\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}
+\end{Verbatim}

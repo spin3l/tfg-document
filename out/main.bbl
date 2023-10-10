@@ -1,0 +1,576 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{¿Quésond17:online}{online}{}
+      \field{sortinit}{Q}
+      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
+      \field{labeltitlesource}{title}
+      \field{title}{¿Qué son datasets y dataframes? | Deusto Formación}
+      \field{urlday}{26}
+      \field{urlmonth}{9}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.deustoformacion.com/blog/programacion-tic/que-son-datasets-dataframes-big-data#:~:text=Un%20conjunto%20de%20datos%20o,de%20datos%20que%20estamos%20tratando.
+      \endverb
+      \verb{url}
+      \verb https://www.deustoformacion.com/blog/programacion-tic/que-son-datasets-dataframes-big-data#:~:text=Un%20conjunto%20de%20datos%20o,de%20datos%20que%20estamos%20tratando.
+      \endverb
+    \endentry
+    \entry{Applicat5:online}{online}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeltitlesource}{title}
+      \field{title}{Application of Near-Infrared Spectroscopy and Hyperspectral Imaging Combined with Machine Learning Algorithms for Quality Inspection of Grape: A Review - PMC}
+      \field{urlday}{29}
+      \field{urlmonth}{8}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9818947/#:~:text=Traditional%20quality%20inspection%20methods%20are,great%20potential%20in%20recent%20years.
+      \endverb
+      \verb{url}
+      \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9818947/#:~:text=Traditional%20quality%20inspection%20methods%20are,great%20potential%20in%20recent%20years.
+      \endverb
+    \endentry
+    \entry{Balanced44:online}{online}{}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labeltitlesource}{title}
+      \field{title}{Balanced Accuracy: When Should You Use It?}
+      \field{urlday}{6}
+      \field{urlmonth}{10}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://neptune.ai/blog/balanced-accuracy#:~:text=Balanced%20Accuracy%20is%20used%20in,lot%20more%20than%20the%20other.
+      \endverb
+      \verb{url}
+      \verb https://neptune.ai/blog/balanced-accuracy#:~:text=Balanced%20Accuracy%20is%20used%20in,lot%20more%20than%20the%20other.
+      \endverb
+    \endentry
+    \entry{Clustera13:online}{misc}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://en.wikipedia.org/wiki/Cluster_analysis}}
+      \field{note}{(Accessed on 09/07/2023)}
+      \field{title}{Cluster analysis - Wikipedia}
+    \endentry
+    \entry{Confusio71:online}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labeltitlesource}{title}
+      \field{title}{Confusion Matrix for Your Multi-Class Machine Learning Model | by Joydwip Mohajon | Towards Data Science}
+      \field{urlday}{4}
+      \field{urlmonth}{10}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://towardsdatascience.com/confusion-matrix-for-your-multi-class-machine-learning-model-ff9aa3bf7826
+      \endverb
+      \verb{url}
+      \verb https://towardsdatascience.com/confusion-matrix-for-your-multi-class-machine-learning-model-ff9aa3bf7826
+      \endverb
+    \endentry
+    \entry{https://doi.org/10.2903/j.efsa.2017.4718}{article}{}
+      \name{author}{41}{}{%
+        {{hash=eb18f305ef6a88a86b3185bea169abcb}{%
+           family={Contaminants\bibnamedelimb in\bibnamedelimb the\bibnamedelimb Food\bibnamedelimb Chain\bibnamedelima (CONTAM)},
+           familyi={C\bibinitperiod\bibinitdelim i\bibinitperiod\bibinitdelim t\bibinitperiod\bibinitdelim F\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim (\bibinitperiod},
+           given={EFSA\bibnamedelima Panel},
+           giveni={E\bibinitperiod\bibinitdelim P\bibinitperiod},
+           prefix={on},
+           prefixi={o\bibinitperiod}}}%
+        {{hash=5a452eaf844dfcc2e882ebaad29224da}{%
+           family={Knutsen},
+           familyi={K\bibinitperiod},
+           given={Helle\bibnamedelima Katrine},
+           giveni={H\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=301938b17795e153f6f14226c71ba9f8}{%
+           family={Alexander},
+           familyi={A\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=5033fa97a0b2116abac688df06c1b709}{%
+           family={Barregård},
+           familyi={B\bibinitperiod},
+           given={Lars},
+           giveni={L\bibinitperiod}}}%
+        {{hash=de7c56e86272fdf840a2c634a8dafea2}{%
+           family={Bignami},
+           familyi={B\bibinitperiod},
+           given={Margherita},
+           giveni={M\bibinitperiod}}}%
+        {{hash=59e79655ccf568b394bed3d922658415}{%
+           family={Brüschweiler},
+           familyi={B\bibinitperiod},
+           given={Beat},
+           giveni={B\bibinitperiod}}}%
+        {{hash=b5f9e1fca4461496903e3de432b8289a}{%
+           family={Ceccatelli},
+           familyi={C\bibinitperiod},
+           given={Sandra},
+           giveni={S\bibinitperiod}}}%
+        {{hash=0cf2b99b4bc7a544788dc3e9a1b15b03}{%
+           family={Cottrill},
+           familyi={C\bibinitperiod},
+           given={Bruce},
+           giveni={B\bibinitperiod}}}%
+        {{hash=7dfa8c40ddcdd91676b1b1029f44d634}{%
+           family={Dinovi},
+           familyi={D\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=52ef7dd323c9fe92576e1c8fcd9d4140}{%
+           family={Grasl-Kraupp},
+           familyi={G\bibinithyphendelim K\bibinitperiod},
+           given={Bettina},
+           giveni={B\bibinitperiod}}}%
+        {{hash=cdcf3b6bb056da0a8128f76cfe6d2489}{%
+           family={Hogstrand},
+           familyi={H\bibinitperiod},
+           given={Christer},
+           giveni={C\bibinitperiod}}}%
+        {{hash=e5361a307eb9bf388b15b629ed8f30f4}{%
+           family={Hoogenboom},
+           familyi={H\bibinitperiod},
+           given={Laurentius\bibnamedelima (Ron)},
+           giveni={L\bibinitperiod\bibinitdelim (\bibinitperiod}}}%
+        {{hash=1c0b29c6def325af7515f0e30cb62c80}{%
+           family={Nebbia},
+           familyi={N\bibinitperiod},
+           given={Carlo\bibnamedelima Stefano},
+           giveni={C\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=4ffd953a09409559bc633ed7546d56e1}{%
+           family={Oswald},
+           familyi={O\bibinitperiod},
+           given={Isabelle\bibnamedelima P},
+           giveni={I\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=52cb66067363c186f5982a4bb2d0eade}{%
+           family={Petersen},
+           familyi={P\bibinitperiod},
+           given={Annette},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6e026e217eadf5b2d6760377659e4cac}{%
+           family={Rose},
+           familyi={R\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=acf34ebf87b12e1bd4faf2dcfc81d3b1}{%
+           family={Roudot},
+           familyi={R\bibinitperiod},
+           given={Alain-Claude},
+           giveni={A\bibinithyphendelim C\bibinitperiod}}}%
+        {{hash=767ed80ce99119cfe728caacc845e609}{%
+           family={Schwerdtle},
+           familyi={S\bibinitperiod},
+           given={Tanja},
+           giveni={T\bibinitperiod}}}%
+        {{hash=7f9e25f2b7b589d6db6e06638b5f63bf}{%
+           family={Vleminckx},
+           familyi={V\bibinitperiod},
+           given={Christiane},
+           giveni={C\bibinitperiod}}}%
+        {{hash=fbc320eaacac46092de98a6e49353bde}{%
+           family={Vollmer},
+           familyi={V\bibinitperiod},
+           given={Günter},
+           giveni={G\bibinitperiod}}}%
+        {{hash=d7881fd86c6a91b11b9c59309b4fb296}{%
+           family={Wallace},
+           familyi={W\bibinitperiod},
+           given={Heather},
+           giveni={H\bibinitperiod}}}%
+        {{hash=943596a89f63ce5d7ca2698535122372}{%
+           family={De\bibnamedelima Saeger},
+           familyi={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={Sarah},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a8329b067003acc76c681fdd1a580398}{%
+           family={Eriksen},
+           familyi={E\bibinitperiod},
+           given={Gunnar\bibnamedelima Sundstøl},
+           giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=a609dcebec59afe3edf9e966a4494235}{%
+           family={Farmer},
+           familyi={F\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=7a2d96aebd3a20f29b733332b383eeaa}{%
+           family={Fremy},
+           familyi={F\bibinitperiod},
+           given={Jean-Marc},
+           giveni={J\bibinithyphendelim M\bibinitperiod}}}%
+        {{hash=ef276a7b38cc89d24bf0b71d43b3d90e}{%
+           family={Gong},
+           familyi={G\bibinitperiod},
+           given={Yun\bibnamedelima Yun},
+           giveni={Y\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+        {{hash=b4938bdee1127455558de1a440e94051}{%
+           family={Meyer},
+           familyi={M\bibinitperiod},
+           given={Karsten},
+           giveni={K\bibinitperiod}}}%
+        {{hash=cf386b1a9cc2f4e0912cc9c68499974f}{%
+           family={Naegeli},
+           familyi={N\bibinitperiod},
+           given={Hanspeter},
+           giveni={H\bibinitperiod}}}%
+        {{hash=9bf6d66cf9923a25b1e8811fb9e7bc4c}{%
+           family={Parent-Massin},
+           familyi={P\bibinithyphendelim M\bibinitperiod},
+           given={Dominique},
+           giveni={D\bibinitperiod}}}%
+        {{hash=485d1c5fe0772a0488210ef7024c98b9}{%
+           family={Rietjens},
+           familyi={R\bibinitperiod},
+           given={Ivonne},
+           giveni={I\bibinitperiod}}}%
+        {{hash=621a0b2f64e0534a8b7917af72514dff}{%
+           family={Egmond},
+           familyi={E\bibinitperiod},
+           given={Hans},
+           giveni={H\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=4010b71f0191ff80055cd6192a13673b}{%
+           family={Altieri},
+           familyi={A\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=21578a35acc0c6c80b44a79b8e071b5b}{%
+           family={Eskola},
+           familyi={E\bibinitperiod},
+           given={Mari},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3da8bd835f9ace6a93b8e098fa8c1792}{%
+           family={Gergelova},
+           familyi={G\bibinitperiod},
+           given={Petra},
+           giveni={P\bibinitperiod}}}%
+        {{hash=31b75a15598d7d4141c9cbec2871260b}{%
+           family={Ramos\bibnamedelima Bordajandi},
+           familyi={R\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Luisa},
+           giveni={L\bibinitperiod}}}%
+        {{hash=527dc5afa0584eec3bf06369748d66d7}{%
+           family={Benkova},
+           familyi={B\bibinitperiod},
+           given={Bistra},
+           giveni={B\bibinitperiod}}}%
+        {{hash=66cbc70d658661bc0f3eb1ffd092981b}{%
+           family={Dörr},
+           familyi={D\bibinitperiod},
+           given={Barbara},
+           giveni={B\bibinitperiod}}}%
+        {{hash=bd518ad38c531318791b286dc9d279cb}{%
+           family={Gkrillas},
+           familyi={G\bibinitperiod},
+           given={Athanasios},
+           giveni={A\bibinitperiod}}}%
+        {{hash=36b034371f72e9520d1d1d86ec888af5}{%
+           family={Gustavsson},
+           familyi={G\bibinitperiod},
+           given={Nicklas},
+           giveni={N\bibinitperiod}}}%
+        {{hash=fd59421ef4c005e4a7c6a03cfe9b70cf}{%
+           family={Manen},
+           familyi={M\bibinitperiod},
+           given={Mathijs},
+           giveni={M\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=99a979b1db093df51e54fb359c5e1e26}{%
+           family={Edler},
+           familyi={E\bibinitperiod},
+           given={Lutz},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{1d9eac689aa58fdd81882ac1fd1cc70c}
+      \strng{fullhash}{cec0a5f238a54cc95492439062028408}
+      \strng{bibnamehash}{1d9eac689aa58fdd81882ac1fd1cc70c}
+      \strng{authorbibnamehash}{1d9eac689aa58fdd81882ac1fd1cc70c}
+      \strng{authornamehash}{1d9eac689aa58fdd81882ac1fd1cc70c}
+      \strng{authorfullhash}{cec0a5f238a54cc95492439062028408}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Abstract Deoxynivalenol (DON) is a mycotoxin primarily produced by Fusarium fungi, occurring predominantly in cereal grains. Following the request of the European Commission, the CONTAM Panel assessed the risk to animal and human health related to DON, 3-acetyl-DON (3-Ac-DON), 15-acetyl-DON (15-Ac-DON) and DON-3-glucoside in food and feed. A total of 27,537, 13,892, 7,270 and 2,266 analytical data for DON, 3-Ac-DON, 15-Ac-DON and DON-3-glucoside, respectively, in food, feed and unprocessed grains collected from 2007 to 2014 were used. For human exposure, grains and grain-based products were main sources, whereas in farm and companion animals, cereal grains, cereal by-products and forage maize contributed most. DON is rapidly absorbed, distributed, and excreted. Since 3-Ac-DON and 15-Ac-DON are largely deacetylated and DON-3-glucoside cleaved in the intestines the same toxic effects as DON can be expected. The TDI of 1 μg/kg bw per day, that was established for DON based on reduced body weight gain in mice, was therefore used as a group-TDI for the sum of DON, 3-Ac-DON, 15-Ac-DON and DON-3-glucoside. In order to assess acute human health risk, epidemiological data from mycotoxicoses were assessed and a group-ARfD of 8 μg/kg bw per eating occasion was calculated. Estimates of acute dietary exposures were below this dose and did not raise a health concern in humans. The estimated mean chronic dietary exposure was above the group-TDI in infants, toddlers and other children, and at high exposure also in adolescents and adults, indicating a potential health concern. Based on estimated mean dietary concentrations in ruminants, poultry, rabbits, dogs and cats, most farmed fish species and horses, adverse effects are not expected. At the high dietary concentrations, there is a potential risk for chronic adverse effects in pigs and fish and for acute adverse effects in cats and farmed mink.}
+      \field{journaltitle}{EFSA Journal}
+      \field{number}{9}
+      \field{title}{Risks to human and animal health related to the presence of deoxynivalenol and its acetylated and modified forms in food and feed}
+      \field{volume}{15}
+      \field{year}{2017}
+      \field{pages}{e04718}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb https://doi.org/10.2903/j.efsa.2017.4718
+      \endverb
+      \verb{eprint}
+      \verb https://efsa.onlinelibrary.wiley.com/doi/pdf/10.2903/j.efsa.2017.4718
+      \endverb
+      \verb{urlraw}
+      \verb https://efsa.onlinelibrary.wiley.com/doi/abs/10.2903/j.efsa.2017.4718
+      \endverb
+      \verb{url}
+      \verb https://efsa.onlinelibrary.wiley.com/doi/abs/10.2903/j.efsa.2017.4718
+      \endverb
+      \keyw{Deoxynivalenol,3-acetyl-deoxynivalenol,15-acetyl-deoxynivalenol,deoxynivalenol-3-glucoside,exposure,toxicity,human and animal risk assessment}
+    \endentry
+    \entry{ELIKASeg2:online}{misc}{}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://seguridadalimentaria.elika.eus/fichas-de-peligros/deoxinivalenol/}}
+      \field{month}{5}
+      \field{note}{(Accessed on 28/08/2023)}
+      \field{title}{ELIKA Seguridad Alimentaria | Deoxinivalenol - ELIKA Seguridad Alimentaria}
+      \field{year}{2023}
+    \endentry
+    \entry{Archivos82:online}{online}{}
+      \name{author}{1}{}{%
+        {{hash=8d70c7a36d3a99961562d65a7adaeb5e}{%
+           family={Esri},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{8d70c7a36d3a99961562d65a7adaeb5e}
+      \strng{fullhash}{8d70c7a36d3a99961562d65a7adaeb5e}
+      \strng{bibnamehash}{8d70c7a36d3a99961562d65a7adaeb5e}
+      \strng{authorbibnamehash}{8d70c7a36d3a99961562d65a7adaeb5e}
+      \strng{authornamehash}{8d70c7a36d3a99961562d65a7adaeb5e}
+      \strng{authorfullhash}{8d70c7a36d3a99961562d65a7adaeb5e}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Archivos ráster BIL, BIP y BSQ—ArcMap}
+      \field{urlday}{28}
+      \field{urlmonth}{8}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://desktop.arcgis.com/es/arcmap/latest/manage-data/raster-and-images/bil-bip-and-bsq-raster-files.htm
+      \endverb
+      \verb{url}
+      \verb https://desktop.arcgis.com/es/arcmap/latest/manage-data/raster-and-images/bil-bip-and-bsq-raster-files.htm
+      \endverb
+    \endentry
+    \entry{FscoreWi30:online}{online}{}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labeltitlesource}{title}
+      \field{title}{F-score - Wikipedia}
+      \field{urlday}{6}
+      \field{urlmonth}{10}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/F-score
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/F-score
+      \endverb
+    \endentry
+    \entry{homl56}{book}{}
+      \name{author}{1}{}{%
+        {{hash=09f2f872bbdc00c311aea098fb51cbc7}{%
+           family={Géron},
+           familyi={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {O’Reilly Media, Inc.}%
+      }
+      \strng{namehash}{09f2f872bbdc00c311aea098fb51cbc7}
+      \strng{fullhash}{09f2f872bbdc00c311aea098fb51cbc7}
+      \strng{bibnamehash}{09f2f872bbdc00c311aea098fb51cbc7}
+      \strng{authorbibnamehash}{09f2f872bbdc00c311aea098fb51cbc7}
+      \strng{authornamehash}{09f2f872bbdc00c311aea098fb51cbc7}
+      \strng{authorfullhash}{09f2f872bbdc00c311aea098fb51cbc7}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Hands-on machine learning with Scikit-Learn and TensorFlow : concepts, tools, and techniques to build intelligent systems.}
+      \field{year}{2017}
+    \endentry
+    \entry{Organizi22:online}{online}{}
+      \name{author}{1}{}{%
+        {{hash=1123d6906c8418cd7c9e4157be0bb39b}{%
+           family={J},
+           familyi={J\bibinitperiod},
+           given={Jordan},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{1123d6906c8418cd7c9e4157be0bb39b}
+      \strng{fullhash}{1123d6906c8418cd7c9e4157be0bb39b}
+      \strng{bibnamehash}{1123d6906c8418cd7c9e4157be0bb39b}
+      \strng{authorbibnamehash}{1123d6906c8418cd7c9e4157be0bb39b}
+      \strng{authornamehash}{1123d6906c8418cd7c9e4157be0bb39b}
+      \strng{authorfullhash}{1123d6906c8418cd7c9e4157be0bb39b}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{9}
+      \field{title}{Organizing machine learning projects: project management guidelines.}
+      \field{urlday}{31}
+      \field{urlmonth}{8}
+      \field{urlyear}{2023}
+      \field{year}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.jeremyjordan.me/ml-projects-guide/
+      \endverb
+      \verb{url}
+      \verb https://www.jeremyjordan.me/ml-projects-guide/
+      \endverb
+    \endentry
+    \entry{machinel18:online}{online}{}
+      \field{sortinit}{m}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labeltitlesource}{title}
+      \field{title}{machine learning, n. meanings, etymology and more | Oxford English Dictionary}
+      \field{urlday}{31}
+      \field{urlmonth}{8}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.oed.com/dictionary/machine-learning_n?tab=factsheet#9938479194
+      \endverb
+      \verb{url}
+      \verb https://www.oed.com/dictionary/machine-learning_n?tab=factsheet#9938479194
+      \endverb
+    \endentry
+    \entry{NIRHyper23:online}{online}{}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labeltitlesource}{title}
+      \field{title}{NIR Hyperspectral Imaging - Iperion CH}
+      \field{urlday}{26}
+      \field{urlmonth}{9}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://www.iperionch.eu/project/nir-hyperspectral-imaging/#:~:text=Hyperspectral%20imaging%20is%20a%20chemical,device%20for%20the%20visible%20range).
+      \endverb
+      \verb{url}
+      \verb http://www.iperionch.eu/project/nir-hyperspectral-imaging/#:~:text=Hyperspectral%20imaging%20is%20a%20chemical,device%20for%20the%20visible%20range).
+      \endverb
+    \endentry
+    \entry{Precisio23:online}{online}{}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labeltitlesource}{title}
+      \field{title}{Precision, Recall, Sensitivity, Specificity — Very Brief Explanation | by Sean Yonathan T | Analytics Vidhya | Medium}
+      \field{urlday}{6}
+      \field{urlmonth}{10}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://medium.com/analytics-vidhya/precision-recall-sensitivity-specificity-very-brief-explanation-747d698264ca
+      \endverb
+      \verb{url}
+      \verb https://medium.com/analytics-vidhya/precision-recall-sensitivity-specificity-very-brief-explanation-747d698264ca
+      \endverb
+    \endentry
+    \entry{Regressi15:online}{online}{}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labeltitlesource}{title}
+      \field{title}{Regression and Classification | Supervised Machine Learning - GeeksforGeeks}
+      \field{urlday}{26}
+      \field{urlmonth}{9}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.geeksforgeeks.org/regression-classification-supervised-machine-learning/
+      \endverb
+      \verb{url}
+      \verb https://www.geeksforgeeks.org/regression-classification-supervised-machine-learning/
+      \endverb
+    \endentry
+    \entry{sklearnp39:online}{online}{}
+      \field{sortinit}{s}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labeltitlesource}{title}
+      \field{title}{sklearn.preprocessing.PowerTransformer — scikit-learn 1.3.1 documentation}
+      \field{urlday}{9}
+      \field{urlmonth}{10}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PowerTransformer.html
+      \endverb
+      \verb{url}
+      \verb https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PowerTransformer.html
+      \endverb
+    \endentry
+    \entry{Whatarec26:online}{online}{}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labeltitlesource}{title}
+      \field{title}{What are classification problems?}
+      \field{urlday}{26}
+      \field{urlmonth}{9}
+      \field{urlyear}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.educative.io/answers/what-are-classification-problems
+      \endverb
+      \verb{url}
+      \verb https://www.educative.io/answers/what-are-classification-problems
+      \endverb
+    \endentry
+    \entry{WhatIsHy18:online}{misc}{}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.nireos.com/hyperspectral-imaging/}}
+      \field{note}{(Accessed on 28/08/2023)}
+      \field{title}{What Is Hyperspectral Imaging? | NIREOS}
+    \endentry
+    \entry{Wil72}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=3ad802569965d22cb852699e111599d1}{%
+           family={Wilson.},
+           familyi={W\bibinitperiod},
+           given={Dennis\bibnamedelima L},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{3ad802569965d22cb852699e111599d1}
+      \strng{fullhash}{3ad802569965d22cb852699e111599d1}
+      \strng{bibnamehash}{3ad802569965d22cb852699e111599d1}
+      \strng{authorbibnamehash}{3ad802569965d22cb852699e111599d1}
+      \strng{authornamehash}{3ad802569965d22cb852699e111599d1}
+      \strng{authorfullhash}{3ad802569965d22cb852699e111599d1}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Asymptotic properties of nearest neighbor rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics, pages 408–421,}
+      \field{year}{1972}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
