@@ -1,0 +1,80 @@
+{
+  "name": "TeX Live",
+  "image": "registry.gitlab.com/islandoftex/images/texlive:latest",
+  "customizations": {
+    "vscode": {
+      "extensions": ["james-yu.latex-workshop"],
+      "settings": {
+        "files.eol": "\n",
+        "latex-workshop.chktex.enabled": true,
+        "latex-workshop.latex.clean.subfolder.enabled": true,
+        "latex-workshop.latex.autoClean.run": "onBuilt",
+        "latex-workshop.view.pdf.viewer": "tab",
+        "latex-workshop.synctex.afterBuild.enabled": true,
+        "latex-workshop.latex.outDir": "./out",
+        "latex-workshop.latex.autoBuild.run": "never",
+        "latex-workshop.latex.recipes": [
+          {
+            "name": "Fast",
+            "tools": ["mkdir", "pdflatex"]
+          },
+          {
+            "name": "Normal",
+            "tools": ["latexmk"]
+          },
+          {
+            "name": "Complete",
+            "tools": ["latexmk", "makeglossaries", "latexmk"]
+          }
+        ],
+        "latex-workshop.latex.tools": [
+          {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+              "-shell-escape",
+              "-synctex=1",
+              "-interaction=nonstopmode",
+              "-output-directory=./out",
+              "-file-line-error",
+              "%DOC%"
+            ]
+          },
+          {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+              "-shell-escape",
+              "-synctex=1",
+              "-interaction=nonstopmode",
+              "-pdflua",
+              "-cd",
+              "-outdir=./out",
+              "-file-line-error",
+              "%DOC%"
+            ]
+          },
+          {
+            "name": "makeglossaries",
+            "command": "makeglossaries",
+            "args": ["-d%OUTDIR%", "%DOCFILE%"]
+          },
+          {
+            "name": "biber",
+            "command": "biber",
+            "args": [
+              "--input-directory=%OUTDIR%", "--output-directory=%OUTDIR%",
+              "%DOCFILE%"]
+          },
+          {
+            "name": "mkdir",
+            "command": "mkdir",
+            "args": ["-p", "%OUTDIR%"]
+          }
+        ],
+        "latex-workshop.latex.rootFile.doNotPrompt": true,
+        "latex-workshop.latex.clean.method": "cleanCommand"
+      }
+    }
+  }
+}

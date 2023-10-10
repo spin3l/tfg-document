@@ -1,0 +1,77 @@
+\documentclass[11pt]{article}
+\linespread{1.5}
+
+\usepackage{preamble}
+\usepackage[spanish,es-tabla]{babel}
+
+
+\begin{document}
+
+\pagenumbering{gobble}
+{
+
+% Title
+\subfile{title}
+
+% Abstract
+% \subfile{abstract}
+
+\newpage
+
+\hypersetup{linkcolor=black}
+
+\renewcommand\contentsname{Índice de contenido}
+\tableofcontents
+
+\clearpage
+
+% List of codes
+\tcblistof[\section*]{code}{Índice de código}
+% List of theorems
+% \tcblistof[\section*]{theorem}{\theoListTitle}
+% List of figures
+\renewcommand\listfigurename{Índice de figuras}
+\listoffigures
+% List of tables
+\renewcommand\listtablename{Índice de tablas}
+\listoftables
+
+}
+\clearpage
+\pagenumbering{arabic}
+
+% ACRONYMS
+\printglossary[type=\acronymtype, title=Glosario de acrónimos, nonumberlist]
+\label{sec:acronyms}
+
+% ------------------------- CONTENT ------------------------- %
+
+\include{sections/1-Introduccion}
+\include{sections/2-Analisis}
+\include{sections/3-Marco Teorico}
+\include{sections/4-Diseño-1}
+\include{sections/5-Resultados-1}
+\include{sections/4.1-Diseño-2}
+\include{sections/5.1-Resultados-2}
+\include{sections/6-Discusión}
+\include{sections/7-Conclusiones}
+\include{sections/anexo}
+
+% ---------------------------------------------------------- %
+% 
+\clearpage
+
+% APPENDIX
+% \subfile{sections/appendix}
+% \clearpage
+
+% SPECIAL TERMS
+\printglossary[title=Definiciones adicionales, nonumberlist]
+\label{sec:additional-definitions}
+\clearpage
+
+% BIBLIOGRAPHY
+\printbibliography[heading=bibintoc, title=Bibliografía y referencias]
+
+
+\end{document}
