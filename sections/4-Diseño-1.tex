@@ -21,9 +21,9 @@ Ahora que tenemos los datos en un solo archivo \acrshort{csv}, el siguiente paso
     \item Preprocesado común, (\textit{pipeline})
     \begin{enumerate}
         \item Separación de datos aplicando la primera derivada 
-        \item Aumento de dimensionalidad (\textit{\gls{pnf}})
-        \item Estandarización  (\textit{\gls{ssc}})
-        \item Reducción de dimensionalidad (\textit{\gls{pca}})
+        \item Aumento de dimensionalidad (\textit{Polynomial Features})
+        \item Estandarización  (\textit{Standard Scaler})
+        \item Reducción de dimensionalidad (\textit{Principal Component Analysis})
     \end{enumerate}
     
 \end{enumerate}
@@ -133,7 +133,7 @@ los dividimos por la varianza (para que la desviación tienda a 1). Tener los da
 Como consecuencia, en la \textit{tabla\ \ref{tab:derivative-standarization-results}} podemos ver que obtenemos mejores resultados.
 
 
-\begin{table}
+\begin{table}[!ht]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|ccccccc|}
         \hline
         & \multicolumn{7}{c|}{Derivative + Scaler} & \multicolumn{7}{c|}{Derivative} \\ \hline
@@ -155,10 +155,35 @@ Como consecuencia, en la \textit{tabla\ \ref{tab:derivative-standarization-resul
 \end{table}
 
 
-Polynomial features,
+Además, podemos probar dos últimos pasos que suelen ir juntos. El primero, \href{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html}{sklearn.preprocessing.PolynomialFeatures}, 
+nos permite generar nuevas columnas de datos que consisten en combinar las demás columnas, multiplicándolas entre sí y elevando a un grado específico (segundo grado en nuestro caso). 
+De esta forma, teníamos un \gls{dataset} de 168 columnas y obtenemos uno de 14365 columnas. Por ello, debemos aplicar el segundo y último paso para reducir la dimensionalidad
+de los datos. Este paso es \href{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}{sklearn.decomposition.PCA} o \textit{Principal Component Analysis},
+reduce la dimensionalidad proyectando los datos a una espacio de menor dimensionalidad. Explicar este proceso más detenidamente se va de nuestro objetivo, pero
+aquí podemos leer algo más al respecto sobre \textit{PCA} en \ \cite{Principa62:online}.
+Aun añadiendo complejidad de esta forma, podemos ver en la \textit{tabla \ref{tab:derivative-standarization-dimensionality-results}} que los resultados son mejores si
+nos quedamos en el paso anterior.
 
-PCA
-
+\begin{table}[!ht]
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|ccccccc|}
+        \hline
+            & \multicolumn{7}{c}{Derivative + Scaler + Polynomial Features + PCA} & \multicolumn{7}{c}{Derivative + Scaler} \\ \hline
+            Model Name & Train score & Test score & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy & Train score & Test score & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy \\ \hline
+            XGBoost & 82 & 82 & 0 & 0 & 0 & 50 & 50 & 82 & 82 & 0 & 0 & 0 & 50 & 50 \\
+            Stochastic Gradient Descent & 53.333 & 50.444 & 28.754 & 22.299 & 40.468 & 52.439 & 52.439 & 64.815 & 56.444 & 24.615 & 20.075 & 31.809 & 49.834 & 49.834 \\
+            Random Forest & 99.926 & 85.778 & 38.462 & 57.803 & 28.818 & 61.939 & 61.939 & 99.926 & 87.778 & 49.541 & 69.948 & 38.352 & 66.531 & 66.531 \\
+            Quadratic Discriminant Analysis & 80.889 & 80 & 40 & 42.017 & 38.168 & 63.234 & 63.234 & 96.148 & 83.111 & 54.217 & 53.444 & 55.012 & 72.358 & 72.358 \\
+            Multi-Layer Perceptron & 87.778 & 81.778 & 19.608 & 30.303 & 14.493 & 54.682 & 54.682 & 90.815 & 84 & 32.075 & 46.961 & 24.355 & 59.41 & 59.41 \\
+            Linear Discriminant Analysis & 82.741 & 81.111 & 6.593 & 12.397 & 4.491 & 50.903 & 50.903 & 85.333 & 78.222 & 20.968 & 25.692 & 17.711 & 53.96 & 53.96 \\
+            LightGBM & 77.037 & 68.444 & 38.261 & 32.496 & 46.512 & 62.933 & 62.933 & 82.222 & 72.222 & 48.133 & 40.222 & 59.917 & 71.981 & 71.981 \\
+            K-Neighbors & 100 & 83.778 & 42.52 & 50.943 & 36.486 & 64.092 & 64.092 & 100 & 86.889 & 55.639 & 64.014 & 49.202 & 70.807 & 70.807 \\
+            Hist Gradient Boosting & 75.63 & 66 & 37.037 & 30.864 & 46.296 & 61.924 & 61.924 & 78.444 & 70.444 & 44.813 & 37.448 & 55.785 & 68.97 & 68.97 \\
+            Extra Trees & 96.222 & 82.222 & 51.22 & 50.847 & 51.597 & 70.37 & 70.37 & 99.63 & 90.444 & 69.504 & 76.324 & 63.802 & 78.756 & 78.756 \\
+            Decision Tree & 71.852 & 68.889 & 27.835 & 25.328 & 30.892 & 55.014 & 55.014 & 56.963 & 58.889 & 41.27 & 31.957 & 58.244 & 67.224 & 67.224 \\ \hline
+            & & & & & & 58.86636364 & 58.86636364 & & & & & & 64.53009091 & 64.53009091 \\ \hline
+        \end{tabular}} 
+    \caption{Comparación de los resultados de entrenar derivando, estandarizando y ajustando la dimensionalidad de los datos; frente a solo derivando y estandarizando. Fuente propia.}\ \label{tab:derivative-standarization-dimensionality-results}
+\end{table}
 
 
 
