@@ -1,9 +1,0 @@
-\babel@toc {spanish}{}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces Esquema del proceso del desarrollo de un proyecto de \gls {ml}, fuente\ \blx@tocontentsinit {0}\cite {Organizi22:online}}}{6}{figure.caption.4}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Ejemplo de matriz de confusión, fuente\ \blx@tocontentsinit {0}\cite {Confusio71:online}}}{7}{figure.caption.5}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Representación de los \textit {outliers} de la columna 53 en un gráfico de velas, fuente propia, \textit {código\ \ref {code:plot-outliers}}}}{10}{figure.caption.6}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Balanceo de la clase objetivo del \gls {dataset}, fuente propia}}{11}{figure.caption.7}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Curvas de aprendizaje de los modelos entrenados según el tamaño del \gls {dataset} de entrenamiento. Fuente propia, \textit {código\ \ref {code:plot-learning-curves}}}}{15}{figure.caption.11}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Reporte de calidad de los datos generados sintéticamente, fuente propia.}}{18}{figure.caption.13}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Comparación del balanceo de la clase objetivo del \gls {dataset} antes y después de balancear, fuente propia, código\ \ref {code:plots_balancing}}}{18}{figure.caption.14}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Esquemas para almacenar los valores de píxel reales de una imagen en un archivo \acrshort {bil}, referencia:\ \blx@tocontentsinit {0}\cite {Archivos82:online}}}{22}{figure.caption.15}%
