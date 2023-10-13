@@ -52,7 +52,7 @@ Para generalizar la hoja de ruta de un proyecto es más o menos como la de la \t
 
 \subsection{Métricas de evaluación de modelos}
 
-Antes de continuar con el entrenamiento de modelos, su mejora y la selección de pasos del preprocesado; necesitamos algún tipo de métrica para evaluar y comparar los modelos. A continuación, explicaremos las que hemos utilizado para los diferentes tipos de modelos.
+Antes de continuar con el entrenamiento de modelos, su mejora y la selección de pasos del preprocesado; necesitamos algún tipo de métrica para evaluar y comparar los resultados. A continuación, explicaremos las que hemos utilizado para los diferentes tipos de modelos.
 
 \subsubsection{Clasificación supervisada y semi-supervisada}
 
@@ -73,22 +73,22 @@ Estos cuatro valores son la base del resto de métricas que comentaremos a conti
     \caption{Ejemplo de matriz de confusión, fuente\ \cite{Confusio71:online}}\ \label{fig:confusion-matrix-example}
 \end{figure}
 
-Antes de explicar estas métricas, comentaremos otras más básicas que son utilizadas para calcular que utilizaremos\ \cite{Precisio23:online}.
-\textit{Sensitivity} permite saber la probabilidad de que una predicción positiva sea realmente positiva.
+Antes de continuar con las métricas que compararemos, comentaremos también otras más básicas que son utilizadas para calcular las que utilizaremos\ \cite{Precisio23:online}.
+\\ \textit{Sensitivity} permite saber la probabilidad de que una predicción positiva sea realmente positiva.
     \begin{equation}
-        tp/(tp+fn)
+        sensitivity=tp/(tp+fn)
     \end{equation}
 \textit{Specificity} permite saber la probabilidad de que una predicción negativa sea realmente negativa.
 \begin{equation}
-        tn/(tn+fp)
+        specificity=tn/(tn+fp)
     \end{equation}
 \textit{Recall} indica la capacidad del modelo para encontrar todas las muestras positivas. 
     \begin{equation}
-        tp/(tp+fn)
+        recall=tp/(tp+fn)
     \end{equation}
 \textit{Precision} indica la precisión de las predicciones positivas, es decir, la habilidad del clasificador para no predecir como positiva una muestra que es negativa.
     \begin{equation}
-        tp/(tp+fp)
+        precision=tp/(tp+fp)
     \end{equation}
 
 Con estas métricas básicas podemos definir las que realmente compararemos, ya que tienen en cuenta el balanceo del \gls{dataset}:

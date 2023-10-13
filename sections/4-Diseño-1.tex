@@ -161,13 +161,13 @@ De esta forma, teníamos un \gls{dataset} de 168 columnas y obtenemos uno de 143
 de los datos. Este paso es \href{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}{sklearn.decomposition.PCA} o \textit{Principal Component Analysis},
 reduce la dimensionalidad proyectando los datos a una espacio de menor dimensionalidad. Explicar este proceso más detenidamente se va de nuestro objetivo, pero
 aquí podemos leer algo más al respecto sobre \textit{PCA} en \ \cite{Principa62:online}.
-Aun añadiendo complejidad de esta forma, podemos ver en la \textit{tabla \ref{tab:derivative-standarization-dimensionality-results}} que los resultados son mejores si
+Aun añadiendo complejidad de esta forma, podemos ver en la \textit{tabla\ \ref{tab:derivative-standarization-dimensionality-results}} que los resultados son mejores si
 nos quedamos en el paso anterior.
 
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|ccccccc|}
         \hline
-            & \multicolumn{7}{c}{Derivative + Scaler + Polynomial Features + PCA} & \multicolumn{7}{c}{Derivative + Scaler} \\ \hline
+            & \multicolumn{7}{c|}{Derivative + Scaler + Polynomial Features + PCA} & \multicolumn{7}{c|}{Derivative + Scaler} \\ \hline
             Model Name & Train score & Test score & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy & Train score & Test score & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy \\ \hline
             XGBoost & 82 & 82 & 0 & 0 & 0 & 50 & 50 & 82 & 82 & 0 & 0 & 0 & 50 & 50 \\
             Stochastic Gradient Descent & 53.333 & 50.444 & 28.754 & 22.299 & 40.468 & 52.439 & 52.439 & 64.815 & 56.444 & 24.615 & 20.075 & 31.809 & 49.834 & 49.834 \\
@@ -185,9 +185,14 @@ nos quedamos en el paso anterior.
     \caption{Comparación de los resultados de entrenar derivando, estandarizando y ajustando la dimensionalidad de los datos; frente a solo derivando y estandarizando. Fuente propia.}\ \label{tab:derivative-standarization-dimensionality-results}
 \end{table}
 
-
-
-\href{https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html}{Pipeline}
+Por último, es necesario comentar que como tenemos dos aplicaciones (una para entrenar modelos y otra para predecir sobre archivos \gls{bil}),
+debemos guardarnos no solo el orden con el que hemos aplicado estos pasos de preprocesado, sino los valores que se han ido ajustando a los datos.
+Esto se debe a que cuando uno de estos pasos se aplica sobre los datos de entreno se ajusta a ellos de una u otra forma y realiza un desplazamiento, los datos que debemos guardarnos
+son los correspondientes a este desplazamiento. Cada paso almacena sus parámetros, por ejemplo el \textit{StandardScaler} se guarda la media y la varianza de cada columna,
+por lo tanto podríamos guardar cada paso con sus parámetros como un archivo binario. Sin embargo, hay una clase que nos ayuda tanto a aplicar el preprocesado como a guardarlo como un solo
+archivo `unificado'.\ \texit{Pipeline} nos da la posibilidad de añadir 
+una lista de pasos a aplicar secuencialmente sobre un \gls{dataset}. De esta forma aplica los pasos sobre los datos, ajustando los parámetros de cada uno y luego nos permite
+guardar el propio \textit{pipeline}, guardando en el tanto el orden de los pasos que lo componen, como los parámetros que representan sus desplazamientos.\ \cite{sklearnp32:online}
 
 
 \subsection{Entrenamiento de modelos, selección e \textit{hypertuning}}\ \label{sec:entrenamiento}
