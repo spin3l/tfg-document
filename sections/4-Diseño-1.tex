@@ -31,7 +31,7 @@ Ahora que tenemos los datos en un solo archivo \acrshort{csv}, el siguiente paso
 
 \subsubsection{Eliminación de columnas, codificación y valores atípicos}
 
-Existen datos que nos interesan como medida de seguridad, pero no nos interesa que un modelo entrene con ellos, ya que podría inferir patrones irreales o incluso memorizárselos y hacer \gls{overfitting}. En nuestro caso, un ejemplo sería una columna que indicase el número identificador del grano o el archivo del cual se han extraído los datos.
+Existen datos que nos interesan como medida de seguridad, pero no nos interesa que un modelo entrene con ellos, ya que podría inferir patrones irreales o incluso memorizárselos. En nuestro caso, un ejemplo sería una columna que indicase el número identificador del grano o el archivo del cual se han extraído los datos.
 
 La codificación consiste en transformar columnas con datos categóricos en columnas de datos numéricos, pues los modelos de \acrshort{ml} funcionan mejor con valores numéricos. En nuestro caso, la única columna con valores no numéricos era la columna de la contaminación, que podía tomar los valores \textit{\{B, C\}}, así que lo codificamos manualmente como se muestra a continuación:
 
@@ -190,99 +190,84 @@ debemos guardarnos no solo el orden con el que hemos aplicado estos pasos de pre
 Esto se debe a que cuando uno de estos pasos se aplica sobre los datos de entreno se ajusta a ellos de una u otra forma y realiza un desplazamiento, los datos que debemos guardarnos
 son los correspondientes a este desplazamiento. Cada paso almacena sus parámetros, por ejemplo el \textit{StandardScaler} se guarda la media y la varianza de cada columna,
 por lo tanto podríamos guardar cada paso con sus parámetros como un archivo binario. Sin embargo, hay una clase que nos ayuda tanto a aplicar el preprocesado como a guardarlo como un solo
-archivo `unificado'.\ \texit{Pipeline} nos da la posibilidad de añadir 
+archivo `unificado'.\ \textit{Pipeline} nos da la posibilidad de añadir 
 una lista de pasos a aplicar secuencialmente sobre un \gls{dataset}. De esta forma aplica los pasos sobre los datos, ajustando los parámetros de cada uno y luego nos permite
 guardar el propio \textit{pipeline}, guardando en el tanto el orden de los pasos que lo componen, como los parámetros que representan sus desplazamientos.\ \cite{sklearnp32:online}
 
 
 \subsection{Entrenamiento de modelos, selección e \textit{hypertuning}}\ \label{sec:entrenamiento}
 
-Ahora que tenemos los datos preparados, podemos entrenar modelos. Aunque hay muchos tipos de modelos preparados en la librería, cada uno funciona de una forma. Podríamos investigar cuál funciona mejor con nuestros datos, sin embargo, como el \gls{dataset} que tenemos no es muy grande, podemos entrenar todos sin perder mucho tiempo y mirar cuál tiene mejores resultados. Estos resultados del primer entrenamiento los podemos ver en la \textit{tabla\ \ref{tab:first-model-training}}
+Ahora que hemos encontrado una combinación de pasos de preprocesado decente, podemos pasar al siguiente paso de selección de los modelos. Aunque hay muchos tipos de modelos 
+preparados en la librería, cada uno funciona de una forma distinta. Podríamos investigar cuál funciona mejor con nuestros datos, sin embargo, como el \gls{dataset} que 
+tenemos no es muy grande, podemos entrenar todos sin perder mucho tiempo y mirar cuál tiene mejores resultados. Podemos ver en la \textit{tabla\ \ref{tab:best-preprocessing}}
+el resultado del mejor preprocesado que hemos encontrado hasta ahora.
 
 \begin{table}[!ht]
-    \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|ll|llllllll|l|}
-        \hline~& Model Name & Train score & Test score & Recall & Precision & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy \\ \hline
-            mlp & Multi-Layer Perceptron & 91.902 & 90.707 & 86.15 & 94.817 & 90.276 & 92.947 & 87.754 & 90.714 & 90.714 \\ \hline
-            xgb & XGBoost & 92.226 & 88.904 & 84.211 & 92.966 & 88.372 & 91.072 & 85.827 & 88.911 & 88.911 \\ \hline
-            rf & Random Forest & 94.678 & 88.766 & 83.38 & 93.478 & 88.141 & 91.267 & 85.221 & 88.773 & 88.773 \\ \hline
-            lgbm & LightGBM & 91.856 & 88.488 & 84.488 & 91.867 & 88.023 & 90.29 & 85.867 & 88.494 & 88.494 \\ \hline
-            qda & Quadratic Discriminant Analysis & 87.043 & 88.488 & 77.839 & 98.944 & 87.132 & 93.854 & 81.308 & 88.503 & 88.503 \\ \hline
-            et & Extra Trees model & 85.886 & 85.437 & 78.116 & 91.558 & 84.305 & 88.512 & 80.479 & 85.447 & 85.447 \\ \hline
-            knn & K-Neighbors & 100.0 & 83.218 & 70.36 & 94.776 & 80.763 & 88.625 & 74.182 & 83.236 & 83.236 \\ \hline
-            hgb & Hist Gradient Boosting & 81.259 & 82.802 & 76.177 & 87.859 & 81.602 & 85.245 & 78.258 & 82.811 & 82.811 \\ \hline
-            lda & Linear Discriminant Analysis & 80.102 & 82.802 & 73.961 & 89.899 & 81.155 & 86.185 & 76.68 & 82.814 & 82.814 \\ \hline
-            sgd & Stochastic Gradient Descent & 76.955 & 80.999 & 73.961 & 86.129 & 79.583 & 83.385 & 76.112 & 81.008 & 81.008 \\ \hline
-            dt & Decision Tree & 72.975 & 76.144 & 62.05 & 86.486 & 72.258 & 80.172 & 65.766 & 76.164 & 76.164 \\ \hline
-        \end{tabular}}
-    \caption{Resultados del primer entrenamiento de modelos. Fuente propia.}\ \label{tab:first-model-training}
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|}
+        \hline
+        & \multicolumn{7}{c|}{Derivative + Scaler} \\ \hline
+        Model Name & Train score & Test score & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy \\ \hline
+        XGBoost & 82 & 82 & 0 & 0 & 0 & 50 & 50 \\
+        Stochastic Gradient Descent & 64.815 & 56.444 & 24.615 & 20.075 & 31.809 & 49.834 & 49.834 \\
+        Random Forest & 99.926 & 87.778 & 49.541 & 69.948 & 38.352 & 66.531 & 66.531 \\
+        Quadratic Discriminant Analysis & 96.148 & 83.111 & 54.217 & 53.444 & 55.012 & 72.358 & 72.358 \\
+        Multi-Layer Perceptron & 90.815 & 84 & 32.075 & 46.961 & 24.355 & 59.41 & 59.41 \\
+        Linear Discriminant Analysis & 85.333 & 78.222 & 20.968 & 25.692 & 17.711 & 53.96 & 53.96 \\
+        LightGBM & 82.222 & 72.222 & 48.133 & 40.222 & 59.917 & 71.981 & 71.981 \\
+        K-Neighbors & 100 & 86.889 & 55.639 & 64.014 & 49.202 & 70.807 & 70.807 \\
+        Hist Gradient Boosting & 78.444 & 70.444 & 44.813 & 37.448 & 55.785 & 68.97 & 68.97 \\
+        Extra Trees & 99.63 & 90.444 & 69.504 & 76.324 & 63.802 & 78.756 & 78.756 \\
+        Decision Tree & 56.963 & 58.889 & 41.27 & 31.957 & 58.244 & 67.224 & 67.224 \\ \hline
+        & & & & & & 64.53009091 & 64.53009091 \\ \hline
+    \end{tabular}}
+    \caption{Resultados de entrenar con el mejor preprocesado encontrado. Fuente: propia.}\ \label{tab:best-preprocessing}
 \end{table}
 
-Una vez hemos entrenado estos modelos vemos que hay muchos que hacen \textit{overfitting}, para verlo más claramente podemos ver sus curvas de aprendizaje en la \textit{figura\ \ref{fig:learning-curves}}. La que más claramente se ve es en la \textit{figura\ \ref{sfig:lc-knn}}, nos hemos de fijar en la diferencia de resultados en el \gls{dataset} sobre el que se ha entrenado y el de prueba. Para evitar el \gls{overfitting} vamos a seleccionar los mejores modelos y a hacer \textit{hyperparameter tuning}. 
+
+Una vez hemos entrenado estos modelos vemos que hay algunos que hacen \textit{overfitting}. 
+El \textit{overfitting} ocurre cuando un modelo se ajusta demasiado a los datos con los que ha entrenado y no generaliza bien, es decir que predice mejor los datos con los 
+que ha entrenado que datos nuevos.
+El modelo con el que lo podemos ver más claramente es el \textit{KNeighbors}, vemos en la \textit{figura\ \ref{fig:lc-knn}} que, para cualquier cantidad de datos con los 
+que entrenemos el modelo, siempre predecirá bien con los que ha entrenado y no tanto con los demás. Nuestro objetivo es intentar que ambos valores
+no sean tan dispares y que sean lo más altos posibles, para ello haremos \textit{hyperparameter tuning}.
 
 \begin{figure}[!ht]
     \centering
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/mlp.png}
-        \caption{Curva de aprendizaje del Multilayer Perceptron}\ \label{sfig:lc-mlp}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/xgb.png}
-        \caption{Curva de aprendizaje del XGBoost}\ \label{sfig:lc-xgb}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/rf.png}
-        \caption{Curva de aprendizaje del Random Forest}\ \label{sfig:lc-rf}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/lgbm.png}
-        \caption{Curva de aprendizaje del LightGBM}\ \label{sfig:lc-lgbm}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/qda.png}
-        \caption{Curva de aprendizaje del Quadratic Discriminant Analysis}\ \label{sfig:lc-qda}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/et.png}
-        \caption{Curva de aprendizaje del Extra Trees}\ \label{sfig:lc-et}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/knn.png}
-        \caption{Curva de aprendizaje del K-Neighbors}\ \label{sfig:lc-knn}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/hgb.png}
-        \caption{Curva de aprendizaje del Hist Gradient Boosting}\ \label{sfig:lc-hgb}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/lda.png}
-        \caption{Curva de aprendizaje del Linear Discriminant Analysis}\ \label{sfig:lc-lda}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/sgd.png}
-        \caption{Curva de aprendizaje del Stochastic Gradient Descent}\ \label{sfig:lc-sgd}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\linewidth]{media/images/learning-curves/dt.png}
-        \caption{Curva de aprendizaje del Decision Tree}\ \label{sfig:lc-dt}
-    \end{subfigure}
-    \caption{Curvas de aprendizaje de los modelos entrenados según el tamaño del \gls{dataset} de entrenamiento. Fuente propia, \textit{código\ \ref{code:plot-learning-curves}}}\ \label{fig:learning-curves}
+    \includegraphics[width=0.7\linewidth]{media/images/learing-curves-knn.png}
+    \caption{Gráfico de la curva de aprendizaje del modelo \textit{K-Neighbors} entrenándolo y probándolo sobre los datos de entreno únicamente. Fuente propia}\ \label{fig:lc-knn}
 \end{figure}
 
 
 \subsubsection{Selección de modelos e \textit{hyperparameter tuning}}\ \label{sec:i1-seleccion}
 
-Antes de elegir el mejor modelo, explicaremos las métricas con los que los evaluamos. Para ello, 
+El \textit{hyperparameter tuning} tiene como objetivo encontrar un conjunto de parámetros que maximice el rendimiento del modelo. 
+Como cada modelo es distinto, debemos encontrar los parámetros adecuados para cada uno. 
+Para ello, para ahorrarnos tiempo podemos utilizar solamente los mejores modelos, como hemos visto en los resultados de la \textit{tabla\ \ref{tab:best-preprocessing}}
+hay modelos que tienen mejores resultados que otros.
+Así que escogeremos los cuatro con mejor \textit{balanced accuracy}, es decir: \textit{Extra Trees, Quadratic Discriminant Analysis, LightGBM y K-Neighbors}.
 
-Antes de ajustar los modelos, seleccionaremos aquellos con los mejores resultados. Viendo la \textit{tabla\ \ref{tab:first-model-training}} vemos que los cinco mejores modelos han sido los siguientes:
-\begin{enumerate}
-    \item Multi-Layer Perceptron
-    \item XGBoost
-    \item Random Forest
-    \item LightGBM
-    \item Quadratic Discriminant Analysis
-\end{enumerate}
+Realizaremos el \textit{hyperparameter tuning} en dos pasos, primeramente utilizaremos \textit{Random Search} y después \textit{Grid Search}, ya implementados en \textit{sklearn}.
 
-Antes de continuar, descartaremos el \textit{Random Forest}, pues es de los que más tarda en entrenar junto con el \textit{Multi-Layer Perceptron}, sin embargo, a diferencia del segundo, obtenemos peores resultados, aunque se podría trabajar con él de todas formas.
+El \textit{random search} consiste en la búsqueda de estos parámetros habiendo definido un rango de posibilidades. Es decir, para cada parámetro que le queramos
+pasar al modelo definiremos un rango de valores que puede tener, entonces el \textit{random search} entrena el modelo repetidas veces con una permutación aleatoria de sus 
+parámetros y se guarda los resultados. Podemos ver un ejemplo en el \textit{código\ \ref{code:random-search-example}}.
 
-De los cuatro modelos con los que nos hemos quedado al final, solamente dos hacen \gls{overfitting}, de todas formas intentaremos mejorar los resultados de los cuatro. Para ello, primero haremos \href{://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html}{RandomizedSearchCV}. Una vez hemos encontrado buenos resultados en el rango de parámetros definido, utilizamos \href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html}{GridSearchCV}
+\begin{code}[numbers=left]{title=Ejemplo de Random Search sobre LightGBM, label=code:random-search-example}{Python}
+    distribution = {
+        'num_leaves': np.arange(1, 100),
+        'max_depth': np.arange(5, 250),
+    }
+
+    model = LGBMClassifier
+    clf = RandomizedSearchCV(estimator=model, param_distributions=distribution,
+                             scoring=f_beta_scorer, cv=10,
+                             n_jobs=-1, verbose=3, n_iter=500)
+    # clf.fit(x_training_data, y_training_data)
+\end{code}
+
+Podemos ir probando diferentes parámetros y rangos hasta que estemos satisfechos con el resultado.
+
+Una vez estemos contentos con los resultados, los refinaremos utilizando \textit{grid search}. A diferencia del \textit{random search}, el \textit{grid search} prueba todas
+las posibles combinaciones que le pasemos como parámetro y, consecuentemente, es mucho más lento. Por ello, utilizaremos el \textit{grid search} con los mejores parámetros que
+encontremos del paso anterior, los cuales son potencialmente los mejores. Una vez definido un rango de parámetros para los modelos seleccionados, obtenemos los resultados
+de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results}}.
