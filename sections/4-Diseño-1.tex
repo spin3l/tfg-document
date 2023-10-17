@@ -41,7 +41,7 @@ La codificación consiste en transformar columnas con datos categóricos en colu
 
 Los valores atípicos u \textit{outliers} son aquellos valores inusuales en los datos que pueden distorsionar nuestros análisis estadísticos. Sin embargo, se debe tener en cuenta que puede haber mucha variación en la naturaleza de nuestro problema. Por ello, se deben diferenciar los \textit{outliers} que se pueden incluir en los datos y los que no. En nuestro caso, los hemos incluido todos, pues al tener cada grano 168 columnas de datos, la mayoría tenía alguna columna que no entraba dentro de lo ``normal'', como por ejemplo en la \textit{figura\ \ref{fig:outliers}}. Por lo que después de probar a quitar todos los granos que alguna de sus columnas fuera un \textit{outlier} (con el \textit{código\ \ref{code:zscore}}), nos quedamos sin datos.
 
-\begin{figure}[!htb]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.7\linewidth]{media/images/col-53-outliers.png}
     \caption{Representación de los \textit{outliers} de la columna 53 en un gráfico de velas, fuente propia, \textit{código\ \ref{code:plot-outliers}}}\ \label{fig:outliers}
@@ -60,7 +60,7 @@ Al tener las clases desbalanceadas tenemos varias opciones:
 
 Para esta primera iteración, nos es más sencillo utilizar métricas que tengan en cuenta el número de instancias de cada clase a la hora de evaluar los resultados, es decir, que tengan en cuenta el desbalance del \gls{dataset}.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.7\linewidth]{media/images/unabalance.png}
     \caption{Balanceo de la clase objetivo del \gls{dataset}, fuente propia}\ \label{fig:unbalance}
@@ -80,7 +80,7 @@ Antes de probar diferentes formas de preprocesar los datos, hemos preparado un e
 
 Un primer paso, recomendado desde el laboratorio, ya que era lo que utilizaban ellos en su modelo estadístico, es aplicar la primera derivada. El aplicar la derivada permite mínimamente separar los granos contaminados de los que no. Para probarlo, podemos comparar los resultados de entrenar con o sin derivar en la \textit{tabla\ \ref{tab:nopreprocessing-derivative-results}} y, efectivamente, obtenemos resultados algo mejores.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \centering
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|ccccccc|}
         \hline
@@ -105,7 +105,7 @@ Un primer paso, recomendado desde el laboratorio, ya que era lo que utilizaban e
 
 El siguiente paso que podemos probar es aplicar la transformada, como los resultados habiendo derivado los datos son mejores, transformaremos los datos después de derivarlos. Podríamos probar todas las permutaciones de los diferentes pasos de preprocesado, sin embargo, en esta primera iteración tan solo nos interesa encontrar un resultado decente. Podríamos hacerlo en una segunda o tercera iteración si lo vemos necesario. La transformada consiste en transformar cada columna para que tengan una forma gaussiana\ \cite{sklearnp39:online}. Como estamos utilizando \textit{sklearn}, tenemos una clase que nos aplica la transformada \href{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PowerTransformer.html}{sklearn.preprocessing.PowerTransformer}, por defecto esta clase además te aplica una estandardización de los datos, pero la hemos deshabilitado para aplicarla en otro paso. Podemos ver los resultados de entrenar utilizando la derivada y transformada en la \textit{tabla\ \ref{tab:derivative-transformed-results}}, podemos ver que los resultados son peores, así que continuaremos las pruebas con la derivada.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \centering
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|ccccccc|}
         \hline
@@ -133,7 +133,7 @@ los dividimos por la varianza (para que la desviación tienda a 1). Tener los da
 Como consecuencia, en la \textit{tabla\ \ref{tab:derivative-standarization-results}} podemos ver que obtenemos mejores resultados.
 
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|ccccccc|}
         \hline
         & \multicolumn{7}{c|}{Derivative + Scaler} & \multicolumn{7}{c|}{Derivative} \\ \hline
@@ -164,7 +164,7 @@ aquí podemos leer algo más al respecto sobre \textit{PCA} en \ \cite{Principa6
 Aun añadiendo complejidad de esta forma, podemos ver en la \textit{tabla\ \ref{tab:derivative-standarization-dimensionality-results}} que los resultados son mejores si
 nos quedamos en el paso anterior.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|ccccccc|}
         \hline
             & \multicolumn{7}{c|}{Derivative + Scaler + Polynomial Features + PCA} & \multicolumn{7}{c|}{Derivative + Scaler} \\ \hline
@@ -202,7 +202,7 @@ preparados en la librería, cada uno funciona de una forma distinta. Podríamos 
 tenemos no es muy grande, podemos entrenar todos sin perder mucho tiempo y mirar cuál tiene mejores resultados. Podemos ver en la \textit{tabla\ \ref{tab:best-preprocessing}}
 el resultado del mejor preprocesado que hemos encontrado hasta ahora.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|}
         \hline
         & \multicolumn{7}{c|}{Derivative + Scaler} \\ \hline
@@ -231,7 +231,7 @@ El modelo con el que lo podemos ver más claramente es el \textit{KNeighbors}, v
 que entrenemos el modelo, siempre predecirá bien con los que ha entrenado y no tanto con los demás. Nuestro objetivo es intentar que ambos valores
 no sean tan dispares y que sean lo más altos posibles, para ello haremos \textit{hyperparameter tuning}.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.7\linewidth]{media/images/learing-curves-knn.png}
     \caption{Gráfico de la curva de aprendizaje del modelo \textit{K-Neighbors} entrenándolo y probándolo sobre los datos de entreno únicamente. Fuente propia}\ \label{fig:lc-knn}
@@ -241,33 +241,53 @@ no sean tan dispares y que sean lo más altos posibles, para ello haremos \texti
 \subsubsection{Selección de modelos e \textit{hyperparameter tuning}}\ \label{sec:i1-seleccion}
 
 El \textit{hyperparameter tuning} tiene como objetivo encontrar un conjunto de parámetros que maximice el rendimiento del modelo. 
+En nuestro caso, como los datos están desbalanceados, podemos utilizar como función de rendimiento el \textit{balanced accuracy}. 
 Como cada modelo es distinto, debemos encontrar los parámetros adecuados para cada uno. 
 Para ello, para ahorrarnos tiempo podemos utilizar solamente los mejores modelos, como hemos visto en los resultados de la \textit{tabla\ \ref{tab:best-preprocessing}}
 hay modelos que tienen mejores resultados que otros.
 Así que escogeremos los cuatro con mejor \textit{balanced accuracy}, es decir: \textit{Extra Trees, Quadratic Discriminant Analysis, LightGBM y K-Neighbors}.
 
 Realizaremos el \textit{hyperparameter tuning} en dos pasos, primeramente utilizaremos \textit{Random Search} y después \textit{Grid Search}, ya implementados en \textit{sklearn}.
+Ambos métodos utilizan \textit{cross-validation}, una técnica para evitar el \textit{overfitting} que consiste en la división de los datos de entreno en partes iguales.
+Una vez dividido en \textit{N} partes, se entrena el modelo sobre todas las partes excepto una, la cual se utiliza para evaluar el modelo entrenado. Entonces, se repite el 
+proceso cambiando de partición. De esta forma, haciendo la media obtenemos el resultado de entrenar el modelo repetidas ocasiones con los mismos parámetros, pero con datos 
+distintos. Una vez hemos obtenido el mejor de los modelos que hemos entrenado, según la función de rendimiento, probamos el modelo resultante sobre los datos de prueba.
+Podemos ver este proceso más gráficamente en la \textit{imagen\ \ref{fig:cross-validation}}.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{media/images/cross-validation.png}
+    \caption{\textit{Cross-validation} explicado gráficamente. Fuente:\ \cite{31Crossv20:online}}\ \label{fig:cross-validation}
+\end{figure}
+
 
 El \textit{random search} consiste en la búsqueda de estos parámetros habiendo definido un rango de posibilidades. Es decir, para cada parámetro que le queramos
 pasar al modelo definiremos un rango de valores que puede tener, entonces el \textit{random search} entrena el modelo repetidas veces con una permutación aleatoria de sus 
 parámetros y se guarda los resultados. Podemos ver un ejemplo en el \textit{código\ \ref{code:random-search-example}}.
-
-\begin{code}[numbers=left]{title=Ejemplo de Random Search sobre LightGBM, label=code:random-search-example}{Python}
-    distribution = {
-        'num_leaves': np.arange(1, 100),
-        'max_depth': np.arange(5, 250),
-    }
-
-    model = LGBMClassifier
-    clf = RandomizedSearchCV(estimator=model, param_distributions=distribution,
-                             scoring=f_beta_scorer, cv=10,
-                             n_jobs=-1, verbose=3, n_iter=500)
-    # clf.fit(x_training_data, y_training_data)
-\end{code}
-
 Podemos ir probando diferentes parámetros y rangos hasta que estemos satisfechos con el resultado.
+
 
 Una vez estemos contentos con los resultados, los refinaremos utilizando \textit{grid search}. A diferencia del \textit{random search}, el \textit{grid search} prueba todas
 las posibles combinaciones que le pasemos como parámetro y, consecuentemente, es mucho más lento. Por ello, utilizaremos el \textit{grid search} con los mejores parámetros que
 encontremos del paso anterior, los cuales son potencialmente los mejores. Una vez definido un rango de parámetros para los modelos seleccionados, obtenemos los resultados
-de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results}}.
+de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results}}. Podemos ver que hemos obtenido, en general, peores resultados (salvo con \textit{K-Neighbors}), por lo tanto
+deberíamos ajustar el rango de parámetros que les pasamos a los modelos y volver a entrenarlos hasta que estemos satisfechos con el resultado. En nuestro caso no lo haremos
+y pasaremos a la segunda iteración del proyecto para probar nuevas cosas en pasos anteriores.
+
+\begin{table}
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccc|}
+            \hline
+            Model name & Train score & Accuracy & f1 score & f0.5 score & f2 score & ROC/AUC score & Balanced accuracy \\ \hline
+            RS - knn & 100 & 90.274 & 85.897 & 87.927 & 83.96 & 90.274 & 90.274 \\
+            GS - knn & 100 & 90.274 & 85.897 & 87.927 & 83.96 & 90.274 & 90.274 \\
+            RS - qda & 97.491 & 72.358 & 54.217 & 53.444 & 55.012 & 72.358 & 72.358 \\
+            GS - qda & 97.491 & 72.358 & 54.217 & 53.444 & 55.012 & 72.358 & 72.358 \\
+            RS - lgbm & 86.013 & 71.018 & 47.257 & 39.716 & 58.333 & 71.018 & 71.018 \\
+            GS - et & 82.957 & 66.17 & 43.077 & 39.106 & 47.945 & 66.17 & 66.17 \\
+            GS - lgbm & 84.628 & 70.626 & 46.215 & 38.108 & 58.704 & 70.626 & 70.626 \\
+            RS - et & 69.492 & 65.854 & 40.909 & 33.21 & 53.254 & 65.854 & 65.854 \\\hline
+            \end{tabular}
+    }
+    \caption{Resultados del primer entrenamiento con hyperparameter tuning. Fuente propia.}\ \label{tab:hyperparameter-tuning-results}
+\end{table}
+

@@ -59,3 +59,16 @@ def plot_learning_curves(model, model_name, x, y):
     plt.legend(loc="best")
     plt.show()
 \end{code}
+
+\begin{code}[numbers=left]{title=Ejemplo de Random Search sobre LightGBM, label=code:random-search-example}{Python}
+    distribution = {
+        'num_leaves': np.arange(1, 100),
+        'max_depth': np.arange(5, 250),
+    }
+
+    model = LGBMClassifier
+    clf = RandomizedSearchCV(estimator=model, param_distributions=distribution,
+                             scoring=f_beta_scorer, cv=10,
+                             n_jobs=-1, verbose=3, n_iter=500)
+    # clf.fit(x_training_data, y_training_data)
+\end{code}
