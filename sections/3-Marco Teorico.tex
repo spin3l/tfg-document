@@ -93,10 +93,14 @@ Antes de continuar con las métricas que compararemos, comentaremos también otr
 
 Con estas métricas básicas podemos definir las que realmente compararemos, ya que tienen en cuenta el balanceo del \gls{dataset}:
 
-\textit{fbeta score} es la media harmónica ponderada entre \textit{Precision} y \textit{Recall}. El parámetro \textit{beta} representa la importancia de \textit{Recall} por encima de \textit{Precision}. Es decir, \(beta>1\) le da más importancia a \textit{Recall} y, contrariamente, \(beta<1\) le da más peso a \textit{Precision}.\ \cite{FscoreWi30:online}
+\textit{fbeta score} es la media harmónica ponderada entre \textit{Precision} y \textit{Recall}. 
+El parámetro \textit{beta} representa la importancia de \textit{Recall} por encima de \textit{Precision}. 
+Es decir, \(beta>1\) le da más importancia a \textit{Recall} y, contrariamente, \(beta<1\) le da más peso a \textit{Precision}.\ \cite{FscoreWi30:online}
     \begin{equation}
         f_\beta = (1 + \beta^2)*\frac{precision*recall}{(\beta^2*precision)+recall}
     \end{equation}
+
+Para comparar los modelos utilizaremos el parámetro \textit{beta} con los valores \textit{0.5} y \textit{2}. 
 
 \textit{Balanced accuracy} es la media aritmética de \textit{Sensitivity} y \textit{Specificity}. Se utiliza principalmente cuando tratamos con datos desbalanceados.\ \cite{Balanced44:online}
     \begin{equation}
