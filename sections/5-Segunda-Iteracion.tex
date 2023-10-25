@@ -1,8 +1,16 @@
 \section{Segunda iteración}
 
+En esta segunda iteración pretendemos mejorar algunos de los aspectos que nos hemos encontrando en la primera, o aspectos que simplemente hemos dejado para después. Comenzaremos con una alternativa al balanceo de
+datos, y luego probaremos otros tipos tanto de aprendizaje como de modelos.
+
 \subsection{Balanceo de datos}\ \label{sec:i2-balance}
 
-La toma de nuevos datos reales es costosa, y como teníamos relativamente pocos datos para entrenar el balanceo es esencial. Podemos hacer unos entrenamientos y comparar los resultados para ver si es necesario balancear, los resultados los podemos ver en la \textit{tabla\ \ref{tab:balanced_comparison}}. Fijándonos en las columnas a partir de \textit{f1score}, ya que estas son las métricas que ignoran el balanceo de los datos, podemos ver que, son mejores los modelos entrenados sobre el \gls{dataset} balanceado.
+La toma de nuevos datos es costosa y como tenemos relativamente pocos datos para la cantidad de columnas, el balanceo de datos es esencial. En la primera iteración, intentamos sortear este problema utilizando métricas
+ 
+
+La toma de nuevos datos reales es costosa, y como teníamos relativamente pocos datos para entrenar el balanceo es esencial. Podemos hacer unos entrenamientos y comparar los resultados para ver si es necesario 
+balancear, los resultados los podemos ver en la \textit{tabla\ \ref{tab:balanced_comparison}}. Fijándonos en las columnas a partir de \textit{f1score}, ya que estas son las métricas que ignoran el balanceo de 
+los datos, podemos ver que, son mejores los modelos entrenados sobre el \gls{dataset} balanceado.
 
 \begin{table}[!ht]
     \centering
