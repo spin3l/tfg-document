@@ -19,17 +19,27 @@ A la hora de balancear los datos, buscamos, de alguna forma, reducir la diferenc
 mayoritarias, recordamos que nuestro caso lo podemos ver en la \textit{figura\ \ref{fig:unbalance}}. Para ello, debemos de alguna forma determinar qué muestras de las clases mayoritarias son más redundantes para evitar eliminar
 muestras `críticas'. Comentaremos a continuación diferentes algoritmos que nos ayudan con este paso.
 
-Los algoritmos que hemos decidido utilizar son los de la librería \href{https://imbalanced-learn.org/stable/}{imblearn} que fue diseñada específicamente para los problemas de clasificación sobre \textit{datasets} desbalanceados.
+Los algoritmos que hemos decidido utilizar son los de la librería \href{https://imbalanced-learn.org/stable/}{imblearn} que fue diseñada específicamente para los problemas de clasificación sobre \textit{datasets} desbalanceados.\ \cite{3Undersa98:online}
 
-RandomUndersampler (explicando Near-Miss heuristic)
-Tomek Links
-EditedNearestNeighbours
-CondensedNearestNeighbours
-InstanceHardnessThreshold
+El primer algoritmo que probaremos será \textit{RandomUnderSampler}, el cual consiste en seleccionar un subconjunto aleatorio de datos. Para intentar no eliminar datos importantes como hemos comentado antes, aplica una de las
+tres versiones de la heurística \textit{NearMiss}\ \cite{3Undersa98:online}, la cual se basa en el algoritmo \textit{nearest neighbors}:
 
-En ella, podemos encontrar diferentes algoritmos para reducir las muestras de la clase que queramos de los cuales nos hemos quedado con los 
-\href{https://imbalanced-learn.org/stable/references/generated/imblearn.under_sampling.EditedNearestNeighbours.html}{EditedNearestNeighbours}. Este algoritmo en resumen elimina las muestras que no se parezcan 
-demasiado a sus vecinos\ \cite{Wil72}.
+\begin{enumerate}
+    \item La versión \textbf{1} elimina aquellos datos cuya distancia media a sus \textit{N} vecinos más cercanos de la clase minoritaria sea menor.
+    \item La versión \textbf{2} es parecida a la \textbf{1}, pero en esta la distancia media se computa sobre los \textit{N} vecinos más lejanos de la clase minoritaria.
+    \item La versión \textbf{3} consta de dos pasos, primero de cada elemento de la clase minoritaria selecciona los \textit{M} vecinos más cercanos de la clase mayoritaria. Luego, por cada muestra seleccionada se calcula la
+        distancia media respecto a los \textit{N} vecinos más cercanos de la clase minoritaria y se eliminan los que, de media, estén más alejados.
+\end{enumerate}
+
+El algoritmo \textit{Tomek Links} detecta los llamados \textit{Tomek Links}, estos son enlaces entre dos muestras de diferente clase, pongamos \(x\) e \(y\), definidos tal que para cualquier muestra \(z\): 
+\[d(x,y) < d(x,z)\ and\ d(x,y) < d(y,z)\], donde \(d(a, b)\) es la distancia entre la muestra \(a\) y \(b\). En resumen, un \textit{Tomek Link} se da entre las muestras de distintas clases más 
+cercanas entre sí. Este algoritmo suele ser bueno a la hora de eliminar ruido en los datos.
+
+\textit{Edited Nearest Neighbours} en resumen elimina las muestras que no se parezcan demasiado a sus vecinos\ \cite{Wil72}. Para ello, comprueba para cada muestra que sus \textit{N} vecinos más cercanos sean de su misma clase,
+y si no podemos elegir si nos quedamos con la mayoría o si eliminamos todas las muestras.
+
+\textit{InstanceHardnessThreshold} es un algoritmo que entrena un modelo de \textit{sklearn} sobre los datos y elimina aquellas muestras de las cuales está menos seguro.
+
 
 \subsubsection{\textit{Oversampling}}\ \label{sec:oversampling}
 
