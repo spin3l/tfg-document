@@ -1,53 +1,53 @@
 \section{Segunda iteración}
 
-En esta segunda iteración pretendemos mejorar algunos de los aspectos que nos hemos encontrando en la primera, o aspectos que simplemente hemos dejado para después. Comenzaremos con una alternativa al balanceo de
-datos, y luego probaremos otros tipos tanto de aprendizaje como de modelos.
+En esta segunda iteración pretendemos mejorar algunos de los aspectos que nos hemos encontrando en la primera, o aspectos que simplemente hemos dejado para después. Comenzaremos con una alternativa al balanceo de datos, y luego probaremos otros tipos tanto de aprendizaje como de modelos.
 
 \subsection{Balanceo de datos}\ \label{sec:i2-balance}
 
-La toma de nuevos datos es costosa y como tenemos relativamente pocos para la cantidad de columnas (las 168 longitudes de onda), el balanceo de datos es esencial. En la primera iteración, intentamos sortear este problema utilizando 
-métricas que tienen en cuenta el balance de los datos. Sin embargo, podemos balancear los datos en dos pasos: \textit{undersampling} y \textit{oversampling}. 
+La toma de nuevos datos es costosa y como tenemos relativamente pocos para la cantidad de columnas (las 168 longitudes de onda), el balanceo de datos es esencial. En la primera iteración, intentamos sortear este problema utilizando métricas que tienen en cuenta el balance de los datos. Sin embargo, podemos balancear los datos en dos pasos: \textit{undersampling} y \textit{oversampling}. 
 
-Como su nombre indica, \textit{undersampling} es una técnica para reducir las muestras de la clase mayoritaria, en nuestro caso los granos sin contaminar. Existen varias técnicas para hacer \textit{undersampling}, las cuales 
-comentaremos en la \textit{sección\ \ref{sec:undersampling}}. Por otro lado, el \textit{oversampling} consiste en la creación de datos sintéticos, similares a los reales, para suplir la diferencia de granos. Al igual que con el 
-\textit{undersampling}, existen diversas técnicas que comentaremos más adelante en la \textit{sección\ \ref{sec:oversampling}}.
+Como su nombre indica, \textit{undersampling} es una técnica para reducir las muestras de la clase mayoritaria, en nuestro caso los granos sin contaminar. Existen varias técnicas para hacer \textit{undersampling}, las cuales comentaremos en la \textit{sección\ \ref{sec:undersampling}}. Por otro lado, el \textit{oversampling} consiste en la creación de datos sintéticos, similares a los reales, para suplir la diferencia de granos. Al igual que con el \textit{undersampling}, existen diversas técnicas que comentaremos más adelante en la \textit{sección\ \ref{sec:oversampling}}.
 
 
 \subsubsection{\textit{Undersampling}}\ \label{sec:undersampling}
 
-A la hora de balancear los datos, buscamos, de alguna forma, reducir la diferencia en el número de muestras en las diferentes clases. En el paso de \textit{undersampling}, buscamos reducir la cantidad de muestras de las clases
-mayoritarias, recordamos que nuestro caso lo podemos ver en la \textit{figura\ \ref{fig:unbalance}}. Para ello, debemos de alguna forma determinar qué muestras de las clases mayoritarias son más redundantes para evitar eliminar
-muestras `críticas'. Comentaremos a continuación diferentes algoritmos que nos ayudan con este paso.
+A la hora de balancear los datos, buscamos, de alguna forma, reducir la diferencia en el número de muestras en las diferentes clases. En el paso de \textit{undersampling}, buscamos reducir la cantidad de muestras de las clases mayoritarias, recordamos que nuestro caso lo podemos ver en la \textit{figura\ \ref{fig:unbalance}}. Para ello, debemos de alguna forma determinar qué muestras de las clases mayoritarias son más redundantes para evitar eliminar muestras `críticas'. Comentaremos a continuación diferentes algoritmos que nos ayudan con este paso.
 
 Los algoritmos que hemos decidido utilizar son los de la librería \href{https://imbalanced-learn.org/stable/}{imblearn} que fue diseñada específicamente para los problemas de clasificación sobre \textit{datasets} desbalanceados.\ \cite{3Undersa98:online}
 
-El primer algoritmo que probaremos será \textit{RandomUnderSampler}, el cual consiste en seleccionar un subconjunto aleatorio de datos. Para intentar no eliminar datos importantes como hemos comentado antes, aplica una de las
-tres versiones de la heurística \textit{NearMiss}\ \cite{3Undersa98:online}, la cual se basa en el algoritmo \textit{nearest neighbors}:
+El primer algoritmo que probaremos será \textit{RandomUnderSampler}, el cual consiste en seleccionar un subconjunto aleatorio de datos. Para intentar no eliminar datos importantes como hemos comentado antes, aplica una de las tres versiones de la heurística \textit{NearMiss}\ \cite{3Undersa98:online}, la cual se basa en el algoritmo \textit{nearest neighbors}:
 
 \begin{enumerate}
     \item La versión \textbf{1} elimina aquellos datos cuya distancia media a sus \textit{N} vecinos más cercanos de la clase minoritaria sea menor.
     \item La versión \textbf{2} es parecida a la \textbf{1}, pero en esta la distancia media se computa sobre los \textit{N} vecinos más lejanos de la clase minoritaria.
-    \item La versión \textbf{3} consta de dos pasos, primero de cada elemento de la clase minoritaria selecciona los \textit{M} vecinos más cercanos de la clase mayoritaria. Luego, por cada muestra seleccionada se calcula la
-        distancia media respecto a los \textit{N} vecinos más cercanos de la clase minoritaria y se eliminan los que, de media, estén más alejados.
+    \item La versión \textbf{3} consta de dos pasos, primero de cada elemento de la clase minoritaria selecciona los \textit{M} vecinos más cercanos de la clase mayoritaria. Luego, por cada muestra seleccionada se calcula la distancia media respecto a los \textit{N} vecinos más cercanos de la clase minoritaria y se eliminan los que, de media, estén más alejados.
 \end{enumerate}
 
 El algoritmo \textit{Tomek Links} detecta los llamados \textit{Tomek Links}, estos son enlaces entre dos muestras de diferente clase, pongamos \(x\) e \(y\), definidos tal que para cualquier muestra \(z\): 
-\[d(x,y) < d(x,z)\ and\ d(x,y) < d(y,z)\], donde \(d(a, b)\) es la distancia entre la muestra \(a\) y \(b\). En resumen, un \textit{Tomek Link} se da entre las muestras de distintas clases más 
-cercanas entre sí. Este algoritmo suele ser bueno a la hora de eliminar ruido en los datos.
+\[d(x,y) < d(x,z)\ and\ d(x,y) < d(y,z)\], donde \(d(a, b)\) es la distancia entre la muestra \(a\) y \(b\). En resumen, un \textit{Tomek Link} se da entre las muestras de distintas clases más cercanas entre sí. Este algoritmo suele ser bueno a la hora de eliminar ruido en los datos.
 
-\textit{Edited Nearest Neighbours} en resumen elimina las muestras que no se parezcan demasiado a sus vecinos\ \cite{Wil72}. Para ello, comprueba para cada muestra que sus \textit{N} vecinos más cercanos sean de su misma clase,
-y si no podemos elegir si nos quedamos con la mayoría o si eliminamos todas las muestras.
+\textit{Edited Nearest Neighbours} en resumen elimina las muestras que no se parezcan demasiado a sus vecinos\ \cite{Wil72}. Para ello, comprueba para cada muestra que sus \textit{N} vecinos más cercanos sean de su misma clase, y si no podemos elegir si nos quedamos con la mayoría o si eliminamos todas las muestras.
 
 \textit{InstanceHardnessThreshold} es un algoritmo que entrena un modelo de \textit{sklearn} sobre los datos y elimina aquellas muestras de las cuales está menos seguro.
 
 
 \subsubsection{\textit{Oversampling}}\ \label{sec:oversampling}
 
-Para hacer \textit{oversampling} utilizamos la librería \href{https://sdv.dev/}{sdv}, más específicamente el 
-\href{https://docs.sdv.dev/sdv/single-table-data/modeling/synthesizers/gaussiancopulasynthesizer}{GaussianCopulaSynthesizer}, el cual utiliza métodos estadísticos clásicos para generar datos sintéticos parecidos 
-a los reales. Una vez generados los datos sintéticos, podemos comprobar su calidad generando un reporte de calidad de la con la misma librería \textit{sdv}, utilizando la función 
-\href{https://docs.sdv.dev/sdv/single-table-data/evaluation#evaluate_quality}{evaluate\_quality} la cual compara los datos generados con los reales y nos da los resultados de la
-\textit{figura\ \ref{fig:quality_report}}.
+El segundo paso es el \textit{oversampling}, el cual consiste en la creación de los datos sintéticos para suplir la carencia de datos de una clase minoritaria. Hay algoritmos para realizar estas técnicas implementados en \textit{imblearn}, sin embargo preferimos utilizar \href{https://sdv.dev/}{sdv}, pues tiene mejor documentación y tiene un método `fácil' para evaluar los datos generados. \cite{Synthesi69:online} En general, los sintetizadores utilizan algoritmos complejos sobre los cuales podemos leer en \cite{Synthesi69:online}, pero para agilizar el proceso de análisis no entraremos demasiado en detalle.
+
+Antes de comentar los sintetizadores que probaremos, comentaremos el método de evaluación de los datos generados con los que los evaluaremos. Utilizaremos una función de la propia librería \textit{sdv} que evalúa la similitud estadística de los datos generados con los datos reales.
+
+Los tres sintetizadores que probaremos son:
+
+\begin{enumerate}
+    \item \textit{Gaussian Copula Synthesizer} \cite{Gaussian4:online}, el cual utiliza unos métodos clásicos estadísticos.
+    \item \textit{CTGANSynthesizer} \cite{CTGANSyn50:online}, utiliza métodos de \textit{deep learning} basados en \textit{GAN} \cite{Generati72:online}.
+    \item \textit{TVAESynthesizer} \cite{TVAESynt0:online}, basado en \textit{VAE} \cite{Variatio61:online}, utiliza técnicas de redes neuronales.
+\end{enumerate}
+
+#HERE
+
+Para hacer \textit{oversampling} utilizamos la librería \href{https://sdv.dev/}{sdv}, más específicamente el \href{https://docs.sdv.dev/sdv/single-table-data/modeling/synthesizers/gaussiancopulasynthesizer}{GaussianCopulaSynthesizer}, el cual utiliza métodos estadísticos clásicos para generar datos sintéticos parecidos a los reales. Una vez generados los datos sintéticos, podemos comprobar su calidad generando un reporte de calidad de la con la misma librería \textit{sdv}, utilizando la función \href{https://docs.sdv.dev/sdv/single-table-data/evaluation#evaluate_quality}{evaluate\_quality} la cual compara los datos generados con los reales y nos da los resultados de la \textit{figura\ \ref{fig:quality_report}}.
 
 \begin{figure}[!ht]
     \centering
