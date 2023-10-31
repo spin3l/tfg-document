@@ -15,7 +15,7 @@ A la hora de balancear los datos, buscamos, de alguna forma, reducir la diferenc
 
 Los algoritmos que hemos decidido utilizar son los de la librería \href{https://imbalanced-learn.org/stable/}{imblearn} que fue diseñada específicamente para los problemas de clasificación sobre \textit{datasets} desbalanceados.\ \cite{3Undersa98:online}
 
-El primer algoritmo que probaremos será \textit{RandomUnderSampler}, el cual consiste en seleccionar un subconjunto aleatorio de datos. Para intentar no eliminar datos importantes como hemos comentado antes, aplica una de las tres versiones de la heurística \textit{NearMiss}\ \cite{3Undersa98:online}, la cual se basa en el algoritmo \textit{nearest neighbors}:
+El primer algoritmo que probaremos será \textit{RandomUnderSampler}, el cual consiste en seleccionar un subconjunto aleatorio de datos. Para intentar no eliminar datos importantes como hemos comentado antes, hay otra versión que aplica una de las tres versiones de la heurística \textit{NearMiss}\ \cite{3Undersa98:online}, la cual se basa en el algoritmo \textit{nearest neighbors}:
 
 \begin{enumerate}
     \item La versión \textbf{1} elimina aquellos datos cuya distancia media a sus \textit{N} vecinos más cercanos de la clase minoritaria sea menor.
@@ -28,8 +28,62 @@ El algoritmo \textit{Tomek Links} detecta los llamados \textit{Tomek Links}, est
 
 \textit{Edited Nearest Neighbours} en resumen elimina las muestras que no se parezcan demasiado a sus vecinos\ \cite{Wil72}. Para ello, comprueba para cada muestra que sus \textit{N} vecinos más cercanos sean de su misma clase, y si no podemos elegir si nos quedamos con la mayoría o si eliminamos todas las muestras.
 
-\textit{InstanceHardnessThreshold} es un algoritmo que entrena un modelo de \textit{sklearn} sobre los datos y elimina aquellas muestras de las cuales está menos seguro.
+Podemos ver los resultados de entrenar los modelos básicos que hemos probado anteriormente sobre los \textit{dataset} reducidos con los métodos comentados en la \textit{tabla\ \ref{tab:undersampling-methods}}. Podemos ver que, generalmente, el algoritmo \textit{Near Miss} es el que mejor funciona, aunque cabe destacar que, como podemos ver en la \textit{figura\ \ref{fig:undersampling-methods-balance}}, el algoritmo \textit{Near Miss} reduce mucho más la cantidad de datos.
 
+\begin{table}[!ht]
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|} \hline
+        & Avg. f0.5 Score & Avg. f2 Score & Avg. Balanced Accuracy \\ \hline
+        Random Under Sampler & 61.0523 & 59.2609 & 62.6545 \\
+        Near Miss (v1) & 70.2289 & 66.7329 & 69.6297 \\
+        Near Miss (v2) & 74.6031 & 68.1454 & 73.0865 \\
+        Near Miss (v3) & 67.7945 & 71.1278 & 64.9608 \\
+        Edited Nearest Neighbors (ALL) & 48.8632 & 47.0348 & 67.8832 \\
+        Edited Nearest Neighbors (MODE) & 44.4157 & 41.1859 & 64.5333 \\
+        Tomek Links & 41.5187 & 41.1415 & 64.6431 \\ \hline
+        \end{tabular}}
+    \caption{Resultado de entrenar los modelos básicos sobre el \textit{dataset} reducido con los diferentes métodos. Fuente: propia.}\ \label{tab:undersampling-methods}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/rus.png}
+        \caption{Comparación del balance utilizando \textit{Random Under Sampler}}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/nm-1.png}
+        \caption{Comparación del balance utilizando \textit{Near Miss 1}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/nm-1.png}
+        \caption{Comparación del balance utilizando \textit{Near Miss 2}}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/nm-2.png}
+        \caption{Comparación del balance utilizando \textit{Near Miss 3}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/enn-auto.png}
+        \caption{Comparación del balance utilizando \textit{Edited Nearest Neighbors (AUTO)}}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/enn-mode.png}
+        \caption{Comparación del balance utilizando \textit{Edited Nearest Neighbors (MODE)}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/tl.png}
+        \caption{Comparación del balance utilizando \textit{Tomek Links}}
+    \end{subfigure}
+    \caption{Comparaciones del balance de los \textit{dataset} utilizando los diferentes algoritmos de \textit{undersampling}.}\label{fig:undersampling-methods-balance}
+\end{figure}
+\clearpage
 
 \subsubsection{\textit{Oversampling}}\ \label{sec:oversampling}
 
@@ -45,9 +99,8 @@ Los tres sintetizadores que probaremos son:
     \item \textit{TVAESynthesizer} \cite{TVAESynt0:online}, basado en \textit{VAE} \cite{Variatio61:online}, utiliza técnicas de redes neuronales.
 \end{enumerate}
 
-#HERE
+Habiéndolos entrenado, evaluaremos su similitud con los datos reales y nos quedaremos con el más semejante.
 
-Para hacer \textit{oversampling} utilizamos la librería \href{https://sdv.dev/}{sdv}, más específicamente el \href{https://docs.sdv.dev/sdv/single-table-data/modeling/synthesizers/gaussiancopulasynthesizer}{GaussianCopulaSynthesizer}, el cual utiliza métodos estadísticos clásicos para generar datos sintéticos parecidos a los reales. Una vez generados los datos sintéticos, podemos comprobar su calidad generando un reporte de calidad de la con la misma librería \textit{sdv}, utilizando la función \href{https://docs.sdv.dev/sdv/single-table-data/evaluation#evaluate_quality}{evaluate\_quality} la cual compara los datos generados con los reales y nos da los resultados de la \textit{figura\ \ref{fig:quality_report}}.
 
 \begin{figure}[!ht]
     \centering
