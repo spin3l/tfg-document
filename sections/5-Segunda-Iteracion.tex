@@ -28,58 +28,95 @@ El algoritmo \textit{Tomek Links} detecta los llamados \textit{Tomek Links}, est
 
 \textit{Edited Nearest Neighbours} en resumen elimina las muestras que no se parezcan demasiado a sus vecinos\ \cite{Wil72}. Para ello, comprueba para cada muestra que sus \textit{N} vecinos más cercanos sean de su misma clase, y si no podemos elegir si nos quedamos con la mayoría o si eliminamos todas las muestras.
 
-Podemos ver los resultados de entrenar los modelos básicos que hemos probado anteriormente sobre los \textit{dataset} reducidos con los métodos comentados en la \textit{tabla\ \ref{tab:undersampling-methods}}. Podemos ver que, generalmente, el algoritmo \textit{Near Miss} es el que mejor funciona, aunque cabe destacar que, como podemos ver en la \textit{figura\ \ref{fig:undersampling-methods-balance}}, el algoritmo \textit{Near Miss} reduce mucho más la cantidad de datos.
+Podemos ver los resultados de entrenar los modelos básicos que hemos probado anteriormente sobre los \textit{dataset} reducidos con los métodos comentados en la \textit{tabla\ \ref{tab:undersampling-methods}}. Podemos ver que, generalmente, el algoritmo \textit{Near Miss} es el que mejor funciona, aunque cabe destacar que, como podemos ver en la \textit{figura\ \ref{fig:undersampling-methods-balance}}, el algoritmo \textit{Near Miss} reduce mucho más la cantidad de datos. Por lo tanto, tal vez es el que produzca modelos que peor generalizan, vamos a comprobarlo fijándonos en la `tabla expandida' de resultados \textit{tabla\ \ref{tab:near-miss-v2-results}}, (de la cual hemos extraído los resultados de la \textit{tabla\ \ref{tab:undersampling-methods}}, entre otras), podemos ver que los modelos obtienen bastante mejores resultados sobre el dataset de entreno (\textit{Train score}), que sobre el de prueba (\textit{Test score}), por lo tanto sí que hay mucho \textit{overfitting}. Por otro lado, podemos ver que los segundos mejores resultados, los de entrenar utilizando \textit{Edited Nearest Neighbours (ALL)} en la \textit{tabla\ \ref{tab:nearest-neighbors-all-results}}, nos dan modelos que hacen menos \textit{overfitting}. Por lo tanto, nos quedaremos con el para los siguientes pasos. 
 
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|} \hline
         & Avg. f0.5 Score & Avg. f2 Score & Avg. Balanced Accuracy \\ \hline
         Random Under Sampler & 61.0523 & 59.2609 & 62.6545 \\
         Near Miss (v1) & 70.2289 & 66.7329 & 69.6297 \\
-        Near Miss (v2) & 74.6031 & 68.1454 & 73.0865 \\
+        \textit{\textbf{Near Miss (v2)}} & 74.6031 & 68.1454 & 73.0865 \\
         Near Miss (v3) & 67.7945 & 71.1278 & 64.9608 \\
-        Edited Nearest Neighbors (ALL) & 48.8632 & 47.0348 & 67.8832 \\
+        \textit{\textbf{Edited Nearest Neighbors (ALL)}} & 48.8632 & 47.0348 & 67.8832 \\
         Edited Nearest Neighbors (MODE) & 44.4157 & 41.1859 & 64.5333 \\
         Tomek Links & 41.5187 & 41.1415 & 64.6431 \\ \hline
         \end{tabular}}
     \caption{Resultado de entrenar los modelos básicos sobre el \textit{dataset} reducido con los diferentes métodos. Fuente: propia.}\ \label{tab:undersampling-methods}
 \end{table}
 
+\begin{table}[!ht]
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|ccccc|} \hline
+        Model Name & Train score & Test score & Recall & Precision & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy \\ \hline
+        XGBoost & 78.601 & 69.136 & 53.086 & 78.182 & 63.235 & 71.429 & 56.728 & 69.136 & 69.136 \\
+        Stochastic Gradient Descent & 66.461 & 53.704 & 44.444 & 54.545 & 48.98 & 52.174 & 46.154 & 53.704 & 53.704 \\
+        Random Forest & 100 & 82.099 & 72.84 & 89.394 & 80.272 & 85.507 & 75.641 & 82.099 & 82.099 \\
+        Quadratic Discriminant Analysis & 99.794 & 80.247 & 75.309 & 83.562 & 79.221 & 81.769 & 76.826 & 80.247 & 80.247 \\
+        Multi-Layer Perceptron & 98.148 & 79.63 & 76.543 & 81.579 & 78.981 & 80.519 & 77.5 & 79.63 & 79.63 \\
+        Linear Discriminant Analysis & 84.362 & 65.432 & 56.79 & 68.657 & 62.162 & 65.903 & 58.824 & 65.432 & 65.432 \\
+        LightGBM & 73.868 & 62.963 & 55.556 & 65.217 & 60 & 63.025 & 57.252 & 62.963 & 62.963 \\
+        K-Neighbors & 100 & 85.802 & 77.778 & 92.647 & 84.564 & 89.235 & 80.357 & 85.802 & 85.802 \\
+        Extra Trees & 100 & 87.037 & 76.543 & 96.875 & 85.517 & 91.988 & 79.897 & 87.037 & 87.037 \\
+        Decision Tree & 73.251 & 64.815 & 75.309 & 62.245 & 68.156 & 64.482 & 72.275 & 64.815 & 64.815 \\ \hline
+        \textbf{AVERAGES} & 87.4485 & 73.0865 & & & & 74.6031 & 68.1454 & & 73.0865 \\ \hline
+        \end{tabular}}
+    \caption{Resultados de entrenar los modelos básicos habiendo reducido los datos con el algoritmo \textit{Near Miss v2}. Fuente propia.}\ \label{tab:near-miss-v2-results}
+\end{table}
+
+
+\begin{table}[!ht]
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|ccccc|} \hline
+        Model Name & Train score & Test score & Recall & Precision & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy \\\hline
+        XGBoost & 81.633 & 81.674 & 0 & 0 & 0 & 0 & 0 & 50 & 50 \\
+        Stochastic Gradient Descent & 60.544 & 56.335 & 53.086 & 21.717 & 30.824 & 24.628 & 41.188 & 55.075 & 55.075 \\
+        Random Forest & 100 & 89.14 & 43.21 & 94.595 & 59.322 & 76.419 & 48.476 & 71.328 & 71.328 \\
+        Quadratic Discriminant Analysis & 95.843 & 86.878 & 61.728 & 64.935 & 63.291 & 64.267 & 62.344 & 77.125 & 77.125 \\
+        Multi-Layer Perceptron & 90.627 & 86.199 & 33.333 & 79.412 & 46.957 & 62.212 & 37.709 & 65.697 & 65.697 \\
+        Linear Discriminant Analysis & 84.656 & 79.864 & 20.988 & 40.476 & 27.642 & 34.137 & 23.224 & 57.031 & 57.031 \\
+        LightGBM & 78.307 & 72.172 & 65.432 & 35.811 & 46.288 & 39.376 & 56.144 & 69.558 & 69.558 \\
+        K-Neighbors & 100 & 92.308 & 70.37 & 85.075 & 77.027 & 81.662 & 72.89 & 83.8 & 83.8 \\
+        Extra Trees & 99.32 & 90.045 & 70.37 & 74.026 & 72.152 & 73.265 & 71.072 & 82.415 & 82.415 \\
+        Decision Tree & 57.067 & 60.633 & 76.543 & 28.571 & 41.611 & 32.666 & 57.301 & 66.803 & 66.803 \\ \hline
+        \textbf{AVERAGES} & 84.7997 & 79.5248 & & & & 48.8632 & 47.0348 & & 67.8832 \\ \hline
+        \end{tabular}}
+    \caption{Resultados de entrenar los modelos básicos habiendo reducido los datos con el algoritmo \textit{Edited Nearest Neigbhors (ALL)}. Fuente propia.}\ \label{tab:nearest-neighbors-all-results}
+\end{table}
+
 \begin{figure}[!ht]
     \centering
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{media/images/under-sampling/rus.png}
-        \caption{Comparación del balance utilizando \textit{Random Under Sampler}}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{media/images/under-sampling/nm-1.png}
-        \caption{Comparación del balance utilizando \textit{Near Miss 1}}
+        \caption{Balance utilizando \textit{Random Under Sampler}}
     \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{media/images/under-sampling/nm-1.png}
-        \caption{Comparación del balance utilizando \textit{Near Miss 2}}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
+        \caption{Balance utilizando \textit{Near Miss 1}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/images/under-sampling/nm-1.png}
+        \caption{Balance utilizando \textit{Near Miss 2}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{media/images/under-sampling/nm-2.png}
-        \caption{Comparación del balance utilizando \textit{Near Miss 3}}
+        \caption{Balance utilizando \textit{Near Miss 3}}
     \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{media/images/under-sampling/enn-auto.png}
-        \caption{Comparación del balance utilizando \textit{Edited Nearest Neighbors (AUTO)}}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\textwidth]{media/images/under-sampling/enn-all.png}
+        \caption{Balance utilizando \textit{Edited Nearest Neighbors (ALL)}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{media/images/under-sampling/enn-mode.png}
-        \caption{Comparación del balance utilizando \textit{Edited Nearest Neighbors (MODE)}}
+        \caption{Balance utilizando \textit{Edited Nearest Neighbors (MODE)}}
     \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{media/images/under-sampling/tl.png}
-        \caption{Comparación del balance utilizando \textit{Tomek Links}}
+        \caption{Balance utilizando \textit{Tomek Links}}
     \end{subfigure}
     \caption{Comparaciones del balance de los \textit{dataset} utilizando los diferentes algoritmos de \textit{undersampling}.}\label{fig:undersampling-methods-balance}
 \end{figure}
@@ -138,5 +175,5 @@ los datos, podemos ver que, son mejores los modelos entrenados sobre el \gls{dat
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\linewidth]{media/images/balance.png}
-    \caption{Comparación del balanceo de la clase objetivo del \gls{dataset} antes y después de balancear, fuente propia, código\ \ref{code:plots_balancing}}\ \label{fig:balance}
+    \caption{Comparación del balance de la clase objetivo del \gls{dataset} antes y después de balancear, fuente propia, código\ \ref{code:plots_balancing}}\ \label{fig:balance}
 \end{figure}
