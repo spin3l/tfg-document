@@ -180,10 +180,33 @@ Ahora que tenemos el mejor \textit{undersampler} y \textit{oversampler} (que hay
 
 Hay dos modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. Ambos son parecidos, pues se componen de otros modelos básicos para realizar las predicciones. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, se basa en las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
 
-Por otro lado \textit{Bagging Classifier} entrena cada modelo que lo compone sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.
+Por otro lado \textit{Bagging Classifier} entrena cada modelo que lo compone sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online} Cabe destacar que al tener pocas muestras (después del balance alrededor de \textit{2800}) con relación a las columnas de cada muestra, los modelos que se entrenen con un subconjunto del \textit{dataset}, pueden no tener suficientes muestras como para dar buenos resultados.
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.7\linewidth]{media/images/majority_voting.png}
-    \caption{Explicación gráfica del proceso de entreno y predicción de un \textit{Voting Classifier}. Fuente \cite{Ensemble96:online}}\ \label{fig:voting-classifiers}
+    \caption{Explicación gráfica del proceso de entreno y predicción de un \textit{Voting Classifier}. Fuente \cite{Ensemble96:online}.}\ \label{fig:voting-classifiers}
 \end{figure}
+
+Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, haremos antes un poco de \textit{hyperparameter tuning}, como comentamos en la sección \ref{sec:i1-seleccion}, para tratar de mejorar los modelos base con los que compondremos tanto el \textit{Voting Classifier} como \textit{Bagging Classifier}.
+
+
+Para hacer \textit{hyperparameter tuning}, seleccionamos primero los modelos que ajustaremos, los cuales son los que mejores resultados han dado del entreno básico, es decir, \textit{Multi-Layer Perceptron, Random Forest, Quadratic Discriminant Analysis y Extra Trees}. De los cuales hemos obtenido los resultados de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results-v2}} donde vemos que tanto \textit{et} como \textit{mlp} han mejorado, pero han hecho \textit{overfitting}, \textit{qda} sigue igual y \textit{rf} ha empeorado. De todas formas, nos sirven los parámetros que hemos encontrado, pues tienen resultados bastante buenos, por lo tanto montaremos tanto el \textit{Voting Classifier} como el \textit{Bagging Classifier} sobre estos.
+
+
+\begin{table}[!ht]
+    \centering
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccccc|} \hline
+        Model name & Train score & Accuracy & Recall & Precision & f1 score & f0.5 score & f2 score & ROC/AUC score & Balanced accuracy \\ \hline
+        GS - et & 100 & 95.981 & 93.352 & 98.538 & 95.875 & 97.455 & 94.345 & 95.981 & 95.981 \\
+        RS - qda & 91.62 & 91.413 & 82.825 & 100 & 90.606 & 96.018 & 85.772 & 91.413 & 91.413 \\
+        GS - qda & 91.62 & 91.413 & 82.825 & 100 & 90.606 & 96.018 & 85.772 & 91.413 & 91.413 \\
+        RS - et & 97.778 & 93.487 & 89.474 & 97.289 & 93.218 & 95.619 & 90.935 & 93.487 & 93.487 \\
+        RS - mlp & 100 & 94.039 & 91.967 & 95.954 & 93.918 & 95.129 & 92.737 & 94.039 & 94.039 \\
+        GS - mlp & 100 & 94.039 & 91.967 & 95.954 & 93.918 & 95.129 & 92.737 & 94.039 & 94.039 \\
+        RS - rf & 89.074 & 89.193 & 81.163 & 96.7 & 88.253 & 93.134 & 83.858 & 89.193 & 89.193 \\
+        GS - rf & 88.889 & 88.916 & 80.609 & 96.678 & 87.915 & 92.971 & 83.381 & 88.916 & 88.916 \\ \hline
+        \end{tabular}}
+    \caption{Resultado del \textit{hyperparameter tuning} con el \textit{dataset} balanceado. Fuente propia.}\ \label{tab:hyperparameter-tuning-results-v2}
+\end{table}
+
