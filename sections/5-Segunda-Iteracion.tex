@@ -126,7 +126,7 @@ Podemos ver los resultados de entrenar los modelos básicos que hemos probado an
 
 El segundo paso es el \textit{oversampling}, el cual consiste en la creación de los datos sintéticos para suplir la carencia de datos de una clase minoritaria. Hay algoritmos para realizar estas técnicas implementados en \textit{imblearn}, sin embargo preferimos utilizar \href{https://sdv.dev/}{sdv}, pues tiene mejor documentación y tiene un método `fácil' para evaluar los datos generados. \cite{Synthesi69:online} En general, los sintetizadores utilizan algoritmos complejos sobre los cuales podemos leer en \cite{Synthesi69:online}, pero para agilizar el proceso de análisis no entraremos demasiado en detalle.
 
-Antes de comentar los sintetizadores que probaremos, comentaremos el método de evaluación de los datos generados con los que los evaluaremos. Utilizaremos una función de la propia librería \textit{sdv} que evalúa la similitud estadística de los datos generados con los datos reales.
+Antes de comentar los sintetizadores que probaremos, definiremos el método con los que los evaluaremos los datos generados. Utilizaremos una función de la propia librería \textit{sdv} que evalúa la similitud estadística de los datos generados con los datos reales y nos genera un \textit{quality report}.
 
 Los tres sintetizadores que probaremos son:
 
@@ -136,44 +136,54 @@ Los tres sintetizadores que probaremos son:
     \item \textit{TVAESynthesizer} \cite{TVAESynt0:online}, basado en \textit{VAE} \cite{Variatio61:online}, utiliza técnicas de redes neuronales.
 \end{enumerate}
 
-Habiéndolos entrenado, evaluaremos su similitud con los datos reales y nos quedaremos con el más semejante.
-
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.8\linewidth]{media/images/quality_report.png}
-    \caption{Reporte de calidad de los datos generados sintéticamente, fuente propia.}\ \label{fig:quality_report}
-\end{figure}
-
-Una vez aplicados los dos algoritmos obtenemos un \gls{dataset} balanceado como el de la \textit{figura\ \ref{fig:balance}}.
-
-La toma de nuevos datos reales es costosa, y como teníamos relativamente pocos datos para entrenar el balanceo es esencial. Podemos hacer unos entrenamientos y comparar los resultados para ver si es necesario 
-balancear, los resultados los podemos ver en la \textit{tabla\ \ref{tab:balanced_comparison}}. Fijándonos en las columnas a partir de \textit{f1score}, ya que estas son las métricas que ignoran el balanceo de 
-los datos, podemos ver que, son mejores los modelos entrenados sobre el \gls{dataset} balanceado.
+Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos reales y obtenemos los resultados de la \textit{tabla\ \ref{tab:oversampling-quality-report}}, en los cuales podemos ver un claro `ganador'.
 
 \begin{table}[!ht]
     \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccc|ccccc|} \hline
-    & \multicolumn{5}{|c|}{Balanced dataset} & \multicolumn{5}{c|}{Unbalanced dataset} \\ \hline
-        Model Name & Train score & Test score & f1score & f0.5score & Balanced accuracy & Train score & Test score & f1score & f0.5score & Balanced accuracy \\ \hline
-        XGBoost model & 92.051 & 87.669 & 87.055 & 89.736 & 87.669 & 82 & 82 & 0 & 0 & 50 \\
-        Stochastic Gradient Descent & 79.584 & 78.862 & 76.506 & 81.988 & 78.862 & 64.815 & 56.444 & 24.615 & 20.075 & 49.834 \\
-        Random Forest model & 94.399 & 87.398 & 86.58 & 90.09 & 87.398 & 99.926 & 87.778 & 49.541 & 69.948 & 66.531 \\
-        Quadratic Discriminant Analysis & 87.94 & 87.669 & 86.191 & 92.871 & 87.669 & 96.148 & 83.111 & 54.217 & 53.444 & 72.358 \\
-        Multi-Layer Perceptron & 89.205 & 85.908 & 85.014 & 88.376 & 85.908 & 90.815 & 84 & 32.075 & 46.961 & 59.41 \\
-        Linear Discriminant Analysis & 82.746 & 80.759 & 78.743 & 84.026 & 80.759 & 85.333 & 78.222 & 20.968 & 25.692 & 53.96 \\
-        LightGBM model & 92.141 & 87.127 & 86.409 & 89.402 & 87.127 & 82.222 & 72.222 & 48.133 & 40.222 & 71.981 \\
-        K-Neighbors model & 100 & 83.333 & 81.048 & 88.314 & 83.333 & 100 & 86.889 & 55.639 & 64.014 & 70.807 \\
-        Hist Gradient Boosting model & 82.294 & 81.436 & 79.764 & 84.322 & 81.436 & 78.444 & 70.444 & 44.813 & 37.448 & 68.97 \\
-        Extra Trees model & 86.224 & 84.688 & 82.695 & 89.701 & 84.688 & 99.63 & 90.444 & 69.504 & 76.324 & 78.756 \\
-        Decision Tree model & 80.352 & 79.268 & 76.279 & 83.503 & 79.268 & 56.963 & 58.889 & 41.27 & 31.957 & 67.224 \\ \hline
+    \resizebox{0.8\linewidth}{!}{\begin{tabular}{|c|ccc|} \hline
+        Synthesizer & Column Shapes & Column Pair Trends & Overall Quality \\ \hline
+        Gaussian Copula Synthesizer & 94.45 & 99.63 & 97.04 \\
+        TVAE Synthesizer & 81.59 & 76.19 & 78.89 \\ 
+        CTGAN Synthesizer & 73.78 & 54.83 & 64.31 \\ \hline
     \end{tabular}}
-    \caption{Tabla comparativa de los resultados de entrenar los modelos con los datos balanceados y sin balancear, después de preprocesar los datos. Fuente propia.}\ \label{tab:balanced_comparison}
+    \caption{Resultados del \textit{quality report} de los datos generados con los sintetizadores. Fuente propia}\ \label{tab:oversampling-quality-report}
 \end{table}
 
+Ahora que tenemos el mejor \textit{undersampler} y \textit{oversampler} (que hayamos probado para nuestro problema), después de aplicar ambos nos queda el \textit{dataset} con la clase objetivo balanceada como en la \textit{figura\ \ref{fig:balance-second-iteration}}, con el cual podemos entrenar los modelos básicos (aplicando el preprocesado que encontramos en la primera iteración) y obtener los resultados de la \textit{tabla\ \ref{tab:balanced-basic-training}}. 
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.6\linewidth]{media/images/balance.png}
-    \caption{Comparación del balance de la clase objetivo del \gls{dataset} antes y después de balancear, fuente propia, código\ \ref{code:plots_balancing}}\ \label{fig:balance}
+    \includegraphics[width=0.7\linewidth]{media/images/balance.png}
+    \caption{Comparación del balance de la clase objetivo antes y después de utilizar el método de \textit{undersampling} y \textit{oversampling} comentados. Fuente propia.}\ \label{fig:balance-second-iteration}
+\end{figure}
+
+\begin{table}[!ht]
+    \centering
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|ccccc|} \hline
+        Model Name & Train score & Test score & Recall & Precision & f1score & f0.5score & f2score & ROC/AUC score & Balanced accuracy \\ \hline
+        XGBoost & 90.375 & 89.043 & 80.055 & 97.635 & 87.976 & 93.528 & 83.046 & 89.055 & 89.055 \\
+        Stochastic Gradient Descent & 80.009 & 78.641 & 80.609 & 77.6 & 79.076 & 78.184 & 79.989 & 78.638 & 78.638 \\
+        Random Forest & 96.391 & 91.956 & 86.704 & 96.904 & 91.52 & 94.676 & 88.568 & 91.963 & 91.963 \\
+        Quadratic Discriminant Analysis & 91.624 & 91.401 & 82.825 & 100 & 90.606 & 96.018 & 85.772 & 91.413 & 91.413 \\
+        Multi-Layer Perceptron & 94.54 & 92.372 & 86.704 & 97.812 & 91.924 & 95.369 & 88.719 & 92.38 & 92.38 \\
+        Linear Discriminant Analysis & 86.025 & 85.576 & 80.332 & 89.783 & 84.795 & 87.719 & 82.06 & 85.583 & 85.583 \\
+        LightGBM & 90.375 & 88.904 & 78.947 & 98.616 & 87.692 & 93.935 & 82.227 & 88.918 & 88.918 \\
+        K-Neighbors & 100 & 76.56 & 56.51 & 94.444 & 70.711 & 83.265 & 61.446 & 76.588 & 76.588 \\
+        Extra Trees & 90.838 & 90.985 & 84.211 & 97.436 & 90.342 & 94.469 & 86.56 & 90.994 & 90.994 \\
+        Decision Tree & 83.48 & 84.466 & 70.36 & 98.069 & 81.935 & 90.909 & 74.574 & 84.486 & 84.486 \\ \hline
+        \end{tabular}}
+    \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset}. Fuente propia.}\ \label{tab:balanced-basic-training}
+\end{table}
+
+\clearpage
+\subsection{Nuevos modelos}
+
+Hay dos modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. Ambos son parecidos, pues se componen de otros modelos básicos para realizar las predicciones. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, se basa en las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
+
+Por otro lado \textit{Bagging Classifier} entrena cada modelo que lo compone sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{media/images/majority_voting.png}
+    \caption{Explicación gráfica del proceso de entreno y predicción de un \textit{Voting Classifier}. Fuente \cite{Ensemble96:online}}\ \label{fig:voting-classifiers}
 \end{figure}
