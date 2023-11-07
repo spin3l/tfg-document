@@ -178,9 +178,7 @@ Ahora que tenemos el mejor \textit{undersampler} y \textit{oversampler} (que hay
 \clearpage
 \subsection{Nuevos modelos}
 
-Hay dos modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. Ambos son parecidos, pues se componen de otros modelos básicos para realizar las predicciones. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, se basa en las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
-
-Por otro lado \textit{Bagging Classifier} entrena cada modelo que lo compone sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online} Cabe destacar que al tener pocas muestras (después del balance alrededor de \textit{2800}) con relación a las columnas de cada muestra, los modelos que se entrenen con un subconjunto del \textit{dataset}, pueden no tener suficientes muestras como para dar buenos resultados.
+Hay dos modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, se basa en las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
 
 \begin{figure}[!h]
     \centering
@@ -188,10 +186,12 @@ Por otro lado \textit{Bagging Classifier} entrena cada modelo que lo compone sob
     \caption{Explicación gráfica del proceso de entreno y predicción de un \textit{Voting Classifier}. Fuente \cite{Ensemble96:online}.}\ \label{fig:voting-classifiers}
 \end{figure}
 
+Por otro lado \textit{Bagging Classifier} entrena el mismo modelo sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online}
+
+
 Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, haremos antes un poco de \textit{hyperparameter tuning}, como comentamos en la sección \ref{sec:i1-seleccion}, para tratar de mejorar los modelos base con los que compondremos tanto el \textit{Voting Classifier} como \textit{Bagging Classifier}.
 
-
-Para hacer \textit{hyperparameter tuning}, seleccionamos primero los modelos que ajustaremos, los cuales son los que mejores resultados han dado del entreno básico, es decir, \textit{Multi-Layer Perceptron, Random Forest, Quadratic Discriminant Analysis y Extra Trees}. De los cuales hemos obtenido los resultados de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results-v2}} donde vemos que tanto \textit{et} como \textit{mlp} han mejorado, pero han hecho \textit{overfitting}, \textit{qda} sigue igual y \textit{rf} ha empeorado. De todas formas, nos sirven los parámetros que hemos encontrado, pues tienen resultados bastante buenos, por lo tanto montaremos tanto el \textit{Voting Classifier} como el \textit{Bagging Classifier} sobre estos.
+Para hacer \textit{hyperparameter tuning}, seleccionamos primero los modelos que ajustaremos, los cuales son los que mejores resultados han dado del entreno básico, es decir, \textit{Multi-Layer Perceptron, Random Forest, Quadratic Discriminant Analysis y Extra Trees}. De los cuales hemos obtenido los resultados de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results-v2}} donde vemos que tanto \textit{et} como \textit{mlp} han mejorado (aun haciendo \textit{overfitting}), \textit{qda} sigue igual y \textit{rf} ha empeorado. De todas formas, nos sirven los parámetros que hemos encontrado, pues tienen resultados bastante buenos, por lo tanto montaremos tanto el \textit{Voting Classifier} como el \textit{Bagging Classifier} sobre estos.
 
 
 \begin{table}[!ht]
@@ -207,6 +207,25 @@ Para hacer \textit{hyperparameter tuning}, seleccionamos primero los modelos que
         RS - rf & 89.074 & 89.193 & 81.163 & 96.7 & 88.253 & 93.134 & 83.858 & 89.193 & 89.193 \\
         GS - rf & 88.889 & 88.916 & 80.609 & 96.678 & 87.915 & 92.971 & 83.381 & 88.916 & 88.916 \\ \hline
         \end{tabular}}
-    \caption{Resultado del \textit{hyperparameter tuning} con el \textit{dataset} balanceado. Fuente propia.}\ \label{tab:hyperparameter-tuning-results-v2}
+        \caption{Resultado del \textit{hyperparameter tuning} con el \textit{dataset} balanceado. Fuente propia.}\ \label{tab:hyperparameter-tuning-results-v2}
 \end{table}
 
+
+Al entrenar los \textit{Voting} y \textit{Bagging Classifiers}, obtenemos los resultados de la \textit{tabla\ \ref{tab:voting-bagging-results}}. En general, los \textit{Voting} han obtenido resultados algo mejores que los \textit{Bagging Classifiers}, podría ser por la cantidad de datos sobre los que ha entrenado cada submodelo.
+
+\begin{table}[!ht]
+    \centering
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccccccccc|} \hline
+        Model name & Train score & Accuracy & Recall & Precision & f1 score & f0.5 score & f2 score & ROC/AUC score & Balanced accuracy \\ \hline
+        Voting Classifier (All - not tuned) & 100 & 95.839 & 92.244 & 99.403 & 95.69 & 97.884 & 93.592 & 95.844 & 95.844 \\
+        Bagging Classifier (QDA) & 96.9 & 95.284 & 90.859 & 99.696 & 95.072 & 97.794 & 92.499 & 95.29 & 95.29 \\
+        Voting Classifier (QDA and ET) & 97.501 & 95.007 & 90.028 & 100 & 94.752 & 97.833 & 91.86 & 95.014 & 95.014 \\
+        Voting Classifier (All) & 98.103 & 94.868 & 90.305 & 99.39 & 94.63 & 97.43 & 91.986 & 94.875 & 94.875 \\
+        Voting Classifier (RF and ET and QDA) & 97.362 & 94.73 & 89.474 & 100 & 94.444 & 97.701 & 91.398 & 94.737 & 94.737 \\
+        Voting Classifier (MLP and ET) & 100 & 93.481 & 91.136 & 95.64 & 93.333 & 94.704 & 92.002 & 93.485 & 93.485 \\
+        Bagging Classifier (MLP - not tuned) & 92.92 & 90.846 & 85.873 & 95.385 & 90.379 & 93.317 & 87.62 & 90.853 & 90.853 \\
+        Bagging Classifier (RF) & 92.041 & 87.933 & 82.548 & 92.547 & 87.262 & 90.358 & 84.371 & 87.941 & 87.941 \\
+        Bagging Classifier (ET) & 89.82 & 87.656 & 82.825 & 91.718 & 87.045 & 89.79 & 84.463 & 87.663 & 87.663 \\ \hline
+        \end{tabular}}
+        \caption{Resultados de entrenar los diferentes \textit{Voting} y \textit{Bagging Classifiers} que hemos preparado con los resultados del \textit{hyperparameter tuning}. Fuente propia.}\ \label{tab:voting-bagging-results}
+\end{table}
