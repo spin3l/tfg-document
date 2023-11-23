@@ -5,41 +5,40 @@ la propuesta de sistema a implementar consiste en la instalación de cámaras in
 corriente. De manera que utilizando nuestro modelo previamente calibrado, se detecte cuáles son los granos más contaminados y se puedan separar por una corriente de aire. 
 Podemos ver un esquema del sistema en la \textit{imagen\ \ref{fig:detection-system}}.
 
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.7\linewidth]{media/images/esquema-del-sistema.png}
     \caption{Esquema del sistema de detección y filtrado de granos contaminados}\ \label{fig:detection-system}
 \end{figure}
 
-Para realizar nuestra parte del proyecto, tenemos una base de datos de imágenes hiperespectrales con formato \acrshort{bil} (\textbf{figura\ \ref{fig:hyperspectral_image}}), 
-las cuales simulan las imágenes tomadas en la cadena de producción y de las cuáles hemos extraído los píxeles que forman los granos.
-Por otro lado, tenemos una base de datos con el estado de contaminación de estos mismos granos. A partir de ahora utilizaremos los términos contaminación y etiqueta como 
-sinónimos a la hora de referirnos a los granos.
-
 
 \subsection{NIR-HSI}
 
+
 \gls{nir-hsi} es una tecnología rápida, no destructiva y precisa que nos permite hacer inspecciones de calidad, la cual ha demostrado su potencial en los últimos años\ \cite{Applicat5:online}. 
-Es una técnica de imagen química basada en la espectroscopia de reflectancia (la luz reflejada por los materiales), la cual es capaz de caracterizar compuestos orgánicos y 
-algunos minerales\ \cite{NIRHyper23:online}.
+Es una técnica de imagen química basada en la espectroscopia de reflectancia (la luz reflejada por los materiales), la cual es capaz de caracterizar compuestos orgánicos y algunos minerales\ \cite{NIRHyper23:online}. Este método puede resultar mucho más directo, pues es rápido y no requiere análisis químico; barato, por los mismos motivos; y preciso, pues permite analizar los granos individualmente y no en lote; que el análisis químico.
 
-Como hemos comentado en la introducción, nuestro objetivo es conseguir un modelo que prediga lo mejor posible qué granos de una \gls{imagen hiperespectral} contienen 
-granos contaminados con \acrshort{don}. La propuesta general es 
+Como hemos comentado en la introducción, nuestro objetivo es conseguir un modelo que, utilizando \gls{nir-hsi}, prediga lo mejor posible qué granos de una \gls{imagen hiperespectral} contienen granos contaminados con \acrshort{don}. Para ello, partimos con una base de datos de imágenes hiperespectrales con formato \acrshort{bil}, las cuales simulan las imágenes tomadas en la cadena de producción y de las cuáles podemos extraer la información de los píxeles que forman los granos.
+Los archivos con formato \acrshort{bil} albergan los datos hiperespectrales de una imagen, como podemos ver en la \textit{figura \ref{fig:bil-example}}. Es decir, para las diferentes bandas especificadas, contiene la información de cada píxel que forma la imagen. Para ello, hace uso de otro archivo complementario con formato \textit{bil.hdr} que brinda información sobre este, como las diferentes bandas (frecuencias, en nuestro caso son 168) presentes en la imagen, entre otros. Una vez sabemos qué formato tienen los datos, podemos leer los archivos \acrshort{bil} que tenemos y formar un \acrshort{csv} con los datos centralizados para que nos sea más fácil trabajar con ellos. Para no tener un archivo demasiado grande, hemos desechado los píxeles que forman parte del `fondo' negro de la imagen, para determinar si un píxel es fondo, se hace la media de todos los valores de las reflectancias para ese píxel y si no pasa un umbral trivial, lo consideramos parte del fondo.
+
+Una vez tenemos el \acrshort{dataset} con los datos de cada píxel, podemos generar un nuevo \acrshort{dataset} que agrupe los píxeles en grupos, o granos. De esta forma, podemos añadir un nuevo filtro que consista en que los granos deben de tener un tamaño mínimo (en píxeles), es decir, podemos desechar los granos que sean demasiado pequeños ya que probablemente sea ruido en la imagen. De esta forma, agruparíamos \textit{N} filas de datos de píxeles, en tan solo una fila conservando la media de cada columna.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{media/images/bil.png}
+    \caption{Formato de los datos en un archivo \acrshort{bil}. Fuente \cite{Archivos82:online}}\ \label{fig:bil-example}
+\end{figure}
+
+Por otro lado, tenemos una base de datos con el estado de contaminación de estos mismos granos. A partir de ahora utilizaremos los términos contaminación y etiqueta como sinónimos a la hora de referirnos a los granos.
 
 
-\subsection{Separación del grano contaminado}\ \label{sec:separacion}
+\subsection{Contaminación del grano}\ \label{sec:separacion}
+
+El valor de contaminación \acrshort{don} de una muestra se obtiene, como hemos comentado anteriormente, realizando un análisis químico por lotes. Este análisis nos devuelve el valor de la concentración de \acrshort{don} en el lote, de modo que si supera los \(1250\ \mu g/kg\), por ley, la muestra se considera contaminada. Sabiendo esto, previamente en laboratorio se ha realizado un análisis de los granos que forman las imágenes \acrshort{bil} que tenemos y, por lo tanto, además de los datos hiperespectrales, sabemos el nivel de contaminación que posee cada grano y lo podemos agregar como columna en el \acrshort{csv} que tenemos.
 
 
+Al ser el valor de contaminación el que queremos predecir, a partir de ahora utilizaremos los términos contaminación y etiqueta como sinónimos. Además agregaremos otra columna, también de contaminación, la cual será \textit{booleana}, en lugar de un valor contínuo, y nos indicará si el valor concentración de ese grano supera el umbral legal comentado anteriormente. De esta forma, podemos plantear el problema tanto por regresión como por clasificación, 
 
-
-El valor de contaminación \gls{don} de un grano lo obtenemos de hacer un proceso químico que no entra dentro del propósito de este proyecto. 
-Lo único que nos interesa es que el valor de la contaminación es un valor real. Además, sabemos que desde el laboratorio se considera que un grano está contaminado a 
-partir de una concentración de \(1250 \mu g/kg\). De esta forma, aunque es un valor real, podemos utilizarlo como tal o considerar solamente si está contaminado o no. 
-Es decir, considerarlo como un problema de \gls{clasificación} o de \gls{regresión}.
-
-Aunque tenemos el valor continuo de contaminación, podemos reemplazarlo directamente por una columna booleana que indique si está contaminado. 
-De esta forma pasaríamos de un problema de regresión, el cual nos permite predecir valores continuos, a uno de clasificación para predecir valores discretos, 
-si está contaminado o no.
 
 \subsection{Análisis del mercado potencial}
 
