@@ -2,15 +2,15 @@
 
 \subsection{Análisis del problema y de los datos}\label{sec:obtencion}
 
-Considerando que los datos contenidos en los archivos \acrshort{bil} que hemos recibido desde el laboratorio contienen 168 columnas con información de las diferentes longitudes de onda\ \cite{WhatIsHy18:online} y además el nivel de contaminación \gls{don} de cada grano, podemos generar un \gls{dataset} con los datos de cada grano, haciendo la media de cada longitud de onda por cada píxel del mismo grano. Una vez hemos extraído la información de todos los archivos \acrshort{bil} y la hemos guardado en un archivo \acrshort{csv}, podemos entrenar los modelos.
+Considerando que los datos contenidos en los archivos \gls{bil} que hemos recibido desde el laboratorio contienen 168 columnas con información de las diferentes longitudes de onda\ \cite{WhatIsHy18:online} y además el nivel de contaminación \gls{don} de cada grano, podemos generar un \gls{dataset} con los datos de cada grano, haciendo la media de cada longitud de onda por cada píxel del mismo grano. Una vez hemos extraído la información de todos los archivos \gls{bil} y la hemos guardado en un archivo \acrshort{csv}, podemos entrenar los modelos.
 
-Cabe recalcar que para los modelos de regresión nos hemos guardado el valor de contaminación \gls{don} explícitamente, para los de clasificación si el valor \gls{don} supera los límites de contaminación y hemos preparado un \gls{dataset} aparte con algunos archivos \gls{bil} que contienen granos que no han sido analizados químicamente para el entrenamiento semi-supervisado.
+Cabe recalcar que para los modelos de regresión hemos guardado el valor de contaminación \gls{don} explícitamente, para los de clasificación si el valor \gls{don} supera los límites de contaminación y hemos preparado un \gls{dataset} aparte con algunos archivos \gls{bil} que contienen granos que no han sido analizados químicamente para el entrenamiento semi-supervisado.
 
 En esta primera iteración nos hemos centrado en intentar encontrar un buen modelo de clasificación y mejorar sus resultados lo máximo posible.
 
 \subsection{Preprocesado de datos}\label{sec:preprocesado}
 
-Ahora que tenemos los datos en un solo archivo \acrshort{csv}, el siguiente paso es preparar los datos. Para ello, hemos realizado el siguiente proceso: 
+Ahora que tenemos los datos en un solo archivo \acrshort{csv}, el siguiente paso es preprocesarlos. Para ello, hemos realizado los siguientes pasos: 
 
 \begin{enumerate}
     \item Eliminación de columnas
