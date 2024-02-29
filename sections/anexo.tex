@@ -27,10 +27,13 @@ def plots_balancing(df, df_balanced):
     plot_balance(df_balanced, ax, 1)
     f.tight_layout()
     plt.show()
-z
+
 
 def plot_balance(df, axis, axis_number):
-    return sns.histplot(df[src.utils.dev_config.OBJECTIVE_COLUMN], ax=axis[axis_number] if axis_number else axis)
+    return sns.histplot(
+        df[src.utils.dev_config.OBJECTIVE_COLUMN], 
+        ax=axis[axis_number] if axis_number else axis
+        )
 \end{code}
 
 \begin{code}[numbers=left]{title=Gráfico de comparación del balanceo, label=code:plots_balancing}{Python}
