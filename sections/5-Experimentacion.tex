@@ -1,8 +1,28 @@
 \section{Experimentación}
 
-En esta sección mostraremos los resultados de las pruebas con los distintos preprocesados, modelos y parámetros.
+En esta sección mostraremos los resultados de las pruebas con los distintos métodos de preprocesado de datos y modelos; con el objetivo de encontrar la combinación que nos dé los mejores resultados.
 
-\subsection{Primera derivada}
+Antes de comentar específicamente los distintos métodos que probaremos, explicaremos la forma en la que se han realizado estas pruebas.
+
+Primeramente, como hemos comentado anteriormente, separamos los datos de entreno y prueba aplicando la opción de \textit{stratify} y con una proporción de 75\% y 25\% respectivamente.
+
+Preparamos el preprocesado para que obteng
+Para ello, hemos utilizado los objetos \textit{Pipeline} \cite{sklearnp32:online}, los cuales permiten encadenar diferentes pasos de preprocesado y entrenar diferentes modelos de forma sencilla. Por ejemplo, si queremos probar diferentes modelos, podemos hacerlo de la siguiente forma: 
+
+\begin{enumerate}
+    \item Instanciamos los objetos de las diferentes clases de preprocesado que queramos probar con sus respectivos valores. En el caso excepcional de la \textit{primera derivada}, hemos creado nuestro propio \textit{Transformer} (objeto de ``preprocesado'') que aplica la derivada a los datos.
+    \item Los agregamos a la \textit{Pipeline} de forma ordenada.
+    \item Aplicamos la \textit{Pipeline} ya configurada sobre el \textit{dataset} que queremos preprocesar.
+\end{enumerate}
+
+
+El \textit{Pipeline} nos ofrece la ventaja de poder guardar y cargar tanto el orden del procedimiento, como la configuración de los pasos intermedios para aplicarlos más adelante de forma sencilla. Por ejemplo, el \textit{StandardScaler}, para modificar los datos de forma que tengan media 0 y varianza 1, guarda la media y la varianza de cada columna para poder aplicarla más adelante.
+
+Vale la pena comentar también que este objeto de \textit{Pipeline}, nos ayuda a compartir la configuración del preprocesado entre la aplicación de entrenamiento de modelos y la de visualización de las predicciones sobre los archivos \gls{bil}.
+
+
+
+\subsection{Análisis del impacto de la \textbf{primera derivada}}
 
 Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{tabla\ \ref{tab:nopreprocessing-derivative-results}} y, efectivamente, obtenemos resultados algo mejores.
 
@@ -23,12 +43,12 @@ Para probar que, como hemos comentado antes, el aplicar la primera derivada sobr
         Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 72.815 & 63.556 & 42.77 & 58.988 \\ 
         Extra Trees & 99.63 & 90.444 & 63.802 & 78.756 & 94.667 & 81.111 & 63.636 & 76.438 \\ 
         Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 82 & 82 & 0 & 50 \\ \hline
-        ~ & ~ & ~ & ~ & 61.790 & ~ & ~ & ~ & 59.535 \\ \hline 
+        \textit{Average} & ~ & ~ & ~ & 61.790 & ~ & ~ & ~ & 59.535 \\ \hline 
     \end{tabular}}
     \caption{Comparación de los resultados de entrenar utilizando la derivada y sin preprocesar. Fuente propia.}\ \label{tab:nopreprocessing-derivative-results}
 \end{table}
 
-\subsection{Transformada}
+\subsection{Análisis del impacto de apliciar la \textbf{transformada}}
 
 Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{tabla\ \ref{tab:derivative-transformed-results}}, vemos que los resultados son algo peores, así que continuaremos las pruebas sin utilizar la transformada.
 
@@ -49,7 +69,7 @@ Podemos ver los resultados de entrenar utilizando la transformada sobre los dato
         Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 99.63 & 90 & 64.433 & 78.967 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
         Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        ~ & ~ & ~ & ~ & 60.669 & ~ & ~ & ~ & 61.790 \\ \hline
+        \textit{Average} & ~ & ~ & ~ & 60.669 & ~ & ~ & ~ & 61.790 \\ \hline
         \end{tabular}}
     \caption{Comparación de los resultados de entrenar transformando y derivando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-transformed-results}
 \end{table}
@@ -75,7 +95,7 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
         Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 99.63 & 90.444 & 63.802 & 78.756 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
         Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        ~ & ~ & ~ & ~ & 64.530 & ~ & ~ & ~ & 61.790 \\ \hline
+        \textit{Average} & ~ & ~ & ~ & 64.530 & ~ & ~ & ~ & 61.790 \\ \hline
         \end{tabular}}
     \caption{Comparación de los resultados de entrenar derivando y estandarizando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-standarization-results}
 \end{table}
@@ -101,7 +121,7 @@ Aun siendo un paso generalmente recomendado, el aumento y disminución de dimens
         Hist Gradient Boosting & 75.63 & 66 & 46.296 & 61.924 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 96.222 & 82.222 & 51.597 & 70.37 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
         Decision Tree & 71.852 & 68.889 & 30.892 & 55.014 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        ~ & ~ & ~ & ~ & 58.866 & ~ & ~ & ~ & 64.530 \\ \hline
+        \textit{Average} & ~ & ~ & ~ & 58.866 & ~ & ~ & ~ & 64.530 \\ \hline
         \end{tabular}} 
     \caption{Comparación de los resultados de entrenar derivando, estandarizando y ajustando la dimensionalidad de los datos; frente a solo derivando y estandarizando. Fuente propia.}\ \label{tab:derivative-standarization-dimensionality-results}
 \end{table}
@@ -109,7 +129,7 @@ Aun siendo un paso generalmente recomendado, el aumento y disminución de dimens
 
 \subsection{Selección de modelos y \textit{hyperparameter tuning}}\ \label{sec:entrenamiento}
 
-Una vez encontrada una combinación de pasos de preprocesado que nos mejora los resultados, podemos pasar al siguiente paso de selección de los modelos. Habiendo entrenado ya los modelos, vemos que algunos hacen \textit{overfitting}. El \textit{overfitting} ocurre cuando un modelo se ajusta demasiado a los datos con los que ha entrenado y no generaliza bien, es decir que predice mejor los datos con los que ha entrenado que datos nuevos. Donde lo podemos ver más claramente es en \textit{KNeighbors}, vemos en la \textit{figura\ \ref{fig:lc-knn}} que, para cualquier cantidad de datos con los que entrenemos el modelo, siempre predecirá bien con los que ha entrenado y no tanto con los demás. Nuestro objetivo es intentar que ambos valores no sean tan dispares y que sean lo más altos posibles, para ello haremos \textit{hyperparameter tuning}.
+Una vez encontrada una combinación de pasos de preprocesado que nos mejora los resultados, podemos pasar al siguiente paso de selección de los modelos. Habiendo entrenado ya los modelos, vemos que algunos hacen \textit{overfitting}. El \textit{overfitting} ocurre cuando un modelo se ajusta demasiado a los datos con los que ha entrenado y no generaliza bien, es decir que predice mejor los datos con los que ha entrenado que datos nuevos. Donde lo podemos ver más claramente es en \textit{KNeighbors}, vemos en la \textit{Figura\ \ref{fig:lc-knn}} que, para cualquier cantidad de datos con los que entrenemos el modelo, siempre predecirá bien con los que ha entrenado y no tanto con los demás. Nuestro objetivo es intentar que ambos valores no sean tan dispares y que sean lo más altos posibles, para ello haremos \textit{hyperparameter tuning}.
 
 \begin{figure}[!h]
     \centering
@@ -126,7 +146,7 @@ Ambos métodos utilizan \textit{cross-validation}, una técnica para evitar el \
 Una vez dividido en \textit{N} partes, se entrena el modelo sobre todas las partes excepto una, la cual se utiliza para evaluar el modelo entrenado. Entonces, se repite el 
 proceso cambiando de partición. De esta forma, haciendo la media obtenemos el resultado de entrenar el modelo repetidas ocasiones con los mismos parámetros, pero con datos 
 distintos. Una vez hemos obtenido el mejor de los modelos que hemos entrenado, según la función de rendimiento, probamos el modelo resultante sobre los datos de prueba.
-Podemos ver este proceso más gráficamente en la \textit{imagen\ \ref{fig:cross-validation}}.
+Podemos ver este proceso más gráficamente en la \textit{Figura\ \ref{fig:cross-validation}}.
 
 \begin{figure}[!h]
     \centering
@@ -137,14 +157,14 @@ Podemos ver este proceso más gráficamente en la \textit{imagen\ \ref{fig:cross
 
 El \textit{random search} consiste en la búsqueda de estos parámetros habiendo definido un rango de posibilidades. Es decir, para cada parámetro que le queramos
 pasar al modelo definiremos un rango de valores que puede tener, entonces el \textit{random search} entrena el modelo repetidas veces con una permutación aleatoria de sus 
-parámetros y se guarda los resultados. Podemos ver un ejemplo en el \textit{código\ \ref{code:random-search-example}}.
+parámetros y se guarda los resultados. Podemos ver un ejemplo en el \textit{Código\ \ref{code:random-search-example}}.
 Podemos ir probando diferentes parámetros y rangos hasta que estemos satisfechos con el resultado.
 
 
 Una vez estemos contentos con los resultados, los refinaremos utilizando \textit{grid search}. A diferencia del \textit{random search}, el \textit{grid search} prueba todas
 las posibles combinaciones que le pasemos como parámetro y, consecuentemente, es mucho más lento. Por ello, utilizaremos el \textit{grid search} con los mejores parámetros que
 encontremos del paso anterior, los cuales son potencialmente los mejores. Una vez definido un rango de parámetros para los modelos seleccionados, obtenemos los resultados
-de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results}}. Podemos ver que hemos obtenido, en general, peores resultados (salvo con \textit{K-Neighbors}), por lo tanto
+de la \textit{Tabla\ \ref{tab:hyperparameter-tuning-results}}. Podemos ver que hemos obtenido, en general, peores resultados (salvo con \textit{K-Neighbors}), por lo tanto
 deberíamos ajustar el rango de parámetros que les pasamos a los modelos y volver a entrenarlos hasta que estemos satisfechos con el resultado. En nuestro caso no lo haremos
 y pasaremos a la segunda iteración del proyecto para probar nuevas cosas en pasos anteriores.
 
@@ -171,10 +191,10 @@ y pasaremos a la segunda iteración del proyecto para probar nuevas cosas en pas
 
 \subsubsection{\textit{Undersampling}}
 
-Al probar los algoritmos mencionados anteriormente, obtenemos los resultados de la \textit{tabla\ \ref{tab:undersampling-methods}}. 
+Al probar los algoritmos mencionados anteriormente, obtenemos los resultados de la \textit{Tabla\ \ref{tab:undersampling-methods}}. 
 Hemos agregado una columna más, \textit{Avg. score diff}, que nos indica la diferencia entre el \textit{Train} y \textit{Test score} para decidir mejor, pues las demás métricas nos daban resultados bastante parecidos. Esta ``nueva'' métrica no indica cuánto \textit{overfitting} hacen los modelos que se entrenan sobre el dataset generado, por lo tanto, cuanto más cercana a \textit{0} sea, mejor. Podemos ver que, en general, los diferentes \textit{Near Miss}, obtienen resultados bastante peores que los otros métodos. En cuanto a los otros tres algoritmos restantes, podemos ver que el \textit{Tomek Links} es el que mejores resultados tiene, así que continuaremos utilizándolo.
 
-Podemos ver en la \textit{figura\ \ref{fig:balance-tl}} (en más detalle en la \textit{tabla\ \ref{tab:balance-tl-comparison}}) la comparación del balance de la clase objetivo antes y después de utilizar el método \textit{Tomek Links}. 
+Podemos ver en la \textit{Figura\ \ref{fig:balance-tl}} la comparación del balance de la clase objetivo antes y después de utilizar el método \textit{Tomek Links}. Para hacer la comparación hemos tenido en cuenta que los modelos resultantes hicieran el menor \textit{overfitting} posible utilizando el \textit{Avg. score diff} el cual es la diferencia entre el \textit{Train} y \textit{Test score}. También hemos tenido en cuenta que las métricas \textit{f2 score} y \textit{balanced accuracy} fueran lo más altas posibles. Podemos ver que, aunque no ha mejorado mucho el balance de las clases (como nos muestra la \textit{Tabla\ \ref{tab:balance-tl-comparison}})), los resultados son mejores que sin utilizar ningún método de balanceo.
 
 \begin{table}[!ht]
     \centering
@@ -212,7 +232,7 @@ Podemos ver en la \textit{figura\ \ref{fig:balance-tl}} (en más detalle en la \
 
 \subsubsection{\textit{Oversampling}}
 
-Antes de comentar los sintetizadores que probaremos, definiremos el método con los que los evaluaremos los datos generados. Utilizaremos una función de la propia librería \textit{sdv} que evalúa la similitud estadística de los datos generados con los datos reales y nos genera un \textit{quality report}.
+Antes de comentar los sintetizadores que probaremos, definiremos el método con los que evaluaremos los datos generados. Para ello utilizaremos una función de la propia librería \textit{sdv} que evalúa la similitud estadística de los datos generados con los datos reales y nos genera un \textit{quality report}.
 
 Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos reales y obtenemos los resultados de la \textit{tabla\ \ref{tab:oversampling-quality-report}}, en los cuales podemos ver un claro `ganador'.
 
@@ -221,15 +241,13 @@ Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos
     \resizebox{0.8\linewidth}{!}{\begin{tabular}{|c|ccc|} \hline
         Synthesizer & Column Shapes & Column Pair Trends & Overall Quality \\ \hline
         Gaussian Copula Synthesizer & 94.75 & 99.83 & 97.29 \\
-        TVAE Synthesizer & 84.37 & 74.97 & 79.64 \\ 
-        \textit{CTGAN Synthesizer} & - & - & - \\ 
-        \textit{CopulaGAN Synthesizer} & - & - & - \\ \hline
+        TVAE Synthesizer & 84.37 & 74.97 & 79.64 \\ \hline
     \end{tabular}}
     \caption{Resultados del \textit{quality report} de los datos generados con los sintetizadores. Fuente propia}\ \label{tab:oversampling-quality-report}
 \end{table}
 
-Ahora que tenemos el sintetizador que mejores resultados nos da, lo aplicamos sobre la clase minoritaria y generamos datos sintéticos. Una vez generados, entrenamos los modelos básicos y obtenemos los resultados de la \textit{tabla\ \ref{tab:balanced-basic-training}}. Podemos ver que, en general, son peores que sin utilizar ningún sintetizador, por lo tanto, no utilizaremos \textit{oversampling} en los siguientes pasos.
-
+Ahora que tenemos el sintetizador que mejores resultados nos da, lo aplicamos sobre la clase minoritaria y generamos datos sintéticos. Una vez generados, entrenamos los modelos básicos y obtenemos los resultados de la \textit{tabla\ \ref{tab:balanced-basic-training}}. Podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador, por lo tanto, mantendremos el \textit{undersampling}, pero no utilizaremos \textit{oversampling} en los siguientes pasos.
+<
 
 \begin{table}[!ht]
     \centering
@@ -265,9 +283,9 @@ Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos m
 Por otro lado \textit{Bagging Classifier} entrena el mismo modelo sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online}
 
 
-Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, escogeremos los que han tenido mejores resultados al entrenarlos sobre el \textit{dataset} balanceado. Estos son los que mejores resultados tienen en la \textit{tabla\ \ref{tab:balanced-basic-training}}, es decir, \textit{K-Neighbors}, \textit{Multi-Layer Perceptron}, \textit{Random Forest} y \textit{Extra Trees}.
+Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, escogeremos los que han tenido mejores resultados al entrenarlos sobre el \textit{dataset} balanceado. Estos son los que mejores resultados tienen en la \textit{Tabla\ \ref{tab:balanced-basic-training}}, es decir, \textit{K-Neighbors}, \textit{Multi-Layer Perceptron}, \textit{Random Forest} y \textit{Extra Trees}.
 
-Al entrenar los \textit{Voting} y \textit{Bagging Classifiers}, obtenemos los resultados de la \textit{tabla\ \ref{tab:voting-bagging-results}}. En general, los \textit{Voting} han obtenido resultados algo mejores que los \textit{Bagging Classifiers}, podría ser por la cantidad de datos sobre los que ha entrenado cada submodelo. De todas formas, en general, obtenemos mejores resultados que utilizando modelo básicos.
+Al entrenar los \textit{Voting} y \textit{Bagging Classifiers}, obtenemos los resultados de la \textit{Tabla\ \ref{tab:voting-bagging-results}}. En general, los \textit{Voting} han obtenido resultados algo mejores que los \textit{Bagging Classifiers}, podría ser por la cantidad de datos sobre los que ha entrenado cada submodelo. De todas formas, en general, obtenemos mejores resultados que utilizando modelos básicos.
 
 \begin{table}[!ht]
     \centering
@@ -289,7 +307,7 @@ Al entrenar los \textit{Voting} y \textit{Bagging Classifiers}, obtenemos los re
 
 \subsubsection{Hyperparameter tuning}
 
-Además de los nuevos modelos, podemos volver a probar a hacer \textit{hyperparameter tuning} sobre el dataset balanceado, obteniendo los resultados de la \textit{tabla\ \ref{tab:hyperparameter-tuning-results-v2}} que, compárandolos con los resultados del anterior \textit{hyperparameter tuning}, vemos que han mejorado un poco en general.
+Además de los nuevos modelos, podemos volver a probar a hacer \textit{hyperparameter tuning} sobre el dataset balanceado, obteniendo los resultados de la \textit{Tabla\ \ref{tab:hyperparameter-tuning-results-v2}} que, compárandolos con los resultados del anterior \textit{hyperparameter tuning}, vemos que han mejorado un poco en general, por lo que eligiríamos estos últimos para predecir. 
 
 \begin{table}[!ht]
     \centering

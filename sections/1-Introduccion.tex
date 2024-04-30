@@ -27,18 +27,17 @@ control de calidad no permiten un control óptimo. La inspección por \gls{nir-h
 Nuestro objetivo como parte del proyecto es claro, construir un modelo de predicción robusto con los datos que tenemos, la validación de los modelos generados y la técnica en
 condiciones de laboratorio con un número suficiente de muestras reales y el desarrollo de software para la detección en tiempo real de granos contaminados. 
 
-Para ello, hemos separado esta tarea en diferentes pasos discernibles. 
+Para ello, hemos separado esta tarea en los objetivos secundarios siguientes. 
 
 \begin{enumerate}
     \item Entender los datos de los resultados de laboratorio.
-    \item Entender el existente proceso de análisis de imágenes hiperespectrales.
+    \item Entender el proceso de análisis de imágenes hiperespectrales.
     \item Tratar de mejorar el actual proceso de análisis de las imágenes.
     \item Entender el actual proceso de entranamiento y análisis de modelos de \gls{ml}.
     \item Tratar de mejorar el preprocesado de los datos, tanto como el entrenamiento de nuevos modelos para tratar de obtener mejores resultados.
-    \item Entrenar buenos modelos de \gls{ml} que, según las imágenes hiperespectrales, sean capaces de predecir si un grano está contaminado. 
+    \item Entrenar modelos de \gls{ml} que sean capaces de predecir si un grano está contaminado. 
     \item Una vez entrenados los modelos básicos, tratar de ajustarlos a los datos con \textit{Hyperparameter tuning}.
-    \item Añadir nuevos modos de ejecución del programa para emular la carga continua de imágenes que habría en un caso de uso real, además de prepararlo para que se 
-    pueda ejecutar por un tiempo indefinido como en un caso real, guardando los resultados de las predicciones.
+    \item Crear un software para emular la carga continua de imágenes que habría en un caso de uso real, además de prepararlo para que se pueda ejecutar por un tiempo indefinido, guardando los resultados de las predicciones.
 \end{enumerate}
 
 \subsection{Estructura del documento}

@@ -41,7 +41,7 @@ Nuestro proyecto ha tenido las fases que nombramos a continuación:
     \item Monitoreo de los modelos
 \end{enumerate}
 
-Para generalizar la hoja de ruta de un proyecto es más o menos como la de la \textit{figura\ \ref{fig:ml-development-cycle}}. Cabe destacar que el proceso de entrenar un modelo de \gls{ml}, como bien muestra la imagen, es un proceso cíclico en búsqueda de mejores resultados a base de probar metodologías distintas, añadir pasos, el cambio de requisitos, etc.
+Podemos generalizar los procesos de un proyecto de \gls{ml} meidnate el esquema de la \textit{Figura\ \ref{fig:ml-development-cycle}}. Cabe destacar que el proceso de entrenar un modelo de \gls{ml}, como bien muestra la imagen, es un proceso cíclico en búsqueda de mejores resultados a base de probar metodologías distintas, añadir pasos, el cambio de requisitos, etc.
 
 \begin{figure}[!htb]
     \centering
@@ -56,7 +56,7 @@ Antes de continuar con el entrenamiento de modelos, su mejora y la selección de
 
 \subsubsection{Clasificación supervisada y semi-supervisada}
 
-Primeramente, explicaremos las partes de una matriz de confusión como la que podemos ver en la \textit{figura\ \ref{fig:confusion-matrix-example}}. Podemos ver que tiene cuatro partes:
+Primeramente, explicaremos las partes de una matriz de confusión como la que podemos ver en la \textit{Figura\ \ref{fig:confusion-matrix-example}}. Podemos ver que tiene cuatro partes:
 
 \begin{itemize}
     \item \textit{True Positive (tp)}, las muestras que el modelo clasifica como positivas que realmente son positivas.
@@ -74,26 +74,25 @@ Estos cuatro valores son la base del resto de métricas que comentaremos a conti
 \end{figure}
 
 Antes de continuar con las métricas que compararemos, comentaremos también otras más básicas que son utilizadas para calcular las que utilizaremos\ \cite{Precisio23:online}.
-\\ \textit{Sensitivity} permite saber la probabilidad de que una predicción positiva sea realmente positiva.
+\\ \textit{\textbf{Sensitivity}} permite saber la probabilidad de que una predicción positiva sea realmente positiva.
     \begin{equation}
         sensitivity=tp/(tp+fn)
     \end{equation}
-\textit{Specificity} permite saber la probabilidad de que una predicción negativa sea realmente negativa.
+\textit{\textbf{Specificity}} permite saber la probabilidad de que una predicción negativa sea realmente negativa.
 \begin{equation}
         specificity=tn/(tn+fp)
     \end{equation}
-\textit{Recall} indica la capacidad del modelo para encontrar todas las muestras positivas. 
+\textit{\textbf{Recall}} indica la capacidad del modelo para encontrar todas las muestras positivas. 
     \begin{equation}
         recall=tp/(tp+fn)
     \end{equation}
-\textit{Precision} indica la precisión de las predicciones positivas, es decir, la habilidad del clasificador para no predecir como positiva una muestra que es negativa.
+\textit{\textbf{Precision}} indica la precisión de las predicciones positivas, es decir, la habilidad del clasificador para no predecir como positiva una muestra que es negativa.
     \begin{equation}
         precision=tp/(tp+fp)
     \end{equation}
 
 Con estas métricas básicas podemos definir las que realmente compararemos, ya que tienen en cuenta el balanceo del \gls{dataset}:
-
-\textit{fbeta score} es la media harmónica ponderada entre \textit{Precision} y \textit{Recall}. 
+\textit{\textbf{fbeta score}} es la media harmónica ponderada entre \textit{\textbf{Precision}} y \textit{Recall}. 
 El parámetro \textit{beta} representa la importancia de \textit{Recall} por encima de \textit{Precision}. 
 Es decir, \(beta>1\) le da más importancia a \textit{Recall} y, contrariamente, \(beta<1\) le da más peso a \textit{Precision}.\ \cite{FscoreWi30:online}
     \begin{equation}
@@ -101,8 +100,7 @@ Es decir, \(beta>1\) le da más importancia a \textit{Recall} y, contrariamente,
     \end{equation}
 
 Para comparar los modelos utilizaremos el parámetro \textit{beta} con los valores \textit{0.5} y \textit{2}. 
-
-\textit{Balanced accuracy} es la media aritmética de \textit{Sensitivity} y \textit{Specificity}. Se utiliza principalmente cuando tratamos con datos desbalanceados.\ \cite{Balanced44:online}
-    \begin{equation}
-        balanced\_accuracy =\frac{sensitivity + specificity}{2}
-    \end{equation}
+\textit{\textbf{Balanced accuracy}} es la media aritmética de \textit{Sensitivity} y \textit{Specificity}. Se utiliza principalmente cuando tratamos con datos desbalanceados.\ \cite{Balanced44:online} Su valor representa la exactitud media del modelo en las diferentes clases representadas por los datos, en nuestro caso, la clase de ``CONTAMINADO'' o ``NO CONTAMINADO''. Este valor, representa la exactitud con la que el modelo es capaz de clasificar las muestras de las diferentes clases, teniendo en cuenta la distribución de la clase mayoritaria. Es decir, si el valor de \textit{balanced accuracy} se acerca al 1, el modelo es capaz de clasificar correctamente las muestras de las diferentes clases, mientras que si se acerca a 0, el modelo no es capaz de clasificar correctamente las muestras o se aprovecha del desbalance de los datos, prediciendo mucho más la clase mayoritaria.
+\begin{equation}
+    balanced\_accuracy =\frac{sensitivity + specificity}{2}
+\end{equation}
