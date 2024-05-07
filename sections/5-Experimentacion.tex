@@ -4,27 +4,29 @@ En esta sección mostraremos los resultados de las pruebas con los distintos mé
 
 Antes de comentar específicamente los distintos métodos que probaremos, explicaremos la forma en la que se han realizado estas pruebas.
 
-Primeramente, como hemos comentado anteriormente, separamos los datos de entreno y prueba aplicando la opción de \textit{stratify} y con una proporción de 75\% y 25\% respectivamente.
+Como hemos comentado anteriormente, separamos los datos de entreno y prueba aplicando la opción de \textit{stratify} y con una proporción de \textit{75\%} y \textit{25\%} respectivamente.
 
-Preparamos el preprocesado para que obteng
-Para ello, hemos utilizado los objetos \textit{Pipeline} \cite{sklearnp32:online}, los cuales permiten encadenar diferentes pasos de preprocesado y entrenar diferentes modelos de forma sencilla. Por ejemplo, si queremos probar diferentes modelos, podemos hacerlo de la siguiente forma: 
+Una vez separados los conjuntos de datos, los tenemos que preprocesar. Para ello, hemos utilizado los objetos \textit{Pipeline} \cite{sklearnp32:online}, los cuales permiten encadenar diferentes pasos de preprocesado para entrenar diferentes modelos de forma sencilla. Por ejemplo, si queremos probar diferentes modelos, podemos hacerlo de la siguiente forma: 
 
 \begin{enumerate}
     \item Instanciamos los objetos de las diferentes clases de preprocesado que queramos probar con sus respectivos valores. En el caso excepcional de la \textit{primera derivada}, hemos creado nuestro propio \textit{Transformer} (objeto de ``preprocesado'') que aplica la derivada a los datos.
-    \item Los agregamos a la \textit{Pipeline} de forma ordenada.
-    \item Aplicamos la \textit{Pipeline} ya configurada sobre el \textit{dataset} que queremos preprocesar.
+    \item Los agregamos a la \textit{Pipeline} en orden.
+    \item Ajustamos la \textit{Pipeline} sobre el conjunto de datos de entreno.
+    \item Aplicamos la \textit{Pipeline} ya configurada sobre los datos de entreno y prueba. 
 \end{enumerate}
 
 
-El \textit{Pipeline} nos ofrece la ventaja de poder guardar y cargar tanto el orden del procedimiento, como la configuración de los pasos intermedios para aplicarlos más adelante de forma sencilla. Por ejemplo, el \textit{StandardScaler}, para modificar los datos de forma que tengan media 0 y varianza 1, guarda la media y la varianza de cada columna para poder aplicarla más adelante.
+El \textit{Pipeline} nos ofrece la ventaja de poder guardar y cargar tanto el orden del procedimiento, como la configuración de los pasos intermedios para aplicarlos más adelante de forma sencilla. Por ejemplo el \textit{StandardScaler}, para modificar los datos de forma que tengan media 0 y varianza 1, guarda la media y la varianza de cada columna para poder aplicarla más adelante.
 
 Vale la pena comentar también que este objeto de \textit{Pipeline}, nos ayuda a compartir la configuración del preprocesado entre la aplicación de entrenamiento de modelos y la de visualización de las predicciones sobre los archivos \gls{bil}.
 
 
+\subsection{Análisis del impacto de la primera derivada}
 
-\subsection{Análisis del impacto de la \textbf{primera derivada}}
+Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar las batería de modelos que hemos escogido evaluados con las diferentes métricas que hemos comentado anteriormente. Vemos que, en general, la métrica que nos importa \textit{Balanced Accuracy} ha mejorado, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
 
-Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{tabla\ \ref{tab:nopreprocessing-derivative-results}} y, efectivamente, obtenemos resultados algo mejores.
+Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podemos ver un comportamiento que se repite, hay algunos modelos con un \textit{f2score} de \textit{0}, lo cual nos indica que el modelo no ha sido capaz de predecir correctamente la clase minoritaria. Esto también lo podemos ver en los modelos que su \textit{Balanced Accuracy} se acerca a \textit{50} ($\frac{100}{n\_clases}$, en nuestro caso $n\_clases=2$).
+
 
 \begin{table}[!ht]
     \centering
@@ -43,14 +45,14 @@ Para probar que, como hemos comentado antes, el aplicar la primera derivada sobr
         Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 72.815 & 63.556 & 42.77 & 58.988 \\ 
         Extra Trees & 99.63 & 90.444 & 63.802 & 78.756 & 94.667 & 81.111 & 63.636 & 76.438 \\ 
         Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 82 & 82 & 0 & 50 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & 61.790 & ~ & ~ & ~ & 59.535 \\ \hline 
+        \textit{Average} & ~ & ~ & ~ & \textbf{61.790} & ~ & ~ & ~ & 59.535 \\ \hline 
     \end{tabular}}
     \caption{Comparación de los resultados de entrenar utilizando la derivada y sin preprocesar. Fuente propia.}\ \label{tab:nopreprocessing-derivative-results}
 \end{table}
 
-\subsection{Análisis del impacto de apliciar la \textbf{transformada}}
+\subsection{Análisis del impacto de apliciar la transformada}
 
-Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{tabla\ \ref{tab:derivative-transformed-results}}, vemos que los resultados son algo peores, así que continuaremos las pruebas sin utilizar la transformada.
+Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} es algo peor, así que continuaremos las pruebas sin utilizar la transformada.
 
 \begin{table}[!h]
     \centering
@@ -76,7 +78,7 @@ Podemos ver los resultados de entrenar utilizando la transformada sobre los dato
 
 \subsection{Estandarización}
 
-Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{tabla\ \ref{tab:derivative-standarization-results}}, los cuales son mejores que los anteriores.
+Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{tabla\ \ref{tab:derivative-standarization-results}}, los cuales son notablementes mejores que los anteriores. Sobretodo fijándonos en los modelos \textit{QDA} y \textit{MLP}.
 
 
 \begin{table}[!h]
@@ -95,7 +97,7 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
         Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 99.63 & 90.444 & 63.802 & 78.756 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
         Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & 64.530 & ~ & ~ & ~ & 61.790 \\ \hline
+        \textit{Average} & ~ & ~ & ~ & \textbf{64.530} & ~ & ~ & ~ & \textbf{61.790} \\ \hline
         \end{tabular}}
     \caption{Comparación de los resultados de entrenar derivando y estandarizando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-standarization-results}
 \end{table}
@@ -103,7 +105,7 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
 
 \subsection{Aumento y disminución de dimensionalidad}
 
-Aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son algo peores que los anteriores, por lo cual, no aplicaremos estas técnicas en los siguientes pasos.
+Aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores, por lo cual, no aplicaremos estas técnicas en los siguientes pasos.
 
 \begin{table}[!h]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}
@@ -121,7 +123,7 @@ Aun siendo un paso generalmente recomendado, el aumento y disminución de dimens
         Hist Gradient Boosting & 75.63 & 66 & 46.296 & 61.924 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 96.222 & 82.222 & 51.597 & 70.37 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
         Decision Tree & 71.852 & 68.889 & 30.892 & 55.014 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & 58.866 & ~ & ~ & ~ & 64.530 \\ \hline
+        \textit{Average} & ~ & ~ & ~ & \textbf{58.866} & ~ & ~ & ~ & \textbf{64.530} \\ \hline
         \end{tabular}} 
     \caption{Comparación de los resultados de entrenar derivando, estandarizando y ajustando la dimensionalidad de los datos; frente a solo derivando y estandarizando. Fuente propia.}\ \label{tab:derivative-standarization-dimensionality-results}
 \end{table}

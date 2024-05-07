@@ -1,10 +1,12 @@
 \section{Conclusiones}
 
+Hemos preprocesado los datos, experimentando con diferentes métodos de preprocesado y distintos modelos. Una vez hemos obtenido los mejores resultados, también hemos probado a refinar los modelos haciendo \textit{hyperparameter tuning}. Por último, también hemos probado a entrenar los modelos aumentando los datos de entrenamiento, generándolos con técnicas de \textit{data augmentation}.
+
 Hemos cumplido con los objetivos marcados del proyecto, aprendiendo las bases del \gls{ml} y aplicándolas a un problema real, siendo capaces de detectar granos contaminados en las imágenes \gls{bil} de forma automática.
 
 A medida que hemos ido probando diferentes metodologías a lo largo del proyecto, hemos visto la importancia de la elección tanto de las herramientas de preprocesado como de los modelos.
 Una posible mejora que no hemos utilizado en este proyecto, en parte porque el objetivo que tenía con el era aprender las bases del \gls{ml} utilizando \textit{sklearn}, es la utilización de redes neuronales, las cuales suelen funcionar mejor.
 
-Otra posible mejora sería la utilización de un \textit{pipeline} de \textit{sklearn} para la realización tanto de las transformaciones de los datos, como del entrenamiento de los modelos, agilizando el proceso de entrenamiento y validación de los modelos. Otro cambio, también para agilizar el proceso de entrenamiento de los modelos, sería la utilización de \textit{Notebooks}, pues me hubieran permitido un mayor control sobre la ejecución del código.
+Otra posible mejora sería la utilización de un \textit{pipeline} de \textit{sklearn} para la realización tanto de las transformaciones de los datos, como del entrenamiento de los modelos, agilizando el proceso de entrenamiento y validación de los modelos. Otro cambio, también para agilizar el proceso de entrenamiento de los modelos, sería la utilización de \textit{Notebooks}, pues me hubieran permitido un mayor control sobre la ejecución del códigov durante las pruebas.
 
 También, en el paso de la deteción de \textit{outliers}, podríamos en lugar de eliminar los granos con valores atípicos, interpolar esos valores para no perder demasiados datos ni trabajar con datos ``crudos''.
