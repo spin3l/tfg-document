@@ -4,9 +4,9 @@ En esta sección mostraremos los resultados de las pruebas con los distintos mé
 
 Antes de comentar específicamente los distintos métodos que probaremos, explicaremos la forma en la que se han realizado estas pruebas.
 
-Como hemos comentado anteriormente, separamos los datos de entreno y prueba aplicando la opción de \textit{stratify} y con una proporción de \textit{75\%} y \textit{25\%} respectivamente.
+Como hemos comentado anteriormente, separamos los datos de entreno y prueba aplicando la opción de \textit{stratify} y con una proporción de \textit{75/25\%} respectivamente.
 
-Una vez separados los conjuntos de datos, los tenemos que preprocesar. Para ello, hemos utilizado los objetos \textit{Pipeline} \cite{sklearnp32:online}, los cuales permiten encadenar diferentes pasos de preprocesado para entrenar diferentes modelos de forma sencilla. Por ejemplo, si queremos probar diferentes modelos, podemos hacerlo de la siguiente forma: 
+Una vez separados los conjuntos de datos, los tenemos que preprocesar. Para ello, hemos utilizado el objeto \textit{Pipeline} \cite{sklearnp32:online}, el cual nos permite encadenar diferentes pasos de preprocesado para entrenar diferentes modelos de forma sencilla. Por ejemplo, si queremos probar diferentes modelos, podemos hacerlo de la siguiente forma: 
 
 \begin{enumerate}
     \item Instanciamos los objetos de las diferentes clases de preprocesado que queramos probar con sus respectivos valores. En el caso excepcional de la \textit{primera derivada}, hemos creado nuestro propio \textit{Transformer} (objeto de ``preprocesado'') que aplica la derivada a los datos.
@@ -18,14 +18,14 @@ Una vez separados los conjuntos de datos, los tenemos que preprocesar. Para ello
 
 El \textit{Pipeline} nos ofrece la ventaja de poder guardar y cargar tanto el orden del procedimiento, como la configuración de los pasos intermedios para aplicarlos más adelante de forma sencilla. Por ejemplo el \textit{StandardScaler}, para modificar los datos de forma que tengan media 0 y varianza 1, guarda la media y la varianza de cada columna para poder aplicarla más adelante.
 
-Vale la pena comentar también que este objeto de \textit{Pipeline}, nos ayuda a compartir la configuración del preprocesado entre la aplicación de entrenamiento de modelos y la de visualización de las predicciones sobre los archivos \gls{bil}.
+Vale la pena comentar también que este objeto de \textit{Pipeline} nos ayuda a compartir la configuración del preprocesado entre la aplicación de entrenamiento de modelos y la de visualización de las predicciones sobre los archivos \gls{bil}.
 
 
 \subsection{Análisis del impacto de la primera derivada}
 
-Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar las batería de modelos que hemos escogido evaluados con las diferentes métricas que hemos comentado anteriormente. Vemos que, en general, la métrica que nos importa \textit{Balanced Accuracy} ha mejorado, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
+Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar la batería de modelos evaluados con las diferentes métricas que hemos comentado anteriormente. Vemos que, en general, la métrica que nos importa \textit{Balanced Accuracy} ha mejorado un \textbf{3.787\%}, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
 
-Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podemos ver un comportamiento que se repite, hay algunos modelos con un \textit{f2score} de \textit{0}, lo cual nos indica que el modelo no ha sido capaz de predecir correctamente la clase minoritaria. Esto también lo podemos ver en los modelos que su \textit{Balanced Accuracy} se acerca a \textit{50} ($\frac{100}{n\_clases}$, en nuestro caso $n\_clases=2$).
+Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podemos ver un comportamiento que se repite, hay algunos modelos con un \textit{f2score} de \textit{0}, lo cual nos indica que el modelo no ha sido capaz de predecir correctamente la clase minoritaria. Esto también lo podemos ver en los modelos que su \textit{Balanced Accuracy} se acerca a $\frac{100}{n\_clases}$, en nuestro caso $50$, pues $n\_clases=2$.
 
 
 \begin{table}[!ht]
@@ -52,7 +52,7 @@ Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podem
 
 \subsection{Análisis del impacto de apliciar la transformada}
 
-Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} es algo peor, así que continuaremos las pruebas sin utilizar la transformada.
+Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{Tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} en general empeora en un \textbf{1.814\%}, así que continuaremos las pruebas sin preprocesar los datos con la transformada.
 
 \begin{table}[!h]
     \centering
@@ -78,7 +78,7 @@ Podemos ver los resultados de entrenar utilizando la transformada sobre los dato
 
 \subsection{Estandarización}
 
-Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{tabla\ \ref{tab:derivative-standarization-results}}, los cuales son notablementes mejores que los anteriores. Sobretodo fijándonos en los modelos \textit{QDA} y \textit{MLP}.
+Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-results}}, los cuales son notablementes mejores que los anteriores, viendo una mejora del \textbf{4.434\%}. Sobretodo fijándonos en los modelos \textit{QDA} y \textit{MLP}.
 
 
 \begin{table}[!h]
@@ -105,7 +105,7 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
 
 \subsection{Aumento y disminución de dimensionalidad}
 
-Aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores, por lo cual, no aplicaremos estas técnicas en los siguientes pasos.
+Aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores, por lo cual, no aplicaremos estas técnicas en los siguientes pasos.
 
 \begin{table}[!h]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}
@@ -141,7 +141,7 @@ Una vez encontrada una combinación de pasos de preprocesado que nos mejora los 
 
 Para evitar el \textit{overfitting}, uno de los posibles remedios es utilizar \textit{hyperparameter tuning}. El \textit{hyperparameter tuning} tiene como objetivo encontrar un conjunto de parámetros que maximice el rendimiento del modelo sobre los datos de prueba. En nuestro caso, como los datos están desbalanceados, podemos utilizar como función de rendimiento el \textit{balanced accuracy}. Como cada modelo es distinto, debemos encontrar los parámetros adecuados para cada uno. 
 
-Para ahorrarnos tiempo podemos utilizar solamente los mejores modelos, como hemos visto en los resultados de la \textit{tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, hay modelos que tienen mejores resultados que otros. Así que escogeremos los cuatro con mejor \textit{balanced accuracy}, es decir: \textit{Extra Trees, Quadratic Discriminant Analysis, LightGBM y K-Neighbors}.
+Para ahorrarnos tiempo podemos utilizar solamente los mejores modelos, como hemos visto en los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, hay modelos que tienen mejores resultados que otros. Así que escogeremos los cuatro con mejor \textit{balanced accuracy}, es decir: \textit{Extra Trees, Quadratic Discriminant Analysis, LightGBM y K-Neighbors}.
 
 Realizaremos el \textit{hyperparameter tuning} en dos pasos, primeramente utilizaremos \textit{Random Search} y después \textit{Grid Search}, ya implementados en \textit{sklearn}.
 Ambos métodos utilizan \textit{cross-validation}, una técnica para evitar el \textit{overfitting} que consiste en la división de los datos de entreno en partes iguales.
@@ -236,7 +236,7 @@ Podemos ver en la \textit{Figura\ \ref{fig:balance-tl}} la comparación del bala
 
 Antes de comentar los sintetizadores que probaremos, definiremos el método con los que evaluaremos los datos generados. Para ello utilizaremos una función de la propia librería \textit{sdv} que evalúa la similitud estadística de los datos generados con los datos reales y nos genera un \textit{quality report}.
 
-Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos reales y obtenemos los resultados de la \textit{tabla\ \ref{tab:oversampling-quality-report}}, en los cuales podemos ver un claro `ganador'.
+Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos reales y obtenemos los resultados de la \textit{Tabla\ \ref{tab:oversampling-quality-report}}, en los cuales podemos ver un claro `ganador'.
 
 \begin{table}[!ht]
     \centering
@@ -248,7 +248,7 @@ Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos
     \caption{Resultados del \textit{quality report} de los datos generados con los sintetizadores. Fuente propia}\ \label{tab:oversampling-quality-report}
 \end{table}
 
-Ahora que tenemos el sintetizador que mejores resultados nos da, lo aplicamos sobre la clase minoritaria y generamos datos sintéticos. Una vez generados, entrenamos los modelos básicos y obtenemos los resultados de la \textit{tabla\ \ref{tab:balanced-basic-training}}. Podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador, por lo tanto, mantendremos el \textit{undersampling}, pero no utilizaremos \textit{oversampling} en los siguientes pasos.
+Ahora que tenemos el sintetizador que mejores resultados nos da, lo aplicamos sobre la clase minoritaria y generamos datos sintéticos. Una vez generados, entrenamos los modelos básicos y obtenemos los resultados de la \textit{Tabla\ \ref{tab:balanced-basic-training}}. Podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador, por lo tanto, mantendremos el \textit{undersampling}, pero no utilizaremos \textit{oversampling} en los siguientes pasos.
 <
 
 \begin{table}[!ht]
