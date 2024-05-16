@@ -20,10 +20,18 @@ El \textit{Pipeline} nos ofrece la ventaja de poder guardar y cargar tanto el or
 
 Vale la pena comentar también que este objeto de \textit{Pipeline} nos ayuda a compartir la configuración del preprocesado entre la aplicación de entrenamiento de modelos y la de visualización de las predicciones sobre los archivos \gls{bil}.
 
+Una vez hemos separado, preprocesado los datos y entrenado los modelos; para evaluar los modelos resultantes, hemos utilizado las métricas que hemos comentado en la \textit{Sección\ \ref*{sec:classification-metrics}} y además la \textit{Accuracy} sobre los datos de entreno como los de prueba, representados en las tablas por \textit{Test} y \textit{Train score}.
+Dado que tenemos cuatro métricas, les hemos dado la siguiente preferencia:
+\begin{enumerate}
+    \item $Balanced\ Accuracy$
+    \item $f2score$
+    \item $\Delta Accuracy\ scores$: ($Train\ score-Test\ score$), utilizado 
+\end{enumerate}
+
 
 \subsection{Análisis del impacto de la primera derivada}
 
-Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar la batería de modelos evaluados con las diferentes métricas que hemos comentado anteriormente. Vemos que, en general, la métrica que nos importa \textit{Balanced Accuracy} ha mejorado un \textbf{3.787\%}, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
+Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar la batería de modelos evaluados con las diferentes métricas que hemos comentado anteriormente. Vemos que, en general, la métrica que nos importa \textit{Balanced Accuracy} ha mejorado un \textbf{3.79\%}, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
 
 Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podemos ver un comportamiento que se repite, hay algunos modelos con un \textit{f2score} de \textit{0}, lo cual nos indica que el modelo no ha sido capaz de predecir correctamente la clase minoritaria. Esto también lo podemos ver en los modelos que su \textit{Balanced Accuracy} se acerca a $\frac{100}{n\_clases}$, en nuestro caso $50$, pues $n\_clases=2$.
 
@@ -50,9 +58,9 @@ Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podem
     \caption{Comparación de los resultados de entrenar utilizando la derivada y sin preprocesar. Fuente propia.}\ \label{tab:nopreprocessing-derivative-results}
 \end{table}
 
-\subsection{Análisis del impacto de apliciar la transformada}
+\subsection{Análisis del impacto de aplicar la transformada}
 
-Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{Tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} en general empeora en un \textbf{1.814\%}, así que continuaremos las pruebas sin preprocesar los datos con la transformada.
+Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{Tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} en general empeora en un \textbf{1.81\%}, así que continuaremos las pruebas sin añadir la transformada al preprocesado.
 
 \begin{table}[!h]
     \centering
@@ -63,22 +71,22 @@ Podemos ver los resultados de entrenar utilizando la transformada sobre los dato
         XGBoost & 82 & 82 & 0 & 50 & 82 & 82 & 0 & 50 \\ 
         Stochastic Gradient Descent & 18 & 18 & 52.326 & 50 & 18 & 18 & 52.326 & 50 \\ 
         Random Forest & 99.926 & 87.778 & 38.352 & 66.531 & 99.926 & 87.778 & 38.352 & 66.531 \\ 
-        Quadratic Discriminant Analysis & 100 & 83.333 & 13.393 & 55.149 & 100 & 82 & 0 & 50 \\ 
+        Quadratic Discriminant Analysis & 100 & 83.333 & 13.393 & \textbf{55.149} & 100 & 82 & 0 & 50 \\ 
         Multi-Layer Perceptron & 82 & 82 & 0 & 50 & 83.259 & 80.667 & 5.917 & 51.114 \\ 
         Linear Discriminant Analysis & 85.185 & 76.667 & 16.129 & 52.529 & 85.333 & 78.222 & 17.711 & 53.96 \\ 
         LightGBM & 81.852 & 72 & 59.794 & 71.846 & 81.852 & 72 & 59.794 & 71.846 \\ 
-        K-Neighbors & 100 & 80.222 & 20.718 & 56.143 & 100 & 86.889 & 50.265 & 71.289 \\ 
+        K-Neighbors & 100 & 80.222 & 20.718 & \textbf{56.143} & 100 & 86.889 & 50.265 & 71.289 \\ 
         Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 99.63 & 90 & 64.433 & 78.967 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
         Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & 60.669 & ~ & ~ & ~ & 61.790 \\ \hline
+        \textit{Average} & ~ & ~ & ~ & 60.669 & ~ & ~ & ~ & \textbf{61.790} \\ \hline
         \end{tabular}}
     \caption{Comparación de los resultados de entrenar transformando y derivando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-transformed-results}
 \end{table}
 
 \subsection{Estandarización}
 
-Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-results}}, los cuales son notablementes mejores que los anteriores, viendo una mejora del \textbf{4.434\%}. Sobretodo fijándonos en los modelos \textit{QDA} y \textit{MLP}.
+Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-results}}, los cuales en general son notablementes mejores que los anteriores, viendo una mejora del \textbf{4.43\%} en la \textit{Balanced Accuracy}. Estas mejoras ocurren en los modelos marcados en la tabla, \textit{QDA} y \textit{MLP}.
 
 
 \begin{table}[!h]
@@ -89,15 +97,15 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
         XGBoost & 82 & 82 & 0 & 50 & 82 & 82 & 0 & 50 \\ 
         Stochastic Gradient Descent & 64.815 & 56.444 & 31.809 & 49.834 & 18 & 18 & 52.326 & 50 \\ 
         Random Forest & 99.926 & 87.778 & 38.352 & 66.531 & 99.926 & 87.778 & 38.352 & 66.531 \\ 
-        Quadratic Discriminant Analysis & 96.148 & 83.111 & 55.012 & 72.358 & 100 & 82 & 0 & 50 \\ 
-        Multi-Layer Perceptron & 90.815 & 84 & 24.355 & 59.41 & 83.259 & 80.667 & 5.917 & 51.114 \\ 
+        Quadratic Discriminant Analysis & 96.148 & 83.111 & 55.012 & \textbf{72.358} & 100 & 82 & 0 & 50 \\ 
+        Multi-Layer Perceptron & 90.815 & 84 & 24.355 & \textbf{59.41} & 83.259 & 80.667 & 5.917 & 51.114 \\ 
         Linear Discriminant Analysis & 85.333 & 78.222 & 17.711 & 53.96 & 85.333 & 78.222 & 17.711 & 53.96 \\ 
         LightGBM & 82.222 & 72.222 & 59.917 & 71.981 & 81.852 & 72 & 59.794 & 71.846 \\ 
         K-Neighbors & 100 & 86.889 & 49.202 & 70.807 & 100 & 86.889 & 50.265 & 71.289 \\ 
         Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 99.63 & 90.444 & 63.802 & 78.756 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
         Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & \textbf{64.530} & ~ & ~ & ~ & \textbf{61.790} \\ \hline
+        \textit{Average} & ~ & ~ & ~ & \textbf{64.530} & ~ & ~ & ~ & 61.790 \\ \hline
         \end{tabular}}
     \caption{Comparación de los resultados de entrenar derivando y estandarizando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-standarization-results}
 \end{table}
@@ -105,7 +113,8 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
 
 \subsection{Aumento y disminución de dimensionalidad}
 
-Aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores, por lo cual, no aplicaremos estas técnicas en los siguientes pasos.
+
+Por último, aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores empeorando la \textit{Balanced Accuracy} en un \textbf{5.66\%}. Por lo tanto, continuaremos con los datos derivados y estandarizados sin aumentar o disminuir la dimensionalidad de los datos.
 
 \begin{table}[!h]
     \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}
@@ -115,14 +124,14 @@ Aun siendo un paso generalmente recomendado, el aumento y disminución de dimens
         XGBoost & 82 & 82 & 0 & 50 & 82 & 82 & 0 & 50 \\ 
         Stochastic Gradient Descent & 53.333 & 50.444 & 40.468 & 52.439 & 64.815 & 56.444 & 31.809 & 49.834 \\ 
         Random Forest & 99.926 & 85.778 & 28.818 & 61.939 & 99.926 & 87.778 & 38.352 & 66.531 \\ 
-        Quadratic Discriminant Analysis & 80.889 & 80 & 38.168 & 63.234 & 96.148 & 83.111 & 55.012 & 72.358 \\ 
+        Quadratic Discriminant Analysis & 80.889 & 80 & 38.168 & \textbf{63.234} & 96.148 & 83.111 & 55.012 & \textbf{72.358} \\ 
         Multi-Layer Perceptron & 87.778 & 81.778 & 14.493 & 54.682 & 90.815 & 84 & 24.355 & 59.41 \\ 
         Linear Discriminant Analysis & 82.741 & 81.111 & 4.491 & 50.903 & 85.333 & 78.222 & 17.711 & 53.96 \\ 
-        LightGBM & 77.037 & 68.444 & 46.512 & 62.933 & 82.222 & 72.222 & 59.917 & 71.981 \\ 
-        K-Neighbors & 100 & 83.778 & 36.486 & 64.092 & 100 & 86.889 & 49.202 & 70.807 \\ 
+        LightGBM & 77.037 & 68.444 & 46.512 & \textbf{62.933} & 82.222 & 72.222 & 59.917 & \textbf{71.981} \\ 
+        K-Neighbors & 100 & 83.778 & 36.486 & \textbf{64.092} & 100 & 86.889 & 49.202 & \textbf{70.807} \\ 
         Hist Gradient Boosting & 75.63 & 66 & 46.296 & 61.924 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
         Extra Trees & 96.222 & 82.222 & 51.597 & 70.37 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
-        Decision Tree & 71.852 & 68.889 & 30.892 & 55.014 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
+        Decision Tree & 71.852 & 68.889 & 30.892 & \textbf{55.014} & 56.963 & 58.889 & 58.244 & \textbf{67.224} \\ \hline
         \textit{Average} & ~ & ~ & ~ & \textbf{58.866} & ~ & ~ & ~ & \textbf{64.530} \\ \hline
         \end{tabular}} 
     \caption{Comparación de los resultados de entrenar derivando, estandarizando y ajustando la dimensionalidad de los datos; frente a solo derivando y estandarizando. Fuente propia.}\ \label{tab:derivative-standarization-dimensionality-results}
@@ -249,7 +258,7 @@ Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos
 \end{table}
 
 Ahora que tenemos el sintetizador que mejores resultados nos da, lo aplicamos sobre la clase minoritaria y generamos datos sintéticos. Una vez generados, entrenamos los modelos básicos y obtenemos los resultados de la \textit{Tabla\ \ref{tab:balanced-basic-training}}. Podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador, por lo tanto, mantendremos el \textit{undersampling}, pero no utilizaremos \textit{oversampling} en los siguientes pasos.
-<
+
 
 \begin{table}[!ht]
     \centering
@@ -274,7 +283,7 @@ Ahora que tenemos el sintetizador que mejores resultados nos da, lo aplicamos so
 \clearpage
 \subsection{Nuevos modelos}
 
-Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, extrapola su predicción en base a las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
+Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, extrapola su predicción en base a las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{Figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
 
 \begin{figure}[!h]
     \centering
