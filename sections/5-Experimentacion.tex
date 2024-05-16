@@ -31,116 +31,141 @@ Dado que tenemos cuatro métricas, les hemos dado la siguiente preferencia:
 
 \subsection{Análisis del impacto de la primera derivada}
 
-Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar la batería de modelos evaluados con las diferentes métricas que hemos comentado anteriormente. Vemos que, en general, la métrica que nos importa \textit{Balanced Accuracy} ha mejorado un \textbf{3.79\%}, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
+Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar la batería de modelos y su \textit{Balanced Accuracy} la cual ha mejorado un \textbf{2.255\%} respecto a no haber preprocesado los datos, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
 
-Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podemos ver un comportamiento que se repite, hay algunos modelos con un \textit{f2score} de \textit{0}, lo cual nos indica que el modelo no ha sido capaz de predecir correctamente la clase minoritaria. Esto también lo podemos ver en los modelos que su \textit{Balanced Accuracy} se acerca a $\frac{100}{n\_clases}$, en nuestro caso $50$, pues $n\_clases=2$.
+Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podemos ver un comportamiento que se repite, hay algunos modelos con un \textit{Balanced Accuracy} de $50$ (en nuestro caso es este valor, pues tenemos dos clases), lo cual nos indica que el modelo no ha sido capaz de predecir correctamente la clase minoritaria. Esto se debe a que los datos están desbalanceados y el modelo se aprovecha de ello, prediciendo siempre la clase mayoritaria.
 
 
 \begin{table}[!ht]
     \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}
+    \begin{tabular}{|c|c|c|}
         \hline
-        & \multicolumn{4}{|c|}{Derivative} & \multicolumn{4}{c|}{No preprocessing} \\ \hline
-        Model Name & Train score & Test score & f2score & Balanced accuracy & Train score & Test score & f2score & Balanced accuracy \\ \hline
-        XGBoost & 82 & 82 & 0 & 50 & 82 & 82 & 0 & 50 \\ 
-        Stochastic Gradient Descent & 18 & 18 & 52.326 & 50 & 18 & 18 & 52.326 & 50 \\ 
-        Random Forest & 99.926 & 87.778 & 38.352 & 66.531 & 99.556 & 84.889 & 49.096 & 70.069 \\ 
-        Quadratic Discriminant Analysis & 100 & 82 & 0 & 50 & 100 & 82 & 0 & 50 \\ 
-        Multi-Layer Perceptron & 83.259 & 80.667 & 5.917 & 51.114 & 82 & 82 & 0 & 50 \\ 
-        Linear Discriminant Analysis & 85.333 & 78.222 & 17.711 & 53.96 & 84.889 & 78 & 18.919 & 54.306 \\ 
-        LightGBM & 81.852 & 72 & 59.794 & 71.846 & 75.778 & 64 & 48.708 & 62.632 \\ 
-        K-Neighbors & 100 & 86.889 & 50.265 & 71.289 & 100 & 91.778 & 70.513 & 82.46 \\ 
-        Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 72.815 & 63.556 & 42.77 & 58.988 \\ 
-        Extra Trees & 99.63 & 90.444 & 63.802 & 78.756 & 94.667 & 81.111 & 63.636 & 76.438 \\ 
-        Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 82 & 82 & 0 & 50 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & \textbf{61.790} & ~ & ~ & ~ & 59.535 \\ \hline 
-    \end{tabular}}
+        & \textit{Derivative} & \textit{No preprocessing} \\ \hline
+        Model Name & Balanced accuracy & Balanced accuracy \\ \hline
+        XGBoost & 50 & 50 \\ 
+        Stochastic Gradient Descent & 50 & 50 \\ 
+        Random Forest & 66.531 & 70.069 \\ 
+        Quadratic Discriminant Analysis & 50 & 50 \\ 
+        Multi-Layer Perceptron & 51.114 & 50 \\ 
+        Linear Discriminant Analysis & 53.96 & 54.306 \\ 
+        LightGBM & 71.846 & 62.632 \\ 
+        K-Neighbors & 71.289 & 82.46 \\ 
+        Hist Gradient Boosting & 68.97 & 58.988 \\ 
+        Extra Trees & 78.756 & 76.438 \\ 
+        Decision Tree & \textbf{67.224} & 50 \\ \hline
+        \textit{Average} & \textbf{61.790} & 59.535 \\ \hline
+    \end{tabular}
     \caption{Comparación de los resultados de entrenar utilizando la derivada y sin preprocesar. Fuente propia.}\ \label{tab:nopreprocessing-derivative-results}
 \end{table}
 
 \subsection{Análisis del impacto de aplicar la transformada}
 
-Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{Tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} en general empeora en un \textbf{1.81\%}, así que continuaremos las pruebas sin añadir la transformada al preprocesado.
+Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{Tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} en general empeora en un \textbf{1.12\%}, así que continuaremos las pruebas sin añadir la transformada al preprocesado.
 
 \begin{table}[!h]
     \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}
+    \begin{tabular}{|c|c|c|}
         \hline
-            & \multicolumn{4}{|c|}{Transformer and derivative} & \multicolumn{4}{c|}{Derivative} \\ \hline
-            Model Name & Train score & Test score & f2score & Balanced accuracy & Train score & Test score & f2score & Balanced accuracy \\ \hline
-        XGBoost & 82 & 82 & 0 & 50 & 82 & 82 & 0 & 50 \\ 
-        Stochastic Gradient Descent & 18 & 18 & 52.326 & 50 & 18 & 18 & 52.326 & 50 \\ 
-        Random Forest & 99.926 & 87.778 & 38.352 & 66.531 & 99.926 & 87.778 & 38.352 & 66.531 \\ 
-        Quadratic Discriminant Analysis & 100 & 83.333 & 13.393 & \textbf{55.149} & 100 & 82 & 0 & 50 \\ 
-        Multi-Layer Perceptron & 82 & 82 & 0 & 50 & 83.259 & 80.667 & 5.917 & 51.114 \\ 
-        Linear Discriminant Analysis & 85.185 & 76.667 & 16.129 & 52.529 & 85.333 & 78.222 & 17.711 & 53.96 \\ 
-        LightGBM & 81.852 & 72 & 59.794 & 71.846 & 81.852 & 72 & 59.794 & 71.846 \\ 
-        K-Neighbors & 100 & 80.222 & 20.718 & \textbf{56.143} & 100 & 86.889 & 50.265 & 71.289 \\ 
-        Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
-        Extra Trees & 99.63 & 90 & 64.433 & 78.967 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
-        Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & 60.669 & ~ & ~ & ~ & \textbf{61.790} \\ \hline
-        \end{tabular}}
+            & \textit{Transformer \& derivative} & \textit{Derivative} \\ \hline
+            Model Name & Balanced accuracy & Balanced accuracy \\ \hline
+            XGBoost & 50 & 50 \\ 
+            Stochastic Gradient Descent & 50 & 50 \\ 
+            Random Forest & 66.531 & 66.531 \\ 
+            Quadratic Discriminant Analysis & \textbf{55.149} & 50 \\ 
+            Multi-Layer Perceptron & 50 & 51.114 \\ 
+            Linear Discriminant Analysis & 52.529 & 53.96 \\ 
+            LightGBM & 71.846 & 71.846 \\ 
+            K-Neighbors & \textbf{56.143} & 71.289 \\ 
+            Hist Gradient Boosting & 68.97 & 68.97 \\ 
+            Extra Trees & 78.967 & 78.756 \\ 
+            Decision Tree & 67.224 & 67.224 \\ \hline
+            \textit{Average} & 60.669 & \textbf{61.790} \\ \hline
+    \end{tabular}
     \caption{Comparación de los resultados de entrenar transformando y derivando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-transformed-results}
 \end{table}
 
-\subsection{Estandarización}
+\subsection{Análisis del impacto de la estandarización de los datos}
 
-Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-results}}, los cuales en general son notablementes mejores que los anteriores, viendo una mejora del \textbf{4.43\%} en la \textit{Balanced Accuracy}. Estas mejoras ocurren en los modelos marcados en la tabla, \textit{QDA} y \textit{MLP}.
+Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-results}}, los cuales en general son notablementes mejores que los anteriores, viendo una mejora del \textbf{2.74\%} en la \textit{Balanced Accuracy}. Estas mejoras ocurren en los modelos marcados en la tabla, \textit{QDA} y \textit{MLP}.
 
 
 \begin{table}[!h]
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}
+    \centering
+    \begin{tabular}{|c|c|c|}
         \hline
-        & \multicolumn{4}{c|}{Derivative + Scaler} & \multicolumn{4}{c|}{Derivative} \\ \hline
-        Model Name & Train score & Test score & f2score & Balanced accuracy & Train score & Test score & f2score & Balanced accuracy \\ \hline
-        XGBoost & 82 & 82 & 0 & 50 & 82 & 82 & 0 & 50 \\ 
-        Stochastic Gradient Descent & 64.815 & 56.444 & 31.809 & 49.834 & 18 & 18 & 52.326 & 50 \\ 
-        Random Forest & 99.926 & 87.778 & 38.352 & 66.531 & 99.926 & 87.778 & 38.352 & 66.531 \\ 
-        Quadratic Discriminant Analysis & 96.148 & 83.111 & 55.012 & \textbf{72.358} & 100 & 82 & 0 & 50 \\ 
-        Multi-Layer Perceptron & 90.815 & 84 & 24.355 & \textbf{59.41} & 83.259 & 80.667 & 5.917 & 51.114 \\ 
-        Linear Discriminant Analysis & 85.333 & 78.222 & 17.711 & 53.96 & 85.333 & 78.222 & 17.711 & 53.96 \\ 
-        LightGBM & 82.222 & 72.222 & 59.917 & 71.981 & 81.852 & 72 & 59.794 & 71.846 \\ 
-        K-Neighbors & 100 & 86.889 & 49.202 & 70.807 & 100 & 86.889 & 50.265 & 71.289 \\ 
-        Hist Gradient Boosting & 78.444 & 70.444 & 55.785 & 68.97 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
-        Extra Trees & 99.63 & 90.444 & 63.802 & 78.756 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
-        Decision Tree & 56.963 & 58.889 & 58.244 & 67.224 & 56.963 & 58.889 & 58.244 & 67.224 \\ \hline
-        \textit{Average} & ~ & ~ & ~ & \textbf{64.530} & ~ & ~ & ~ & 61.790 \\ \hline
-        \end{tabular}}
+        & \textit{Derivative \& Scaler} & \textit{Derivative} \\ \hline
+        Model Name & Balanced accuracy & Balanced accuracy \\ \hline
+        XGBoost & 50 & 50 \\
+        Stochastic Gradient Descent & 49.834 & 50 \\ 
+        Random Forest & 66.531 & 66.531 \\ 
+        Quadratic Discriminant Analysis & \textbf{72.358} & 50 \\ 
+        Multi-Layer Perceptron & \textbf{59.41} & 51.114 \\ 
+        Linear Discriminant Analysis & 53.96 & 53.96 \\ 
+        LightGBM & 71.981 & 71.846 \\ 
+        K-Neighbors & 70.807 & 71.289 \\ 
+        Hist Gradient Boosting & 68.97 & 68.97 \\ 
+        Extra Trees & 78.756 & 78.756 \\ 
+        Decision Tree & 67.224 & 67.224 \\ \hline
+        \textit{Average} & \textbf{64.530} & 61.790 \\ \hline
+    \end{tabular}
     \caption{Comparación de los resultados de entrenar derivando y estandarizando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-standarization-results}
 \end{table}
 
 
-\subsection{Aumento y disminución de dimensionalidad}
+\subsection{Impacto del aumento y disminución de dimensionalidad de los datos}
 
 
 Por último, aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores empeorando la \textit{Balanced Accuracy} en un \textbf{5.66\%}. Por lo tanto, continuaremos con los datos derivados y estandarizados sin aumentar o disminuir la dimensionalidad de los datos.
 
 \begin{table}[!h]
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}
+    \centering
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|c|c|}
         \hline
-            & \multicolumn{4}{c|}{Derivative + Scaler + Polynomial Features + PCA} & \multicolumn{4}{c|}{Derivative + Scaler} \\ \hline
-            Model Name & Train score & Test score & f2score & Balanced accuracy & Train score & Test score & f2score & Balanced accuracy \\ \hline
-        XGBoost & 82 & 82 & 0 & 50 & 82 & 82 & 0 & 50 \\ 
-        Stochastic Gradient Descent & 53.333 & 50.444 & 40.468 & 52.439 & 64.815 & 56.444 & 31.809 & 49.834 \\ 
-        Random Forest & 99.926 & 85.778 & 28.818 & 61.939 & 99.926 & 87.778 & 38.352 & 66.531 \\ 
-        Quadratic Discriminant Analysis & 80.889 & 80 & 38.168 & \textbf{63.234} & 96.148 & 83.111 & 55.012 & \textbf{72.358} \\ 
-        Multi-Layer Perceptron & 87.778 & 81.778 & 14.493 & 54.682 & 90.815 & 84 & 24.355 & 59.41 \\ 
-        Linear Discriminant Analysis & 82.741 & 81.111 & 4.491 & 50.903 & 85.333 & 78.222 & 17.711 & 53.96 \\ 
-        LightGBM & 77.037 & 68.444 & 46.512 & \textbf{62.933} & 82.222 & 72.222 & 59.917 & \textbf{71.981} \\ 
-        K-Neighbors & 100 & 83.778 & 36.486 & \textbf{64.092} & 100 & 86.889 & 49.202 & \textbf{70.807} \\ 
-        Hist Gradient Boosting & 75.63 & 66 & 46.296 & 61.924 & 78.444 & 70.444 & 55.785 & 68.97 \\ 
-        Extra Trees & 96.222 & 82.222 & 51.597 & 70.37 & 99.63 & 90.444 & 63.802 & 78.756 \\ 
-        Decision Tree & 71.852 & 68.889 & 30.892 & \textbf{55.014} & 56.963 & 58.889 & 58.244 & \textbf{67.224} \\ \hline
-        \textit{Average} & ~ & ~ & ~ & \textbf{58.866} & ~ & ~ & ~ & \textbf{64.530} \\ \hline
-        \end{tabular}} 
+        & \textit{Derivative \& Scaler \& Polynomial Features \& PCA} & \textit{Derivative \& Scaler} \\ \hline
+        Model Name & Balanced accuracy & Balanced accuracy \\ \hline
+        XGBoost & 50 & 50 \\ 
+        Stochastic Gradient Descent & 52.439 & 49.834 \\ 
+        Random Forest & 61.939 & 66.531 \\ 
+        Quadratic Discriminant Analysis & {63.234} & {72.358} \\ 
+        Multi-Layer Perceptron & 54.682 & 59.41 \\ 
+        Linear Discriminant Analysis & 50.903 & 53.96 \\ 
+        LightGBM & {62.933} & {71.981} \\ 
+        K-Neighbors & {64.092} & {70.807} \\ 
+        Hist Gradient Boosting & 61.924 & 68.97 \\ 
+        Extra Trees & 70.37 & 78.756 \\ 
+        Decision Tree & 55.014 & 67.224 \\ \hline
+        \textit{Average} & \textbf{58.866} & \textbf{64.530} \\ \hline
+    \end{tabular}}
     \caption{Comparación de los resultados de entrenar derivando, estandarizando y ajustando la dimensionalidad de los datos; frente a solo derivando y estandarizando. Fuente propia.}\ \label{tab:derivative-standarization-dimensionality-results}
 \end{table}
 
 
 \subsection{Selección de modelos y \textit{hyperparameter tuning}}\ \label{sec:entrenamiento}
 
-Una vez encontrada una combinación de pasos de preprocesado que nos mejora los resultados, podemos pasar al siguiente paso de selección de los modelos. Habiendo entrenado ya los modelos, vemos que algunos hacen \textit{overfitting}. El \textit{overfitting} ocurre cuando un modelo se ajusta demasiado a los datos con los que ha entrenado y no generaliza bien, es decir que predice mejor los datos con los que ha entrenado que datos nuevos. Donde lo podemos ver más claramente es en \textit{KNeighbors}, vemos en la \textit{Figura\ \ref{fig:lc-knn}} que, para cualquier cantidad de datos con los que entrenemos el modelo, siempre predecirá bien con los que ha entrenado y no tanto con los demás. Nuestro objetivo es intentar que ambos valores no sean tan dispares y que sean lo más altos posibles, para ello haremos \textit{hyperparameter tuning}.
+Una vez encontrada una combinación de pasos de preprocesado que nos mejora los resultados, podemos pasar al siguiente paso de selección de los modelos. Habiendo entrenado ya los modelos, vemos en la \textit{Tabla\ \ref{tab:final-training-results}} que algunos hacen \textit{overfitting}. El \textit{overfitting} ocurre cuando un modelo se ajusta demasiado a los datos con los que ha entrenado y no generaliza bien, es decir que predice mejor los datos con los que ha entrenado que datos nuevos. Esto lo podemos ver en la tabla comparando los valores de las columnas \textit{Train} y \textit{Test score}.
+
+Donde lo podemos ver más claramente es en \textit{KNeighbors}, vemos en la \textit{Figura\ \ref{fig:lc-knn}} que, para cualquier cantidad de datos con los que entrenemos el modelo, siempre predecirá bien con los que ha entrenado y no tanto con los demás. Nuestro objetivo es intentar que ambos valores no sean tan dispares y que sean lo más altos posibles, para ello aplicaremos \textit{hyperparameter tuning}.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|ccc|}
+    \hline
+        Model Name & Train score & Test score & Balanced accuracy \\ \hline
+        XGBoost & 82 & 82 & 50 \\ 
+        Stochastic Gradient Descent & 64.815 & 56.444 & 49.834 \\ 
+        Random Forest & \textbf{99.926} & \textbf{87.778} & 66.531 \\ 
+        Quadratic Discriminant Analysis & \textbf{96.148} & \textbf{83.111} & 72.358 \\ 
+        Multi-Layer Perceptron & 90.815 & 84 & 59.41 \\ 
+        Linear Discriminant Analysis & \textbf{85.333} & \textbf{78.222} & 53.96 \\ 
+        LightGBM & 82.222 & 72.222 & 71.981 \\ 
+        K-Neighbors & \textbf{100} & \textbf{86.889} & 70.807 \\ 
+        Hist Gradient Boosting & \textbf{78.444} & \textbf{70.444} & 68.97 \\ 
+        Extra Trees & \textbf{99.63} & \textbf{90.444} & 78.756 \\ 
+        Decision Tree & 56.963 & 58.889 & 67.224 \\
+    \hline
+    \end{tabular}
+    \caption{Tabla ampliada de los resultados de entrenar los modelos utilizando la derivada y \textit{StandardScaler}. Fuente propia.}\ \label{tab:final-training-results}
+\end{table}
 
 \begin{figure}[!h]
     \centering
@@ -148,16 +173,14 @@ Una vez encontrada una combinación de pasos de preprocesado que nos mejora los 
     \caption{Gráfico de la curva de aprendizaje del modelo \textit{K-Neighbors} entrenándolo y probándolo sobre los datos de entreno únicamente. Fuente propia}\ \label{fig:lc-knn}
 \end{figure}
 
-Para evitar el \textit{overfitting}, uno de los posibles remedios es utilizar \textit{hyperparameter tuning}. El \textit{hyperparameter tuning} tiene como objetivo encontrar un conjunto de parámetros que maximice el rendimiento del modelo sobre los datos de prueba. En nuestro caso, como los datos están desbalanceados, podemos utilizar como función de rendimiento el \textit{balanced accuracy}. Como cada modelo es distinto, debemos encontrar los parámetros adecuados para cada uno. 
+El \textit{hyperparameter tuning} tiene como objetivo encontrar un conjunto de parámetros que maximice el rendimiento del modelo sobre los datos de prueba. En nuestro caso, como los datos están desbalanceados, podemos utilizar como función a optimizar el \textit{Balanced Accuracy}. Como cada modelo es distinto, debemos encontrar los parámetros adecuados para cada uno. 
 
-Para ahorrarnos tiempo podemos utilizar solamente los mejores modelos, como hemos visto en los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, hay modelos que tienen mejores resultados que otros. Así que escogeremos los cuatro con mejor \textit{balanced accuracy}, es decir: \textit{Extra Trees, Quadratic Discriminant Analysis, LightGBM y K-Neighbors}.
+Como no todos los modelos nos han dado buenos resultados y el \textit{hyperparameter tuning} es un proceso costoso, para ahorrarnos tiempo podemos utilizar solamente los mejores, como hemos visto en la \textit{Tabla\ \ref{tab:final-training-results}} hay modelos que tienen mejores resultados que otros. Así que escogeremos los cuatro con mejor \textit{balanced accuracy}, es decir: \textit{Extra Trees, Quadratic Discriminant Analysis, LightGBM y K-Neighbors}.
 
 Realizaremos el \textit{hyperparameter tuning} en dos pasos, primeramente utilizaremos \textit{Random Search} y después \textit{Grid Search}, ya implementados en \textit{sklearn}.
-Ambos métodos utilizan \textit{cross-validation}, una técnica para evitar el \textit{overfitting} que consiste en la división de los datos de entreno en partes iguales.
-Una vez dividido en \textit{N} partes, se entrena el modelo sobre todas las partes excepto una, la cual se utiliza para evaluar el modelo entrenado. Entonces, se repite el 
-proceso cambiando de partición. De esta forma, haciendo la media obtenemos el resultado de entrenar el modelo repetidas ocasiones con los mismos parámetros, pero con datos 
-distintos. Una vez hemos obtenido el mejor de los modelos que hemos entrenado, según la función de rendimiento, probamos el modelo resultante sobre los datos de prueba.
-Podemos ver este proceso más gráficamente en la \textit{Figura\ \ref{fig:cross-validation}}.
+Ambos métodos utilizan \textit{cross-validation}, una técnica para evitar el \textit{overfitting} (y el \textit{underfitting}) que consiste en la división de los datos de entreno en partes iguales.
+
+Una vez divididos los datos de entreno en \textit{N} partes, se itera sobre cada una de ellas, utilizando \textit{N-1} partes para entrenar el modelo y la restante para evaluarlo. Una vez obtenemos los modelos entrenados sobre las diferentes partes, los comparamos con la función de rendimiento que queramos optimizar y seleccionamos el mejor. Una vez seleccionado el mejor modelo, lo probamos sobre los datos de prueba y obtenemos los resultados finales. Podemos ver este proceso gráficamente en la \textit{Figura\ \ref{fig:cross-validation}}.
 
 \begin{figure}[!h]
     \centering
@@ -166,34 +189,27 @@ Podemos ver este proceso más gráficamente en la \textit{Figura\ \ref{fig:cross
 \end{figure}
 
 
-El \textit{random search} consiste en la búsqueda de estos parámetros habiendo definido un rango de posibilidades. Es decir, para cada parámetro que le queramos
-pasar al modelo definiremos un rango de valores que puede tener, entonces el \textit{random search} entrena el modelo repetidas veces con una permutación aleatoria de sus 
-parámetros y se guarda los resultados. Podemos ver un ejemplo en el \textit{Código\ \ref{code:random-search-example}}.
+El \textit{random search} consiste en la búsqueda de estos parámetros habiendo definido un rango de posibilidades. Es decir, para cada parámetro que le queramos pasar al modelo definiremos un rango de valores que puede tener, entonces el \textit{random search} entrena el modelo repetidas veces con una permutación aleatoria de sus parámetros y se guarda los resultados. Podemos ver un ejemplo en el \textit{Código\ \ref{code:random-search-example}}.
 Podemos ir probando diferentes parámetros y rangos hasta que estemos satisfechos con el resultado.
 
 
-Una vez estemos contentos con los resultados, los refinaremos utilizando \textit{grid search}. A diferencia del \textit{random search}, el \textit{grid search} prueba todas
-las posibles combinaciones que le pasemos como parámetro y, consecuentemente, es mucho más lento. Por ello, utilizaremos el \textit{grid search} con los mejores parámetros que
-encontremos del paso anterior, los cuales son potencialmente los mejores. Una vez definido un rango de parámetros para los modelos seleccionados, obtenemos los resultados
-de la \textit{Tabla\ \ref{tab:hyperparameter-tuning-results}}. Podemos ver que hemos obtenido, en general, peores resultados (salvo con \textit{K-Neighbors}), por lo tanto
-deberíamos ajustar el rango de parámetros que les pasamos a los modelos y volver a entrenarlos hasta que estemos satisfechos con el resultado. En nuestro caso no lo haremos
-y pasaremos a la segunda iteración del proyecto para probar nuevas cosas en pasos anteriores.
+Una vez estemos contentos con los resultados, los refinaremos utilizando \textit{grid search}. A diferencia del \textit{random search}, el \textit{grid search} prueba todas las posibles combinaciones que le pasemos como parámetro y, consecuentemente, es mucho más lento. Por ello, utilizaremos el \textit{grid search} con los valores de los parámetros que dan los cinco mejores resultados del paso anterior, los cuales son potencialmente los mejores. Una vez definido un rango de parámetros para cada modelo seleccionado, obtenemos los resultados de la \textit{Tabla\ \ref{tab:hyperparameter-tuning-results}} donde vemos que los resultados del \textit{Random Search} y los de \textit{Grid Search} son iguales, salvo por \textit{Extra Trees}, en el cual el hacer \textit{Grid Search} sí que nos aporta mejores resultados. En general, vemos que hemos obtenido resultados parecidos a los de los modelos sin refinar, salvo por \textit{K-Neighbors}, que ha mejorado en un \textbf{19.467\%}, y \textit{Extra Trees}, que ha empeorado en un \textbf{12.586\%}.
+Por lo tanto deberíamos ajustar el rango de los parámetros que les pasamos a los modelos que no han dado buenos resultados y volver a entrenarlos hasta que estemos satisfechos. En nuestro caso no lo haremos, sino que retrocederemos unos pasos y probaremos otras técnicas.
 
 \begin{table}[!h]
     \centering
-    \begin{tabular}{|c|cccc|}
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|}
         \hline
         Model name & Train score & Test score & f2 score & Balanced accuracy \\ \hline
-        RS - knn & 100 & 90.274 & 83.96 & 90.274 \\
-        GS - knn & 100 & 90.274 & 83.96 & 90.274 \\
-        RS - qda & 97.491 & 72.358 & 55.012 & 72.358 \\
-        GS - qda & 97.491 & 72.358 & 55.012 & 72.358 \\
-        RS - lgbm & 86.013 & 71.018 & 58.333 & 71.018 \\
-        GS - et & 82.957 & 66.17 & 47.945 & 66.17 \\
-        GS - lgbm & 84.628 & 70.626 & 58.704 & 70.626 \\
-        RS - et & 69.492 & 65.854 & 53.254 & 65.854 \\ \hline
-        \end{tabular}
-    
+        RS - K-Neighbors & 100 & 90.274 & 83.96 & 90.274 \\
+        GS - K-Neighbors & 100 & 90.274 & 83.96 & 90.274 \\
+        RS - Quadratic Discriminant Analysis & 97.491 & 72.358 & 55.012 & 72.358 \\
+        GS - Quadratic Discriminant Analysis & 97.491 & 72.358 & 55.012 & 72.358 \\
+        RS - LightGBM & 86.013 & 71.018 & 58.333 & 71.018 \\
+        GS - LightGBM & 86.013 & 71.018 & 58.333 & 71.018 \\
+        GS - Extra Trees & 82.957 & 66.17 & 47.945 & 66.17 \\
+        RS - Extra Trees & 69.492 & 65.854 & 53.254 & 65.854 \\ \hline
+        \end{tabular}}
     \caption{Resultados del primer entrenamiento con hyperparameter tuning. Fuente propia.}\ \label{tab:hyperparameter-tuning-results}
 \end{table}
 \clearpage
