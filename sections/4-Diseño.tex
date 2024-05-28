@@ -4,8 +4,6 @@
 
 Considerando que los datos contenidos en los archivos con formato \gls{bil} contienen 168 columnas con información de las diferentes longitudes de onda\ \cite{WhatIsHy18:online} y además el nivel de contaminación \gls{don} de cada grano, podemos generar un \gls{dataset} con los datos de cada grano, haciendo la media de cada longitud de onda por cada píxel del mismo grano. Una vez hemos extraído la información de todos los archivos \gls{bil} y la hemos guardado en un archivo \acrshort{csv}, podemos entrenar los modelos sobre este.
 
-Cabe recalcar que el nivel de contaminación \gls{don} es un valor entero, por lo tanto, para entrenar tanto los modelos de clasificación como los de regresión, lo hemos guardado en dos columnas, una con el valor exacto y otra con un valor binario que indica si el grano está contaminado o no.
-
 \subsection{Preprocesado de datos}\label{sec:preprocesado}
 
 Ahora que tenemos los datos en un solo archivo \acrshort{csv}, el siguiente paso es preprocesarlos. Para ello, hemos realizado los siguientes pasos: 
@@ -72,7 +70,7 @@ Al tener las clases desbalanceadas tenemos varias opciones:
 
 La toma de nuevos datos es costosa y como tenemos relativamente pocos para la cantidad de columnas (las 168 longitudes de onda), el balanceo de datos es esencial. Sorteamos este problema utilizando métricas que tienen en cuenta el balance de los datos. Sin embargo, podemos balancear los datos en dos pasos: \textit{undersampling} y \textit{oversampling}. 
 
-Como su nombre indica, \textit{undersampling} es una técnica para reducir las muestras de la clase mayoritaria, en nuestro caso los granos sin contaminar. Existen varias técnicas para hacer \textit{undersampling}, las cuales comentaremos en la \textit{sección\ \ref{sec:undersampling}}. Por otro lado, el \textit{oversampling} consiste en la creación de datos sintéticos, similares a los reales, para suplir la diferencia de balanceo entre las diferentes clases. Al igual que con el \textit{undersampling}, existen diversas técnicas que comentaremos más adelante en la \textit{sección\ \ref{sec:oversampling}}.
+Como su nombre indica, \textit{undersampling} es una técnica para reducir las muestras de la clase mayoritaria, en nuestro caso los granos sin contaminar. Existen varias técnicas para hacer \textit{undersampling}, las cuales comentaremos en la \textit{Sección\ \ref{sec:undersampling}}. Por otro lado, el \textit{oversampling} consiste en la creación de datos sintéticos, similares a los reales, para suplir la diferencia de balanceo entre las diferentes clases. Al igual que con el \textit{undersampling}, existen diversas técnicas que comentaremos más adelante en la \textit{Sección\ \ref{sec:oversampling}}.
 
 \paragraph{Undersampling}\ \label{sec:undersampling}
 

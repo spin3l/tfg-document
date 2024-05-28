@@ -20,13 +20,7 @@ El \textit{Pipeline} nos ofrece la ventaja de poder guardar y cargar tanto el or
 
 Vale la pena comentar también que este objeto de \textit{Pipeline} nos ayuda a compartir la configuración del preprocesado entre la aplicación de entrenamiento de modelos y la de visualización de las predicciones sobre los archivos \gls{bil}.
 
-Una vez hemos separado, preprocesado los datos y entrenado los modelos; para evaluar los modelos resultantes, hemos utilizado las métricas que hemos comentado en la \textit{Sección\ \ref*{sec:classification-metrics}} y además la \textit{Accuracy} sobre los datos de entreno como los de prueba, representados en las tablas por \textit{Test} y \textit{Train score}.
-Dado que tenemos cuatro métricas, les hemos dado la siguiente preferencia:
-\begin{enumerate}
-    \item $Balanced\ Accuracy$
-    \item $f2score$
-    \item $\Delta Accuracy\ scores$: ($Train\ score-Test\ score$), utilizado 
-\end{enumerate}
+Una vez hemos preprocesado los datos y entrenado los modelos; para evaluarlos, hemos utilizado la métrica \textit{Balanced Accuracy}, la cual hemos comentado en la \textit{Sección\ \ref{sec:classification-metrics}}.
 
 
 \subsection{Análisis del impacto de la primera derivada}
@@ -194,21 +188,21 @@ Podemos ir probando diferentes parámetros y rangos hasta que estemos satisfecho
 
 
 Una vez estemos contentos con los resultados, los refinaremos utilizando \textit{grid search}. A diferencia del \textit{random search}, el \textit{grid search} prueba todas las posibles combinaciones que le pasemos como parámetro y, consecuentemente, es mucho más lento. Por ello, utilizaremos el \textit{grid search} con los valores de los parámetros que dan los cinco mejores resultados del paso anterior, los cuales son potencialmente los mejores. Una vez definido un rango de parámetros para cada modelo seleccionado, obtenemos los resultados de la \textit{Tabla\ \ref{tab:hyperparameter-tuning-results}} donde vemos que los resultados del \textit{Random Search} y los de \textit{Grid Search} son iguales, salvo por \textit{Extra Trees}, en el cual el hacer \textit{Grid Search} sí que nos aporta mejores resultados. En general, vemos que hemos obtenido resultados parecidos a los de los modelos sin refinar, salvo por \textit{K-Neighbors}, que ha mejorado en un \textbf{19.467\%}, y \textit{Extra Trees}, que ha empeorado en un \textbf{12.586\%}.
-Por lo tanto deberíamos ajustar el rango de los parámetros que les pasamos a los modelos que no han dado buenos resultados y volver a entrenarlos hasta que estemos satisfechos. En nuestro caso no lo haremos, sino que retrocederemos unos pasos y probaremos otras técnicas.
+Por lo tanto, deberíamos ajustar el rango de los parámetros que les pasamos a los modelos que no han dado buenos resultados y volver a entrenarlos hasta que estemos satisfechos. En nuestro caso no lo haremos, sino que retrocederemos unos pasos y probaremos otras técnicas.
 
 \begin{table}[!h]
     \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|}
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|}
         \hline
-        Model name & Train score & Test score & f2 score & Balanced accuracy \\ \hline
-        RS - K-Neighbors & 100 & 90.274 & 83.96 & 90.274 \\
-        GS - K-Neighbors & 100 & 90.274 & 83.96 & 90.274 \\
-        RS - Quadratic Discriminant Analysis & 97.491 & 72.358 & 55.012 & 72.358 \\
-        GS - Quadratic Discriminant Analysis & 97.491 & 72.358 & 55.012 & 72.358 \\
-        RS - LightGBM & 86.013 & 71.018 & 58.333 & 71.018 \\
-        GS - LightGBM & 86.013 & 71.018 & 58.333 & 71.018 \\
-        GS - Extra Trees & 82.957 & 66.17 & 47.945 & 66.17 \\
-        RS - Extra Trees & 69.492 & 65.854 & 53.254 & 65.854 \\ \hline
+        Model name & Train score & Test score & Balanced accuracy \\ \hline
+        RS K-Neighbors & 100 & 90.274 & 90.274 \\ 
+        GS K-Neighbors & 100 & 90.274 & 90.274 \\ 
+        RS Quadratic Discriminant Analysis & 97.491 & 72.358 & 72.358 \\ 
+        GS Quadratic Discriminant Analysis & 97.491 & 72.358 & 72.358 \\ 
+        RS LightGBM & 86.013 & 71.018 & 71.018 \\ 
+        GS LightGBM & 86.013 & 71.018 & 71.018 \\ 
+        GS Extra Trees & 82.957 & 66.17 & 66.17 \\ 
+        RS Extra Trees & 69.492 & 65.854 & 65.854 \\ \hline
         \end{tabular}}
     \caption{Resultados del primer entrenamiento con hyperparameter tuning. Fuente propia.}\ \label{tab:hyperparameter-tuning-results}
 \end{table}
@@ -219,24 +213,25 @@ Por lo tanto deberíamos ajustar el rango de los parámetros que les pasamos a l
 \subsubsection{\textit{Undersampling}}
 
 Al probar los algoritmos mencionados anteriormente, obtenemos los resultados de la \textit{Tabla\ \ref{tab:undersampling-methods}}. 
-Hemos agregado una columna más, \textit{Avg. score diff}, que nos indica la diferencia entre el \textit{Train} y \textit{Test score} para decidir mejor, pues las demás métricas nos daban resultados bastante parecidos. Esta ``nueva'' métrica no indica cuánto \textit{overfitting} hacen los modelos que se entrenan sobre el dataset generado, por lo tanto, cuanto más cercana a \textit{0} sea, mejor. Podemos ver que, en general, los diferentes \textit{Near Miss}, obtienen resultados bastante peores que los otros métodos. En cuanto a los otros tres algoritmos restantes, podemos ver que el \textit{Tomek Links} es el que mejores resultados tiene, así que continuaremos utilizándolo.
-
-Podemos ver en la \textit{Figura\ \ref{fig:balance-tl}} la comparación del balance de la clase objetivo antes y después de utilizar el método \textit{Tomek Links}. Para hacer la comparación hemos tenido en cuenta que los modelos resultantes hicieran el menor \textit{overfitting} posible utilizando el \textit{Avg. score diff} el cual es la diferencia entre el \textit{Train} y \textit{Test score}. También hemos tenido en cuenta que las métricas \textit{f2 score} y \textit{balanced accuracy} fueran lo más altas posibles. Podemos ver que, aunque no ha mejorado mucho el balance de las clases (como nos muestra la \textit{Tabla\ \ref{tab:balance-tl-comparison}})), los resultados son mejores que sin utilizar ningún método de balanceo.
+Hemos agregado una columna más, \textit{Avg. score diff}, que nos indica la diferencia entre el \textit{Train} y \textit{Test score} para decidir mejor, pues las \textit{Balanced Accuracy} nos daba resultados bastante parecidos. Esta ``nueva'' métrica no indica cuánto \textit{overfitting} hacen los modelos que se entrenan sobre el dataset generado, por lo tanto, cuanto más cercana a \textit{0} sea, mejor. Podemos ver que, en general, los diferentes \textit{Near Miss}, obtienen resultados bastante peores que los otros métodos. En cuanto a los otros tres algoritmos restantes, podemos ver que el \textit{Tomek Links} es el único que tiene mejores resultados que el \textit{dataset} sin hacer \textit{undersampling}, por lo tanto, continuaremos con este método.
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{|c|ccc|} \hline
-        & Avg. score diff & Avg. f2 Score & Avg. Balanced Accuracy \\ \hline
-        \textit{NM v1} & 35.263 & 53.698 & 62.754 \\
-        \textit{NM v2} & 41.914 & 53.592 & 61.315 \\
-        \textit{NM v3} & 9.883 & 39.654 & 61.999 \\
-        \textit{RUS} & 9.176 & 41.954 & 63.656 \\
-        \textit{ENN (ALL)} & 10.410 & 46.600 & 66.523 \\
-        \textit{ENN (MODE)} & 8.953 & 42.018 & 64.575 \\
-        \textit{TL} & 7.950 & 42.610 & 65.236 \\ \hline
+    \begin{tabular}{|c|cc|} \hline
+        & Avg. score diff & Avg. Balanced Accuracy \\ \hline
+        \textit{\textbf{No undersampling}} & 7.805 & 64.53 \\ 
+        \textit{\textbf{TL}} & 7.950 & 65.236 \\ 
+        \textit{ENN (MODE)} & 8.953 & 64.575 \\ 
+        \textit{RUS} & 9.176 & 63.656 \\ 
+        \textit{NM v3} & 9.883 & 61.999 \\ 
+        \textit{ENN (ALL)} & 10.410 & 66.523 \\ 
+        \textit{NM v1} & 35.263 & 62.754 \\ 
+        \textit{NM v2} & 41.914 & 61.315 \\ \hline
     \end{tabular}
     \caption{Resultado de entrenar los modelos básicos sobre el \textit{dataset} reducido con los diferentes métodos. Fuente: propia.}\ \label{tab:undersampling-methods}
 \end{table}
+
+Una vez hemos aplicado \textit{Tomek Links} sobre el \textit{dataset}, nos quedamos con el número de muestras de la \textit{Figura\ \ref{fig:balance-tl}} y la \textit{Tabla\ \ref{tab:balance-tl-comparison}}; en las cuales podemos ver que tan solo se han eliminado $12$.
 
 \begin{figure}[!ht]
     \centering
@@ -254,14 +249,11 @@ Podemos ver en la \textit{Figura\ \ref{fig:balance-tl}} la comparación del bala
     \caption{Comparación de las muestras antes y después de aplicar \textit{Tomek Links}. Fuente propia.}\ \label{tab:balance-tl-comparison}
 \end{table}
 
-
-\clearpage
-
 \subsubsection{\textit{Oversampling}}
 
-Antes de comentar los sintetizadores que probaremos, definiremos el método con los que evaluaremos los datos generados. Para ello utilizaremos una función de la propia librería \textit{sdv} que evalúa la similitud estadística de los datos generados con los datos reales y nos genera un \textit{quality report}.
+Para balancear el \textit{dataset}, como hemos comentado en la \textit{Sección\ \ref{sec:oversampling}}, hemos utilizado los sintetizadores de la librería \textit{sdv} para generar datos sintéticos. Además de los sintetizadores, la librería nos ofrece métodos para evaluar la calidad de los datos generados en forma de \textit{quality reports}. Estos \textit{quality reports} contienen la similitud estadística de los datos generados con los datos reales.
 
-Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos reales y obtenemos los resultados de la \textit{Tabla\ \ref{tab:oversampling-quality-report}}, en los cuales podemos ver un claro `ganador'.
+Una vez entrenados los sintetizadores y generados los datos, obtenemos los resultados de la \textit{Tabla\ \ref{tab:oversampling-quality-report}}, en los cuales podemos ver que la calidad de los datos generados por el sintetizador \textit{Gaussian Copula Synthesizer} son mejores.
 
 \begin{table}[!ht]
     \centering
@@ -273,30 +265,28 @@ Una vez hemos entrenado los sintetizadores, evaluamos su similitud con los datos
     \caption{Resultados del \textit{quality report} de los datos generados con los sintetizadores. Fuente propia}\ \label{tab:oversampling-quality-report}
 \end{table}
 
-Ahora que tenemos el sintetizador que mejores resultados nos da, lo aplicamos sobre la clase minoritaria y generamos datos sintéticos. Una vez generados, entrenamos los modelos básicos y obtenemos los resultados de la \textit{Tabla\ \ref{tab:balanced-basic-training}}. Podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador, por lo tanto, mantendremos el \textit{undersampling}, pero no utilizaremos \textit{oversampling} en los siguientes pasos.
-
+Una vez tenemos los sintetizadores entrenados sobre la clase minoritaria, generamos nuevos datos y los añadimos al \textit{dataset} original, entrenamos los modelos básicos y obtenemos los resultados de la \textit{Tabla\ \ref{tab:balanced-basic-training}} donde podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador. Por lo tanto, mantendremos el \textit{undersampling}, pero no utilizaremos \textit{oversampling} en los siguientes pasos.
 
 \begin{table}[!ht]
     \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|}\hline
-        Model Name & Train score & Test score & f2score & Balanced accuracy \\ \hline
-        XGBoost & 89.908 & 78.889 & 21.622 & 55.812 \\ 
-        Stochastic Gradient Descent & 79.53 & 69.333 & 27.972 & 53.839 \\ 
-        Random Forest & 97.42 & 82.444 & 42.526 & 66.17 \\ 
-        Quadratic Discriminant Analysis & 93.005 & 82.667 & 10.448 & 53.779 \\ 
-        Multi-Layer Perceptron & 94.209 & 80.889 & 40.712 & 64.74 \\ 
-        Linear Discriminant Analysis & 87.041 & 76.889 & 18.667 & 53.628 \\ 
-        LightGBM & 90.195 & 77.111 & 14.946 & 52.319 \\ 
-        K-Neighbors & 100 & 85.778 & 61.425 & 76.393 \\ 
-        Hist Gradient Boosting & 86.812 & 77.333 & 16.26 & 52.936 \\ 
-        Extra Trees & 90.998 & 80 & 25.606 & 57.934 \\ 
-        Decision Tree & 83.658 & 80.222 & 7.31 & 51.325 \\ \hline
-        Average & ~ & ~ & 26.135 & 58.079 \\ \hline
-        \end{tabular}}
+    \begin{tabular}{|c|ccc|}\hline
+        Model Name & Train score & Test score & Balanced accuracy \\ \hline
+        XGBoost & 89.908 & 78.889 & 55.812 \\ 
+        Stochastic Gradient Descent & 79.53 & 69.333 & 53.839 \\ 
+        Random Forest & 97.42 & 82.444 & 66.17 \\ 
+        Quadratic Discriminant Analysis & 93.005 & 82.667 & 53.779 \\ 
+        Multi-Layer Perceptron & 94.209 & 80.889 & 64.74 \\ 
+        Linear Discriminant Analysis & 87.041 & 76.889 & 53.628 \\ 
+        LightGBM & 90.195 & 77.111 & 52.319 \\ 
+        K-Neighbors & 100 & 85.778 & 76.393 \\ 
+        Hist Gradient Boosting & 86.812 & 77.333 & 52.936 \\ 
+        Extra Trees & 90.998 & 80 & 57.934 \\ 
+        Decision Tree & 83.658 & 80.222 & 51.325 \\ \hline
+        \textit{Average} & 90.252 & 79.232 & \textbf{58.079} \\ \hline
+    \end{tabular}
     \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset}. Fuente propia.}\ \label{tab:balanced-basic-training}
 \end{table}
 
-\clearpage
 \subsection{Nuevos modelos}
 
 Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, extrapola su predicción en base a las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{Figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
@@ -307,10 +297,30 @@ Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos m
     \caption{Explicación gráfica del proceso de entreno y predicción de un \textit{Voting Classifier}. Fuente \cite{Ensemble96:online}.}\ \label{fig:voting-classifiers}
 \end{figure}
 
-Por otro lado \textit{Bagging Classifier} entrena el mismo modelo sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online}
+Por otro lado el \textit{Bagging Classifier} entrena el mismo modelo sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online}
 
 
-Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, escogeremos los que han tenido mejores resultados al entrenarlos sobre el \textit{dataset} balanceado. Estos son los que mejores resultados tienen en la \textit{Tabla\ \ref{tab:balanced-basic-training}}, es decir, \textit{K-Neighbors}, \textit{Multi-Layer Perceptron}, \textit{Random Forest} y \textit{Extra Trees}.
+Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, escogeremos los que han tenido mejores resultados al entrenarlos sobre el \textit{dataset} balanceado. Estos son los que mejores resultados tienen en la \textit{Tabla\ \ref{tab:tomeklinks-basic-training}}, es decir, \textit{K-Neighbors}, \textit{Multi-Layer Perceptron}, \textit{Random Forest} y \textit{Extra Trees}.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|ccc|}
+    \hline
+        Model Name & Train score & Test score & Balanced accuracy \\ \hline
+        XGBoost & 81.839 & 82 & 50 \\ 
+        Stochastic Gradient Descent & 65.845 & 57.111 & 54.095 \\ 
+        Random Forest & 100 & 86.444 & 63.791 \\ 
+        Quadratic Discriminant Analysis & 96.487 & 83.778 & 72.282 \\ 
+        Multi-Layer Perceptron & 90.284 & 82.889 & 60.659 \\ 
+        Linear Discriminant Analysis & 85.202 & 77.778 & 54.17 \\ 
+        LightGBM & 83.857 & 73.333 & 73.141 \\ 
+        K-Neighbors & 100 & 87.111 & 71.424 \\ 
+        Hist Gradient Boosting & 78.625 & 70.889 & 70.205 \\ 
+        Extra Trees & 99.552 & 91.111 & 80.608 \\ 
+        Decision Tree & 57.1 & 58.889 & 67.224 \\ \hline
+    \end{tabular}
+    \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset} utilizando el método \textit{Tomek Links}. Fuente propia.}\ \label{tab:tomeklinks-basic-training}
+\end{table}
 
 Al entrenar los \textit{Voting} y \textit{Bagging Classifiers}, obtenemos los resultados de la \textit{Tabla\ \ref{tab:voting-bagging-results}}. En general, los \textit{Voting} han obtenido resultados algo mejores que los \textit{Bagging Classifiers}, podría ser por la cantidad de datos sobre los que ha entrenado cada submodelo. De todas formas, en general, obtenemos mejores resultados que utilizando modelos básicos.
 
@@ -338,16 +348,16 @@ Además de los nuevos modelos, podemos volver a probar a hacer \textit{hyperpara
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{|c|cccc|} \hline
-        Model name & Train score & Test score & f2 score & Balanced accuracy \\ \hline
-        RS - knn & 100 & 91.509 & 86.035 & 91.509 \\
-        GS - knn & 100 & 91.509 & 86.035 & 91.509 \\
-        RS - qda & 97.694 & 72.282 & 54.455 & 72.282 \\
-        GS - qda & 97.694 & 72.282 & 54.455 & 72.282 \\
-        GS - lgbm & 85.107 & 71.304 & 59.305 & 71.304 \\
-        RS - lgbm & 85.748 & 69.798 & 57.26 & 69.798 \\
-        RS - et & 50 & 50 & 52.326 & 50 \\
-        GS - et & 50 & 50 & 52.326 & 50 \\ \hline
+    \begin{tabular}{|c|ccc|} \hline
+        Model name & Train score & Test score & Balanced accuracy \\ \hline
+        RS K-Neighbors & 100 & 91.509 & 91.509 \\ 
+        GS K-Neighbors & 100 & 91.509 & 91.509 \\ 
+        RS Quadratic Discriminant Analysis & 97.694 &2.282 & 72.282 \\ 
+        GS Quadratic Discriminant Analysis & 97.694 & 72.282 & 72.282 \\ 
+        GS LightGBM & 85.107 & 71.304 & 71.304 \\ 
+        RS LightGBM & 85.748 & 69.798 & 69.798 \\ 
+        RS Extra Trees & 50 & 50 & 50 \\ 
+        GS Extra Trees & 50 & 50 & 50 \\ \hline
     \end{tabular}
     \caption{Resultado del \textit{hyperparameter tuning} con el \textit{dataset} balanceado. Fuente propia.}\ \label{tab:hyperparameter-tuning-results-v2}
 \end{table}
