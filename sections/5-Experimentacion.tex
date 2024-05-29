@@ -287,7 +287,7 @@ Una vez tenemos los sintetizadores entrenados sobre la clase minoritaria, genera
     \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset}. Fuente propia.}\ \label{tab:balanced-basic-training}
 \end{table}
 
-\subsection{Nuevos modelos}
+\subsection{Modelos \textit{ensemble}}
 
 Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, extrapola su predicción en base a las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{Figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
 
@@ -300,7 +300,7 @@ Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos m
 Por otro lado el \textit{Bagging Classifier} entrena el mismo modelo sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online}
 
 
-Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, escogeremos los que han tenido mejores resultados al entrenarlos sobre el \textit{dataset} balanceado. Estos son los que mejores resultados tienen en la \textit{Tabla\ \ref{tab:tomeklinks-basic-training}}, es decir, \textit{K-Neighbors}, \textit{Multi-Layer Perceptron}, \textit{Random Forest} y \textit{Extra Trees}.
+Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, escogeremos los que han tenido mejores resultados al entrenarlos sobre el \textit{dataset} balanceado. Estos son los que mejores resultados tienen en la \textit{Tabla\ \ref{tab:tomeklinks-basic-training}}, es decir, \textit{K-Neighbors}, \textit{Quadratic Discriminant Analysis}, \textit{LightGBM} y \textit{Extra Trees}.
 
 \begin{table}[!ht]
     \centering
@@ -310,13 +310,13 @@ Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compond
         XGBoost & 81.839 & 82 & 50 \\ 
         Stochastic Gradient Descent & 65.845 & 57.111 & 54.095 \\ 
         Random Forest & 100 & 86.444 & 63.791 \\ 
-        Quadratic Discriminant Analysis & 96.487 & 83.778 & 72.282 \\ 
+        \textbf{Quadratic Discriminant Analysis} & 96.487 & 83.778 & 72.282 \\ 
         Multi-Layer Perceptron & 90.284 & 82.889 & 60.659 \\ 
         Linear Discriminant Analysis & 85.202 & 77.778 & 54.17 \\ 
-        LightGBM & 83.857 & 73.333 & 73.141 \\ 
-        K-Neighbors & 100 & 87.111 & 71.424 \\ 
+        \textbf{LightGBM} & 83.857 & 73.333 & 73.141 \\ 
+        \textbf{K-Neighbors} & 100 & 87.111 & 71.424 \\ 
         Hist Gradient Boosting & 78.625 & 70.889 & 70.205 \\ 
-        Extra Trees & 99.552 & 91.111 & 80.608 \\ 
+        \textbf{Extra Trees} & 99.552 & 91.111 & 80.608 \\ 
         Decision Tree & 57.1 & 58.889 & 67.224 \\ \hline
     \end{tabular}
     \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset} utilizando el método \textit{Tomek Links}. Fuente propia.}\ \label{tab:tomeklinks-basic-training}
@@ -326,20 +326,39 @@ Al entrenar los \textit{Voting} y \textit{Bagging Classifiers}, obtenemos los re
 
 \begin{table}[!ht]
     \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|}    \hline
-        & \multicolumn{4}{|c|}{Balanced dataset} & \multicolumn{4}{c|}{Normal dataset} \\ \hline
-        Model Name & Train score & Test score & f2score & Balanced accuracy & Train score & Test score & f2score & Balanced accuracy \\ \hline
-        Voting (RF, ET, KNN) & 100 & 87.111 & 39.216 & 66.606 & 100 & 86.889 & 40.278 & 66.953 \\
-        Voting (MLP, ET) & 100 & 90.444 & 60.847 & 77.311 & 100 & 89.333 & 58.047 & 75.67 \\
-        Voting (KNN, ET) & 99.402 & 87.111 & 47.17 & 69.979 & 99.111 & 86.667 & 46.917 & 69.708 \\
-        Voting (KNN, ET) & 100 & 87.556 & 44.077 & 68.805 & 100 & 87.333 & 42.818 & 68.187 \\
-        Bagging (RF) & 87.145 & 82.667 & 6.079 & 52.334 & 86.889 & 82 & 3.049 & 50.964 \\
-        Bagging (MLP) & 91.031 & 82.667 & 18.732 & 56.67 & 90.741 & 83.111 & 17.493 & 56.459 \\
-        Bagging (KNN) & 83.931 & 83.333 & 11.976 & 54.667 & 83.407 & 83.111 & 9.063 & 53.568 \\
-        Bagging (ET) & 93.946 & 84.222 & 16.369 & 56.655 & 93.259 & 82.889 & 10.479 & 53.914 \\ \hline
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|ccc|}
+    \hline
+        & \multicolumn{3}{|c|}{Soft voting} & \multicolumn{3}{|c|}{Hard voting} \\ \hline
+        Model Name & Train score & Test score & Balanced accuracy & Train score & Test score & Balanced accuracy \\ \hline
+        Voting Classifier (QDA, LGBM) & 96.562 & 84.222 & 73.035 & 96.562 & 84.889 & 69.587 \\ 
+        Voting Classifier (QDA, KNN) & 98.356 & 85.333 & 72.267 & 93.871 & 84 & 60.373 \\ 
+        Voting Classifier (QDA, ET, LGBM, KNN) & 99.925 & 87.556 & 69.286 & 94.096 & 85.556 & 60.358 \\ 
+        Voting Classifier (QDA, ET) & 100 & 87.333 & 74.45 & 99.925 & 88.667 & 69.482 \\ 
+        Voting Classifier (LGBM, KNN) & 93.124 & 83.111 & 65.131 & 92.451 & 83.556 & 61.548 \\ 
+        Voting Classifier (ET, LGBM) & 100 & 92.222 & 80.322 & 98.356 & 90.222 & 73.803 \\ 
+        Voting Classifier (ET, KNN) & 100 & 87.556 & 69.286 & 94.096 & 86 & 62.556 \\ \hline
+    \end{tabular}}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|}
+        \hline
+            Model Name & Train score & Test score & Balanced accuracy \\ \hline
+            Voting Classifier (\textit{QDA, LGBM}) & 96.562 & 84.222 & 73.035 \\ 
+            Voting Classifier (\textit{QDA, KNN}) & 98.356 & 85.333 & 72.267 \\ 
+            Voting Classifier (\textit{QDA, ET, LGBM, KNN}) & 99.925 & 87.556 & 69.286 \\ 
+            Voting Classifier (\textit{QDA, ET}) & 100.0 & 87.333 & 74.45 \\ 
+            Voting Classifier (\textit{LGBM, KNN}) & 93.124 & 83.111 & 65.131 \\ 
+            Voting Classifier (\textit{ET, LGBM}) & 100.0 & 92.222 & 80.322 \\ 
+            Voting Classifier (\textit{ET, KNN}) & 100.0 & 87.556 & 69.286 \\ 
+            Bagging Classifier (\textit{QDA}) & 94.918 & 86.0 & 69.783 \\ 
+            Bagging Classifier (\textit{LGBM}) & 81.839 & 82.0 & 50.0 \\ 
+            Bagging Classifier (\textit{KNN}) & 91.33 & 85.778 & 67.721 \\ 
+            Bagging Classifier (\textit{ET}) & 99.402 & 88.0 & 67.148 \\ \hline
         \end{tabular}
         }
-        \caption{Resultados de entrenar los diferentes \textit{Voting} y \textit{Bagging Classifiers} que hemos preparado con los resultados del \textit{hyperparameter tuning}. Fuente propia.}\ \label{tab:voting-bagging-results}
+        \caption{Resultados de entrenar los diferentes \textit{Voting} y \textit{Bagging Classifiers} sobre el \textit{dataset} balanceado. Fuente propia.}\ \label{tab:voting-bagging-results}
 \end{table}
 
 \subsubsection{Hyperparameter tuning}
