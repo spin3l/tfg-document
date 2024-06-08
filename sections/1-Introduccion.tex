@@ -14,7 +14,7 @@ ganancia de peso del ganado y el impacto en otros parámetros productivos y de s
 
 \subsection{Motivación}
 
-El desafío que se plantea se centra en las operaciones de selección y clasificación de granos mediante \acrfull{nir-hsi}, previas a la transformación, que
+El desafío que se plantea se centra en las operaciones de selección y clasificación de granos mediante \gls{nir-hsi}, previas a la transformación, que
 de ser efectivas podrían aplicarse a lotes que superen los \(1250 \mu g/kg\), con la intención de devolver dichos lotes a la cadena alimentaria, una vez se ha separado
 la fracción más contaminada. De esta manera, la fracción que podría destinarse al consumo humano sería posiblemente mayoritaria, y el sistema de producción de alimentos,
 en su conjunto, más sostenible. Como consecuencia, las motivaciones son las contribuciones a la seguridad alimentaria y ambiental con protección a través de nuevas 
@@ -42,3 +42,16 @@ Para ello, hemos separado esta tarea en los objetivos secundarios siguientes.
 
 \subsection{Estructura del documento}
 
+En esta primera sección tenemos una introducción al problema real que tratamos de solucionar y los objetivos intermedios que nos hemos propuesto a priori para solucionarlo.
+
+En la siguiente sección, se muestra el prototipo ideado para la solución del problema, se explica en detalle la naturaleza de la tecnología que utilizaremos (\gls{nir-hsi}), así como el formato de los datos que tenemos y el siginificado del valor que queremos predecir.
+
+En la tercera sección se explican diferentes conceptos del \gls{ml} que son la base de cualquier proyecto de este tipo, como los tipos de aprendizaje, las fases del desarrollo de un proyecto de \gls{ml} y las diferentes métricas de evaluación de modelos, lo cual depende del tipo de aprendizaje y, por lo tanto, del tipo de datos que tengamos y que queramos predecir.
+
+En la siguiente sección se muestra el diseño del proyecto, explicando qué pasos hemos ido siguiendo para procesar los datos antes de entrenar los modelos, así como los modelos que hemos utilizado.
+
+En la quinta sección se comparan los resultados del entrenamiento de los distintos modelos según el tratamiento de los datos que comentamos en la sección anterior, haciendo émfasis en la importancia de la selección de los hiperparámetros de los modelos.
+
+En la sexta sección se hace una comparación del modelo resultante con el ya existente modelo de análisis de laboratorio, para ver si han habido mejoras de resultados. También se comenta el entorno de desarrollo con el que se ha trabajado, así como la aplicación de escritorio que se ha desarrollado para la detección en tiempo real de granos contaminados.
+
+Por último, se comentan las conclusiones a las que hemos llegado, así como las posibles mejoras que se podrían hacer en una futura fase del proyecto y se comentan los objetivos marcados al principio del documento.

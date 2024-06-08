@@ -22,6 +22,41 @@ Vale la pena comentar también que este objeto de \textit{Pipeline} nos ayuda a 
 
 Una vez hemos preprocesado los datos y entrenado los modelos; para evaluarlos, hemos utilizado la métrica \textit{Balanced Accuracy}, la cual hemos comentado en la \textit{Sección\ \ref{sec:classification-metrics}}.
 
+\subsection{Selección de modelos}
+
+Antes de empezar a probar los diferentes métodos de preprocesado, necesitamos definir una batería de modelos con los que entrenar. Estos modelos que hemos seleccionado se pueden dividir en las siguientes categorías, las cuales explicaremos brevemente junto a sus modelos.
+
+\begin{itemize}
+    \item \textbf{Árboles de decisión}: Basan sus decisiones en condiciones en estructura de árbol. Suelen hacer \textit{overfitting}, y suelen funcionar bien con pocos datos.
+    \begin{enumerate}
+        \item \textit{Decision Tree} son los más básicos, dividen los datos en función de sus características.
+        \item \textit{Random Forest} consiste en la unión de diversos \textit{Decision Trees}, siendo la decisión final la decisión media de los mismos.
+        \item \textit{Extra Trees} de forma parecida al \textit{Random Forest}, entrena diferentes \textit{Decision Trees} sobre diferentes subconjuntos de los datos.
+        \item \textit{Hist Gradient Boosting}
+    \end{enumerate}
+         \item \textbf{Análisis discriminante}: Aproximan superficies de decisión en función de la clase de las muestras.
+        \begin{enumerate}
+            \item \textit{Linear Discriminant Analysis} aproximan una superficie de decisión con un límite lineal.
+            \item \textit{Quadratic Discriminant Analysis} aproximan una superficie de decisión con un límite cuadrático.
+        \end{enumerate}
+    \item \textbf{Modelos basados en \textit{cercanía}}: Deciden la clase de una muestra en función de la clase de las muestras más cercanas.
+        \begin{enumerate}
+            \item \textit{K-Neighbors} decide la clase de una muestra en función de la clase de las \textit{K} muestras más cercanas sobre las que se ha entrenado el modelo.
+        \end{enumerate}
+    \item \textbf{Modelos basados en gradientes}: 
+    \begin{enumerate}
+        \item \textit{XGBoost}
+        \item \textit{LightGBM}
+    \end{enumerate}
+    \item \textbf{Modelos basados en redes neuronales}: Basados en el funcionamiento del cerebro humano, estos modelos se entrenan en función de pesos y \textit{bias}.
+        \begin{enumerate}
+            \item \textit{Multi-Layer Perceptron}
+        \end{enumerate}
+    \item \textbf{Otros}: 
+    \begin{enumerate}
+        \item \textit{Stochastic Gradient Descent}
+    \end{enumerate}
+\end{itemize}
 
 \subsection{Análisis del impacto de la primera derivada}
 
@@ -212,14 +247,13 @@ Por lo tanto, deberíamos ajustar el rango de los parámetros que les pasamos a 
 
 \subsubsection{\textit{Undersampling}}
 
-Al probar los algoritmos mencionados anteriormente, obtenemos los resultados de la \textit{Tabla\ \ref{tab:undersampling-methods}}. 
-Hemos agregado una columna más, \textit{Avg. score diff}, que nos indica la diferencia entre el \textit{Train} y \textit{Test score} para decidir mejor, pues las \textit{Balanced Accuracy} nos daba resultados bastante parecidos. Esta ``nueva'' métrica no indica cuánto \textit{overfitting} hacen los modelos que se entrenan sobre el dataset generado, por lo tanto, cuanto más cercana a \textit{0} sea, mejor. Podemos ver que, en general, los diferentes \textit{Near Miss}, obtienen resultados bastante peores que los otros métodos. En cuanto a los otros tres algoritmos restantes, podemos ver que el \textit{Tomek Links} es el único que tiene mejores resultados que el \textit{dataset} sin hacer \textit{undersampling}, por lo tanto, continuaremos con este método.
+Al probar los algoritmos mencionados anteriormente, obtenemos los resultados de la \textit{Tabla\ \ref{tab:undersampling-methods}}, en la cual hemos agregado una columna, \textit{Avg. score diff}, que nos indica la diferencia entre el \textit{Train} y \textit{Test score} para compararlos mejor, pues las \textit{Balanced Accuracy} dan resultados bastante parecidos. Esta ``nueva'' métrica nos indica cuánto \textit{overfitting} hacen los modelos que se entrenan sobre el dataset generado, por lo tanto, cuanto más cercana a \textit{0} sea, mejor. Podemos ver que, en general, los diferentes \textit{Near Miss}, obtienen resultados bastante peores que los otros métodos. En cuanto a los otros tres algoritmos restantes, podemos ver que el \textit{Tomek Links} es el único que tiene mejores resultados que el \textit{dataset} sin hacer \textit{undersampling}, por lo tanto, continuaremos con este método.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \centering
     \begin{tabular}{|c|cc|} \hline
         & Avg. score diff & Avg. Balanced Accuracy \\ \hline
-        \textit{\textbf{No undersampling}} & 7.805 & 64.53 \\ 
+        \textit{\textbf{Baseline: No undersampling}} & 7.805 & 64.53 \\ 
         \textit{\textbf{TL}} & 7.950 & 65.236 \\ 
         \textit{ENN (MODE)} & 8.953 & 64.575 \\ 
         \textit{RUS} & 9.176 & 63.656 \\ 
@@ -228,18 +262,12 @@ Hemos agregado una columna más, \textit{Avg. score diff}, que nos indica la dif
         \textit{NM v1} & 35.263 & 62.754 \\ 
         \textit{NM v2} & 41.914 & 61.315 \\ \hline
     \end{tabular}
-    \caption{Resultado de entrenar los modelos básicos sobre el \textit{dataset} reducido con los diferentes métodos. Fuente: propia.}\ \label{tab:undersampling-methods}
+    \caption{Resumen de los resultados de entrenar los modelos básicos sobre el \textit{dataset} reducido con los diferentes métodos de \textit{undersampling}. Fuente: propia.}\ \label{tab:undersampling-methods}
 \end{table}
 
-Una vez hemos aplicado \textit{Tomek Links} sobre el \textit{dataset}, nos quedamos con el número de muestras de la \textit{Figura\ \ref{fig:balance-tl}} y la \textit{Tabla\ \ref{tab:balance-tl-comparison}}; en las cuales podemos ver que tan solo se han eliminado $12$.
+Una vez hemos aplicado \textit{Tomek Links} sobre el \textit{dataset}, nos quedamos con el número de muestras de la \textit{Tabla\ \ref{tab:balance-tl-comparison}}, en la cual podemos ver que tan solo se han eliminado $12$ y aun así han habido mejoras.
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.8\linewidth]{media/images/balance.png}
-    \caption{Comparación del balance de la clase objetivo antes y después de utilizar el método de \textit{undersampling ENN (ALL)}. Fuente propia.}\ \label{fig:balance-tl}
-\end{figure}
-
-\begin{table}
+\begin{table}[!h]
     \centering
     \begin{tabular}{|c|cc|} \hline
         & Good samples & Bad samples \\ \hline
@@ -249,13 +277,35 @@ Una vez hemos aplicado \textit{Tomek Links} sobre el \textit{dataset}, nos queda
     \caption{Comparación de las muestras antes y después de aplicar \textit{Tomek Links}. Fuente propia.}\ \label{tab:balance-tl-comparison}
 \end{table}
 
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|c|ccc|}
+    \hline
+        Model Name & Train score & Test score & Balanced accuracy \\ \hline
+        XGBoost & 81.839 & 82 & 50 \\ 
+        Stochastic Gradient Descent & 65.845 & 57.111 & 54.095 \\ 
+        Random Forest & 100 & 86.444 & 63.791 \\ 
+        \textbf{Quadratic Discriminant Analysis} & 96.487 & 83.778 & 72.282 \\ 
+        Multi-Layer Perceptron & 90.284 & 82.889 & 60.659 \\ 
+        Linear Discriminant Analysis & 85.202 & 77.778 & 54.17 \\ 
+        \textbf{LightGBM} & 83.857 & 73.333 & 73.141 \\ 
+        \textbf{K-Neighbors} & 100 & 87.111 & 71.424 \\ 
+        Hist Gradient Boosting & 78.625 & 70.889 & 70.205 \\ 
+        \textbf{Extra Trees} & 99.552 & 91.111 & 80.608 \\ 
+        Decision Tree & 57.1 & 58.889 & 67.224 \\ \hline
+        \textit{Average} & 85.344 & 77.393 & 65.236 \\ \hline
+    \end{tabular}
+    \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset} utilizando el método \textit{Tomek Links}. Fuente propia.}\ \label{tab:tomeklinks-basic-training}
+\end{table}
+
+\clearpage
 \subsubsection{\textit{Oversampling}}
 
 Para balancear el \textit{dataset}, como hemos comentado en la \textit{Sección\ \ref{sec:oversampling}}, hemos utilizado los sintetizadores de la librería \textit{sdv} para generar datos sintéticos. Además de los sintetizadores, la librería nos ofrece métodos para evaluar la calidad de los datos generados en forma de \textit{quality reports}. Estos \textit{quality reports} contienen la similitud estadística de los datos generados con los datos reales.
 
 Una vez entrenados los sintetizadores y generados los datos, obtenemos los resultados de la \textit{Tabla\ \ref{tab:oversampling-quality-report}}, en los cuales podemos ver que la calidad de los datos generados por el sintetizador \textit{Gaussian Copula Synthesizer} son mejores.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \centering
     \resizebox{0.8\linewidth}{!}{\begin{tabular}{|c|ccc|} \hline
         Synthesizer & Column Shapes & Column Pair Trends & Overall Quality \\ \hline
@@ -265,9 +315,9 @@ Una vez entrenados los sintetizadores y generados los datos, obtenemos los resul
     \caption{Resultados del \textit{quality report} de los datos generados con los sintetizadores. Fuente propia}\ \label{tab:oversampling-quality-report}
 \end{table}
 
-Una vez tenemos los sintetizadores entrenados sobre la clase minoritaria, generamos nuevos datos y los añadimos al \textit{dataset} original, entrenamos los modelos básicos y obtenemos los resultados de la \textit{Tabla\ \ref{tab:balanced-basic-training}} donde podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador. Por lo tanto, mantendremos el \textit{undersampling}, pero no utilizaremos \textit{oversampling} en los siguientes pasos.
+Una vez tenemos los sintetizadores entrenados sobre la clase minoritaria, generamos nuevos datos y los añadimos al \textit{dataset} original, entrenamos los modelos básicos y obtenemos los resultados de la \textit{Tabla\ \ref{tab:balanced-basic-training}} donde podemos ver que, en general, los modelos resultantes son peores que los que se han entrenado con datos que no utilizan ningún sintetizador (como los de la \textit{Tabla\ \ref{tab:tomeklinks-basic-training}}). Por lo tanto, a continuación mantendremos el paso de \textit{undersampling}, pero no utilizaremos \textit{oversampling}.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \centering
     \begin{tabular}{|c|ccc|}\hline
         Model Name & Train score & Test score & Balanced accuracy \\ \hline
@@ -284,12 +334,16 @@ Una vez tenemos los sintetizadores entrenados sobre la clase minoritaria, genera
         Decision Tree & 83.658 & 80.222 & 51.325 \\ \hline
         \textit{Average} & 90.252 & 79.232 & \textbf{58.079} \\ \hline
     \end{tabular}
-    \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset}. Fuente propia.}\ \label{tab:balanced-basic-training}
+    \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset} con \textit{Tomek Links} y \textit{Gaussian Copula Synthesizer}. Fuente propia.}\ \label{tab:balanced-basic-training}
 \end{table}
 
 \subsection{Modelos \textit{ensemble}}
 
-Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos mejores resultados, estos son \textit{Voting Classifier} y \textit{Bagging Classifier}. El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, extrapola su predicción en base a las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{Figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}, \textit{hard} utiliza la clase predicha de los modelos, mientras que \textit{soft} suma las probabilidades de las clases a predecir y suele ser más preciso \cite{Ensemble96:online}. 
+Vemos que los resultados del balanceo del \textit{dataset} comparados con el \textit{dataset} sin balancear han mejorado la calidad de los modelos en un $0.706$ y empeorado el \textit{overfitting} en un $0.145$. Para intentar mejorar el \textit{overfitting} manteniendo la calidad de los modelos, podemos probar a utilizar modelos \textit{ensemble}. Este tipo de modelos consiste en la combinación de varias predicciones de diferentes modelos para obtener una predicción final. 
+
+Nos centraremos en dos de ellos implementados en \textit{sklearn}: \textit{Voting Classifier} y \textit{Bagging Classifier}. 
+
+El primero, \textit{Voting Classifier}, entrena los modelos que lo componen sobre el \textit{dataset} y, a la hora de predecir, extrapola su predicción en base a las predicciones de estos modelos. Es decir, realiza una votación y la clase que más se vote es la que sale como predicción como podemos ver en la \textit{Figura\ \ref{fig:voting-classifiers}}. Hay dos tipos de votación, \textit{hard} y \textit{soft}. \textit{Hard} utiliza la clase mayormente predicha por los modelos, mientras que \textit{soft} tiene en cuenta la ``confianza'' de las predicciones. Es decir, no solo utiliza la clase predicha, sino que usa la probabilidad de cada clase a predecir a modo de peso. \cite{Ensemble96:online}
 
 \begin{figure}[!h]
     \centering
@@ -299,79 +353,57 @@ Hay dos tipos de modelos más complejos que no hemos probado que pueden darnos m
 
 Por otro lado el \textit{Bagging Classifier} entrena el mismo modelo sobre un subconjunto aleatorio del \textit{dataset} y luego agrega los resultados de las predicciones, ya sea haciendo la media o realizando una votación, para obtener una predicción final.\ \cite{sklearne53:online}
 
-
 Antes de entrenar estos modelos, hemos de decidir qué otros modelos los compondran, por lo tanto, escogeremos los que han tenido mejores resultados al entrenarlos sobre el \textit{dataset} balanceado. Estos son los que mejores resultados tienen en la \textit{Tabla\ \ref{tab:tomeklinks-basic-training}}, es decir, \textit{K-Neighbors}, \textit{Quadratic Discriminant Analysis}, \textit{LightGBM} y \textit{Extra Trees}.
 
-\begin{table}[!ht]
-    \centering
-    \begin{tabular}{|c|ccc|}
-    \hline
-        Model Name & Train score & Test score & Balanced accuracy \\ \hline
-        XGBoost & 81.839 & 82 & 50 \\ 
-        Stochastic Gradient Descent & 65.845 & 57.111 & 54.095 \\ 
-        Random Forest & 100 & 86.444 & 63.791 \\ 
-        \textbf{Quadratic Discriminant Analysis} & 96.487 & 83.778 & 72.282 \\ 
-        Multi-Layer Perceptron & 90.284 & 82.889 & 60.659 \\ 
-        Linear Discriminant Analysis & 85.202 & 77.778 & 54.17 \\ 
-        \textbf{LightGBM} & 83.857 & 73.333 & 73.141 \\ 
-        \textbf{K-Neighbors} & 100 & 87.111 & 71.424 \\ 
-        Hist Gradient Boosting & 78.625 & 70.889 & 70.205 \\ 
-        \textbf{Extra Trees} & 99.552 & 91.111 & 80.608 \\ 
-        Decision Tree & 57.1 & 58.889 & 67.224 \\ \hline
-    \end{tabular}
-    \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset} utilizando el método \textit{Tomek Links}. Fuente propia.}\ \label{tab:tomeklinks-basic-training}
-\end{table}
 
-Al entrenar los \textit{Voting} y \textit{Bagging Classifiers}, obtenemos los resultados de la \textit{Tabla\ \ref{tab:voting-bagging-results}}. En general, los \textit{Voting} han obtenido resultados algo mejores que los \textit{Bagging Classifiers}, podría ser por la cantidad de datos sobre los que ha entrenado cada submodelo. De todas formas, en general, obtenemos mejores resultados que utilizando modelos básicos.
+Primero entrenaremos los modelos \textit{Voting} para comparar los resultados de utilizar los diferentes tipos de votación \textit{soft} y \textit{hard}. Vemos en la \textit{Tabla\ \ref{tab:voting-results}} que el mejor modelo es el que combina \textit{Extra Trees} y \textit{LightGBM} utilizando la votación \textit{soft}, y en general, aunque la votación \textit{hard} tiende a tener menos \textit{overfitting}, la \textit{soft} obtiene mejores modelos, lo cual es curioso porque en la documentación \cite{Ensemble96:online} recomendaban utilizar \textit{hard} si los modelos componentes no estaban calibrados.
 
-\begin{table}[!ht]
-    \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|ccc|}
-    \hline
-        & \multicolumn{3}{|c|}{Soft voting} & \multicolumn{3}{|c|}{Hard voting} \\ \hline
-        Model Name & Train score & Test score & Balanced accuracy & Train score & Test score & Balanced accuracy \\ \hline
-        Voting Classifier (QDA, LGBM) & 96.562 & 84.222 & 73.035 & 96.562 & 84.889 & 69.587 \\ 
-        Voting Classifier (QDA, KNN) & 98.356 & 85.333 & 72.267 & 93.871 & 84 & 60.373 \\ 
-        Voting Classifier (QDA, ET, LGBM, KNN) & 99.925 & 87.556 & 69.286 & 94.096 & 85.556 & 60.358 \\ 
-        Voting Classifier (QDA, ET) & 100 & 87.333 & 74.45 & 99.925 & 88.667 & 69.482 \\ 
-        Voting Classifier (LGBM, KNN) & 93.124 & 83.111 & 65.131 & 92.451 & 83.556 & 61.548 \\ 
-        Voting Classifier (ET, LGBM) & 100 & 92.222 & 80.322 & 98.356 & 90.222 & 73.803 \\ 
-        Voting Classifier (ET, KNN) & 100 & 87.556 & 69.286 & 94.096 & 86 & 62.556 \\ \hline
-    \end{tabular}}
-\end{table}
+Para los modelos \textit{Bagging} vemos en la \textit{Tabla\ \ref{tab:bagging-results}} que el mejor modelo es el que utiliza \textit{Quadratic Discriminant Analysis}, aunque en general los modelos resultantes son peores que los de los \textit{Voting Classifiers} y que los modelos básicos. Esto podría ser debido a la baja cantidad de datos con los que se entrenan, pues al tener pocos datos de base y al hacer \textit{Bagging}, se generan subconjuntos de datos más pequeños, lo cual ayuda a no hacer \textit{overfitting} --- de hecho, podemos ver que el modelo que utiliza \textit{LGBM} tiene un \textit{Score diff.} negativo, lo que significa que es más preciso sobre los datos de prueba que los de entreno --- pero afecta a la calidad de los modelos resultantes.
 
-\begin{table}[!ht]
+\begin{table}[!h]
     \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|}
+    \resizebox{\textwidth}{!}{\begin{tabular}{|c|cc|cc|}
         \hline
-            Model Name & Train score & Test score & Balanced accuracy \\ \hline
-            Voting Classifier (\textit{QDA, LGBM}) & 96.562 & 84.222 & 73.035 \\ 
-            Voting Classifier (\textit{QDA, KNN}) & 98.356 & 85.333 & 72.267 \\ 
-            Voting Classifier (\textit{QDA, ET, LGBM, KNN}) & 99.925 & 87.556 & 69.286 \\ 
-            Voting Classifier (\textit{QDA, ET}) & 100.0 & 87.333 & 74.45 \\ 
-            Voting Classifier (\textit{LGBM, KNN}) & 93.124 & 83.111 & 65.131 \\ 
-            Voting Classifier (\textit{ET, LGBM}) & 100.0 & 92.222 & 80.322 \\ 
-            Voting Classifier (\textit{ET, KNN}) & 100.0 & 87.556 & 69.286 \\ 
-            Bagging Classifier (\textit{QDA}) & 94.918 & 86.0 & 69.783 \\ 
-            Bagging Classifier (\textit{LGBM}) & 81.839 & 82.0 & 50.0 \\ 
-            Bagging Classifier (\textit{KNN}) & 91.33 & 85.778 & 67.721 \\ 
-            Bagging Classifier (\textit{ET}) & 99.402 & 88.0 & 67.148 \\ \hline
-        \end{tabular}
-        }
-        \caption{Resultados de entrenar los diferentes \textit{Voting} y \textit{Bagging Classifiers} sobre el \textit{dataset} balanceado. Fuente propia.}\ \label{tab:voting-bagging-results}
+        & \multicolumn{2}{|c|}{\textit{Soft voting}} & \multicolumn{2}{|c|}{\textit{Hard voting}} \\ \hline
+        Estimators Name & Score diff. & Balanced accuracy & Score diff. & Balanced accuracy \\ \hline
+        \textit{QDA \& LGBM} & 12.34 & 73.035 & 11.673 & 69.587 \\ 
+        \textit{QDA \& KNN} & 13.023 & 72.267 & 9.871 & 60.373 \\ 
+        \textit{QDA \& ET \& LGBM \& KNN} & 12.369 & 69.286 & 8.54 & 60.358 \\ 
+        \textit{QDA \& ET} & 12.667 & 74.45 & 11.258 & 69.482 \\ 
+        \textit{LGBM \& KNN} & 10.013 & 65.131 & 8.895 & 61.548 \\ 
+        \textbf{\textit{ET \& LGBM}} & \textbf{7.778} & \textbf{80.322} & 8.134 & 73.803 \\ 
+        \textit{ET \& KNN} & 12.444 & 69.286 & 8.096 & 62.556 \\ \hline
+        \textit{Average} & 11.519 & 71.968 & 9.495 & 65.387\\ \hline
+    \end{tabular}}
+    \caption{Comparación de los resultados de entrenar los diferentes \textit{Voting Classifiers} sobre el \textit{dataset} balanceado utilizando los diferentes tipos de votación. Fuente propia.}\ \label{tab:voting-results}
 \end{table}
 
-\subsubsection{Hyperparameter tuning}
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|c|cc|}
+        \hline
+        Estimators name & Score diff. & Balanced accuracy \\ \hline
+        \textit{QDA} & 8.918 & 69.783 \\ 
+        \textit{LGBM} & -0.161 & 50.0 \\ 
+        \textit{KNN} & 5.552 & 67.721 \\ 
+        \textit{ET} & 11.402 & 67.148 \\ \hline
+        \textit{Average} & 6.428 & 63.663 \\ \hline
+    \end{tabular}
+    \caption{Resultados de entrenar los diferentes \textit{Bagging Classifiers} sobre el \textit{dataset} balanceado. Fuente propia.}\ \label{tab:bagging-results}
+\end{table}
 
-Además de los nuevos modelos, podemos volver a probar a hacer \textit{hyperparameter tuning} sobre el dataset balanceado, obteniendo los resultados de la \textit{Tabla\ \ref{tab:hyperparameter-tuning-results-v2}} que, compárandolos con los resultados del anterior \textit{hyperparameter tuning}, vemos que han mejorado un poco en general, por lo que eligiríamos estos últimos para predecir. 
+\clearpage
+\subsection{Hyperparameter tuning}
 
-\begin{table}[!ht]
+Además de los nuevos modelos, podemos volver a probar a hacer \textit{hyperparameter tuning} sobre el dataset balanceado, obteniendo los resultados de la \textit{Tabla\ \ref{tab:hyperparameter-tuning-results-v2}} que son muy parecidos a los resultados del anterior \textit{hyperparameter tuning}, sin embargo, hemos encontrado una combinación de parámetros para el \textit{K-Neighbors} que da resultados algo mejores, siendo el mejor modelo (y combinación de pasos de preprocesado) que hemos encontrado hasta ahora.
+
+\begin{table}[!h]
     \centering
     \begin{tabular}{|c|ccc|} \hline
         Model name & Train score & Test score & Balanced accuracy \\ \hline
         RS K-Neighbors & 100 & 91.509 & 91.509 \\ 
         GS K-Neighbors & 100 & 91.509 & 91.509 \\ 
-        RS Quadratic Discriminant Analysis & 97.694 &2.282 & 72.282 \\ 
+        RS Quadratic Discriminant Analysis & 97.694 & 72.282 & 72.282 \\ 
         GS Quadratic Discriminant Analysis & 97.694 & 72.282 & 72.282 \\ 
         GS LightGBM & 85.107 & 71.304 & 71.304 \\ 
         RS LightGBM & 85.748 & 69.798 & 69.798 \\ 
