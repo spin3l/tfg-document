@@ -28,34 +28,33 @@ Antes de empezar a probar los diferentes métodos de preprocesado, necesitamos d
 
 \begin{itemize}
     \item \textbf{Árboles de decisión}: Basan sus decisiones en condiciones en estructura de árbol. Suelen hacer \textit{overfitting}, y suelen funcionar bien con pocos datos.
-    \begin{enumerate}
+    \begin{itemize}
         \item \textit{Decision Tree} son los más básicos, dividen los datos en función de sus características.
         \item \textit{Random Forest} consiste en la unión de diversos \textit{Decision Trees}, siendo la decisión final la decisión media de los mismos.
         \item \textit{Extra Trees} de forma parecida al \textit{Random Forest}, entrena diferentes \textit{Decision Trees} sobre diferentes subconjuntos de los datos.
-        \item \textit{Hist Gradient Boosting}
-    \end{enumerate}
+    \end{itemize}
          \item \textbf{Análisis discriminante}: Aproximan superficies de decisión en función de la clase de las muestras.
-        \begin{enumerate}
+        \begin{itemize}
             \item \textit{Linear Discriminant Analysis} aproximan una superficie de decisión con un límite lineal.
             \item \textit{Quadratic Discriminant Analysis} aproximan una superficie de decisión con un límite cuadrático.
-        \end{enumerate}
+        \end{itemize}
     \item \textbf{Modelos basados en \textit{cercanía}}: Deciden la clase de una muestra en función de la clase de las muestras más cercanas.
-        \begin{enumerate}
+        \begin{itemize}
             \item \textit{K-Neighbors} decide la clase de una muestra en función de la clase de las \textit{K} muestras más cercanas sobre las que se ha entrenado el modelo.
-        \end{enumerate}
-    \item \textbf{Modelos basados en gradientes}: 
-    \begin{enumerate}
-        \item \textit{XGBoost}
-        \item \textit{LightGBM}
-    \end{enumerate}
+        \end{itemize}
+    \item \textbf{Modelos basados en \textit{Gradient Boosting}}: Combinan modelos más simples, normalmente árboles de decisión, para producir un modelo más preciso y robusto.\ \cite{Gradient97:online}
+    \begin{itemize}
+        \item \textit{XGBoost} y \textit{LightGBM}, ambos son implementaciones de \textit{Gradient Boosting} con la mayor diferencia siendo que en \textit{XGBoost} los árboles crecen de forma profunda y en \textit{LightGBM} de forma ancha. \cite{XGBoostv70:online}  
+        \item \textit{Hist Gradient Boosting} 
+    \end{itemize}
     \item \textbf{Modelos basados en redes neuronales}: Basados en el funcionamiento del cerebro humano, estos modelos se entrenan en función de pesos y \textit{bias}.
-        \begin{enumerate}
+        \begin{itemize}
             \item \textit{Multi-Layer Perceptron}
-        \end{enumerate}
-    \item \textbf{Otros}: 
-    \begin{enumerate}
+        \end{itemize}
+    \item \textbf{Otros}:
+    \begin{itemize}
         \item \textit{Stochastic Gradient Descent}
-    \end{enumerate}
+    \end{itemize}
 \end{itemize}
 
 \subsection{Análisis del impacto de la primera derivada}
