@@ -45,7 +45,6 @@ Antes de empezar a probar los diferentes métodos de preprocesado, necesitamos d
     \item \textbf{Modelos basados en \textit{Gradient Boosting}}: Combinan modelos más simples, normalmente árboles de decisión, para producir un modelo más preciso y robusto.\ \cite{Gradient97:online}
     \begin{itemize}
         \item \textit{XGBoost} y \textit{LightGBM}, ambos son implementaciones de \textit{Gradient Boosting} con la mayor diferencia siendo que en \textit{XGBoost} los árboles crecen de forma profunda y en \textit{LightGBM} de forma ancha. \cite{XGBoostv70:online}  
-        \item \textit{Hist Gradient Boosting} 
     \end{itemize}
     \item \textbf{Modelos basados en redes neuronales}: Basados en el funcionamiento del cerebro humano, estos modelos se entrenan en función de pesos y \textit{bias}.
         \begin{itemize}
@@ -59,7 +58,7 @@ Antes de empezar a probar los diferentes métodos de preprocesado, necesitamos d
 
 \subsection{Análisis del impacto de la primera derivada}
 
-Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar la batería de modelos y su \textit{Balanced Accuracy} la cual ha mejorado un \textbf{2.255\%} respecto a no haber preprocesado los datos, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
+Para probar que, como hemos comentado antes, el aplicar la primera derivada sobre los datos nos puede ayudar a la hora de predecir, podemos comparar los resultados de entrenar con o sin derivar en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}}. En esta, podemos ver los resultados de entrenar la batería de modelos y su \textit{Balanced Accuracy} la cual ha mejorado un \textbf{1.481\%} respecto a no haber preprocesado los datos, por lo tanto, continuaremos aplicando la derivada en los siguientes pasos.
 
 Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podemos ver un comportamiento que se repite, hay algunos modelos con un \textit{Balanced Accuracy} de $50$ (en nuestro caso es este valor, pues tenemos dos clases), lo cual nos indica que el modelo no ha sido capaz de predecir correctamente la clase minoritaria. Esto se debe a que los datos están desbalanceados y el modelo se aprovecha de ello, prediciendo siempre la clase mayoritaria.
 
@@ -78,17 +77,16 @@ Además en la \textit{Tabla\ \ref{tab:nopreprocessing-derivative-results}} podem
         Linear Discriminant Analysis & 53.96 & 54.306 \\ 
         LightGBM & 71.846 & 62.632 \\ 
         K-Neighbors & 71.289 & 82.46 \\ 
-        Hist Gradient Boosting & 68.97 & 58.988 \\ 
         Extra Trees & 78.756 & 76.438 \\ 
         Decision Tree & \textbf{67.224} & 50 \\ \hline
-        \textit{Average} & \textbf{61.790} & 59.535 \\ \hline
+        \textit{Average} & \textbf{61.072} & 59.591 \\ \hline
     \end{tabular}
     \caption{Comparación de los resultados de entrenar utilizando la derivada y sin preprocesar. Fuente propia.}\ \label{tab:nopreprocessing-derivative-results}
 \end{table}
 
 \subsection{Análisis del impacto de aplicar la transformada}
 
-Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{Tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} en general empeora en un \textbf{1.12\%}, así que continuaremos las pruebas sin añadir la transformada al preprocesado.
+Podemos ver los resultados de entrenar utilizando la transformada sobre los datos derivados en la \textit{Tabla\ \ref{tab:derivative-transformed-results}}, vemos que la métrica \textit{Balanced Accuracy} en general empeora en un \textbf{1.233\%}, así que continuaremos las pruebas sin añadir la transformada al preprocesado.
 
 \begin{table}[!h]
     \centering
@@ -104,17 +102,16 @@ Podemos ver los resultados de entrenar utilizando la transformada sobre los dato
             Linear Discriminant Analysis & 52.529 & 53.96 \\ 
             LightGBM & 71.846 & 71.846 \\ 
             K-Neighbors & \textbf{56.143} & 71.289 \\ 
-            Hist Gradient Boosting & 68.97 & 68.97 \\ 
             Extra Trees & 78.967 & 78.756 \\ 
             Decision Tree & 67.224 & 67.224 \\ \hline
-            \textit{Average} & 60.669 & \textbf{61.790} \\ \hline
+            \textit{Average} & 59.839 & \textbf{61.072} \\ \hline
     \end{tabular}
     \caption{Comparación de los resultados de entrenar transformando y derivando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-transformed-results}
 \end{table}
 
 \subsection{Análisis del impacto de la estandarización de los datos}
 
-Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-results}}, los cuales en general son notablementes mejores que los anteriores, viendo una mejora del \textbf{2.74\%} en la \textit{Balanced Accuracy}. Estas mejoras ocurren en los modelos marcados en la tabla, \textit{QDA} y \textit{MLP}.
+Al aplicar la estandarización de los datos después de derivarlos obtenemos los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-results}}, los cuales en general son notablementes mejores que los anteriores, viendo una mejora del \textbf{3.014\%} en la \textit{Balanced Accuracy}. Estas mejoras ocurren en los modelos marcados en la tabla, \textit{QDA} y \textit{MLP}.
 
 
 \begin{table}[!h]
@@ -131,10 +128,9 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
         Linear Discriminant Analysis & 53.96 & 53.96 \\ 
         LightGBM & 71.981 & 71.846 \\ 
         K-Neighbors & 70.807 & 71.289 \\ 
-        Hist Gradient Boosting & 68.97 & 68.97 \\ 
         Extra Trees & 78.756 & 78.756 \\ 
         Decision Tree & 67.224 & 67.224 \\ \hline
-        \textit{Average} & \textbf{64.530} & 61.790 \\ \hline
+        \textit{Average} & \textbf{64.086} & 61.072 \\ \hline
     \end{tabular}
     \caption{Comparación de los resultados de entrenar derivando y estandarizando los datos; frente a solo derivando. Fuente propia.}\ \label{tab:derivative-standarization-results}
 \end{table}
@@ -143,7 +139,7 @@ Al aplicar la estandarización de los datos después de derivarlos obtenemos los
 \subsection{Impacto del aumento y disminución de dimensionalidad de los datos}
 
 
-Por último, aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores empeorando la \textit{Balanced Accuracy} en un \textbf{5.66\%}. Por lo tanto, continuaremos con los datos derivados y estandarizados sin aumentar o disminuir la dimensionalidad de los datos.
+Por último, aun siendo un paso generalmente recomendado, el aumento y disminución de dimensionalidad nos ha dado los resultados de la \textit{Tabla\ \ref{tab:derivative-standarization-dimensionality-results}}, los cuales son significativamente peores que los anteriores empeorando la \textit{Balanced Accuracy} en un \textbf{5.526\%}. Por lo tanto, continuaremos con los datos derivados y estandarizados sin aumentar o disminuir la dimensionalidad de los datos.
 
 \begin{table}[!h]
     \centering
@@ -159,10 +155,9 @@ Por último, aun siendo un paso generalmente recomendado, el aumento y disminuci
         Linear Discriminant Analysis & 50.903 & 53.96 \\ 
         LightGBM & {62.933} & {71.981} \\ 
         K-Neighbors & {64.092} & {70.807} \\ 
-        Hist Gradient Boosting & 61.924 & 68.97 \\ 
         Extra Trees & 70.37 & 78.756 \\ 
         Decision Tree & 55.014 & 67.224 \\ \hline
-        \textit{Average} & \textbf{58.866} & \textbf{64.530} \\ \hline
+        \textit{Average} & \textbf{58.560} & \textbf{64.086} \\ \hline
     \end{tabular}}
     \caption{Comparación de los resultados de entrenar derivando, estandarizando y ajustando la dimensionalidad de los datos; frente a solo derivando y estandarizando. Fuente propia.}\ \label{tab:derivative-standarization-dimensionality-results}
 \end{table}
@@ -187,7 +182,6 @@ Donde lo podemos ver más claramente es en \textit{KNeighbors}, vemos en la \tex
         Linear Discriminant Analysis & \textbf{85.333} & \textbf{78.222} & 53.96 \\ 
         LightGBM & 82.222 & 72.222 & 71.981 \\ 
         K-Neighbors & \textbf{100} & \textbf{86.889} & 70.807 \\ 
-        Hist Gradient Boosting & \textbf{78.444} & \textbf{70.444} & 68.97 \\ 
         Extra Trees & \textbf{99.63} & \textbf{90.444} & 78.756 \\ 
         Decision Tree & 56.963 & 58.889 & 67.224 \\
     \hline
@@ -248,6 +242,7 @@ Por lo tanto, deberíamos ajustar el rango de los parámetros que les pasamos a 
 
 Al probar los algoritmos mencionados anteriormente, obtenemos los resultados de la \textit{Tabla\ \ref{tab:undersampling-methods}}, en la cual hemos agregado una columna, \textit{Avg. score diff}, que nos indica la diferencia entre el \textit{Train} y \textit{Test score} para compararlos mejor, pues las \textit{Balanced Accuracy} dan resultados bastante parecidos. Esta ``nueva'' métrica nos indica cuánto \textit{overfitting} hacen los modelos que se entrenan sobre el dataset generado, por lo tanto, cuanto más cercana a \textit{0} sea, mejor. Podemos ver que, en general, los diferentes \textit{Near Miss}, obtienen resultados bastante peores que los otros métodos. En cuanto a los otros tres algoritmos restantes, podemos ver que el \textit{Tomek Links} es el único que tiene mejores resultados que el \textit{dataset} sin hacer \textit{undersampling}, por lo tanto, continuaremos con este método.
 
+//TODO: UPDATE
 \begin{table}[!h]
     \centering
     \begin{tabular}{|c|cc|} \hline
@@ -276,6 +271,8 @@ Una vez hemos aplicado \textit{Tomek Links} sobre el \textit{dataset}, nos queda
     \caption{Comparación de las muestras antes y después de aplicar \textit{Tomek Links}. Fuente propia.}\ \label{tab:balance-tl-comparison}
 \end{table}
 
+// TODO: UPDATE
+
 \begin{table}[!h]
     \centering
     \begin{tabular}{|c|ccc|}
@@ -289,10 +286,9 @@ Una vez hemos aplicado \textit{Tomek Links} sobre el \textit{dataset}, nos queda
         Linear Discriminant Analysis & 85.202 & 77.778 & 54.17 \\ 
         \textbf{LightGBM} & 83.857 & 73.333 & 73.141 \\ 
         \textbf{K-Neighbors} & 100 & 87.111 & 71.424 \\ 
-        Hist Gradient Boosting & 78.625 & 70.889 & 70.205 \\ 
         \textbf{Extra Trees} & 99.552 & 91.111 & 80.608 \\ 
         Decision Tree & 57.1 & 58.889 & 67.224 \\ \hline
-        \textit{Average} & 85.344 & 77.393 & 65.236 \\ \hline
+        \textit{Average} & 86.017 & 78.044 & 64.739 \\ \hline
     \end{tabular}
     \caption{Resultados de entrenar los modelos básicos habiendo balanceado el \textit{dataset} utilizando el método \textit{Tomek Links}. Fuente propia.}\ \label{tab:tomeklinks-basic-training}
 \end{table}
@@ -338,7 +334,7 @@ Una vez tenemos los sintetizadores entrenados sobre la clase minoritaria, genera
 
 \subsection{Modelos \textit{ensemble}}
 
-Vemos que los resultados del balanceo del \textit{dataset} comparados con el \textit{dataset} sin balancear han mejorado la calidad de los modelos en un $0.706$ y empeorado el \textit{overfitting} en un $0.145$. Para intentar mejorar el \textit{overfitting} manteniendo la calidad de los modelos, podemos probar a utilizar modelos \textit{ensemble}. Este tipo de modelos consiste en la combinación de varias predicciones de diferentes modelos para obtener una predicción final. 
+Vemos que los resultados del balanceo del \textit{dataset} comparados con el \textit{dataset} sin balancear han mejorado la calidad de los modelos en un $0.706$ y empeorado el \textit{overfitting} en un $0.145$. Para intentar mejorar el \textit{overfitting} manteniendo la calidad de los modelos, podemos probar a utilizar modelos \textit{ensemble}. Este tipo de modelos consiste en la combinación de varias predicciones de diferentes modelos para obtener una predicción final.
 
 Nos centraremos en dos de ellos implementados en \textit{sklearn}: \textit{Voting Classifier} y \textit{Bagging Classifier}. 
 
