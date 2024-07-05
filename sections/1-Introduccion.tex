@@ -1,10 +1,6 @@
 \section{Introducción}
 
-Las micotoxinas son toxinas naturales derivadas del metabolismo secundario de mohos micotoxigénicos, que se pueden encontrar en alimentos y materias primas. Una de ellas,
-el \acrfull{don}, se encuentra en el campo predominantemente en granos de cereales como el trigo. Por este motivo, el deoxinivalenol se encuentra frecuentemente en
-alimentos a base de cereales lo que, unido a la elevada ingesta de trigo típica de la dieta española, hace que la exposición de la población sea significativa. En los años
-en que la meteorología es especialmente adversa los cultivos de todo el mundo muestran altos niveles de contaminación. Además, en los últimos años existe una creciente
-evidencia de un aumento en la incidencia de micotoxinas como resultado del cambio climático.
+Las micotoxinas son toxinas naturales derivadas del metabolismo secundario de mohos micotoxigénicos, que se pueden encontrar en alimentos y materias primas. Una de ellas, el \acrfull{don}, se encuentra en el campo predominantemente en granos de cereales como el trigo. Por este motivo, el deoxinivalenol se encuentra frecuentemente en alimentos a base de cereales lo que, unido a la elevada ingesta de trigo típica de la dieta española, hace que la exposición de la población sea significativa. En los años en que la meteorología es especialmente adversa los cultivos de todo el mundo muestran altos niveles de contaminación. Además, en los últimos años existe una creciente evidencia de un aumento en la incidencia de micotoxinas como resultado del cambio climático.
 
 Actualmente, las empresas procesadoras de cereales basan su autocontrol en el análisis de muestras de un determinado número de lotes mediante técnicas inmunocromatográficas
 rápidas, de forma que se rechazan los lotes no conformes. Los lotes que, una vez analizados, superan el límite legal \(1250 \mu g/kg\), en general, se desvían íntegramente
@@ -33,9 +29,9 @@ Para ello, hemos separado esta tarea en los objetivos secundarios siguientes.
     \item Entender los datos de los resultados de laboratorio.
     \item Entender el proceso de análisis de imágenes hiperespectrales.
     \item Tratar de mejorar el actual proceso de análisis de las imágenes.
-    \item Entender el actual proceso de entranamiento y análisis de modelos de \gls{ml}.
+    \item Entender el proceso de entranamiento y análisis de modelos de \gls{ml}.
     \item Tratar de mejorar el preprocesado de los datos, tanto como el entrenamiento de nuevos modelos para tratar de obtener mejores resultados.
-    \item Entrenar modelos de \gls{ml} que sean capaces de predecir si un grano está contaminado. 
+    \item Entrenar modelos de \gls{ml} de la librería \textit{\href{https://scikit-learn.org/stable/}{sklearn}} que sean capaces de predecir si un grano está contaminado. 
     \item Una vez entrenados los modelos básicos, tratar de ajustarlos a los datos con \textit{Hyperparameter tuning}.
     \item Crear un software para emular la carga continua de imágenes que habría en un caso de uso real, además de prepararlo para que se pueda ejecutar por un tiempo indefinido, guardando los resultados de las predicciones.
 \end{enumerate}
@@ -44,14 +40,14 @@ Para ello, hemos separado esta tarea en los objetivos secundarios siguientes.
 
 En esta primera sección tenemos una introducción al problema real que tratamos de solucionar y los objetivos intermedios que nos hemos propuesto a priori para solucionarlo.
 
-En la siguiente sección, se muestra el prototipo ideado para la solución del problema, se explica en detalle la naturaleza de la tecnología que utilizaremos (\gls{nir-hsi}), así como el formato de los datos que tenemos y el siginificado del valor que queremos predecir.
+En la \textit{\hyperref[sec:analisis]{sección \ref*{sec:analisis}}}, se muestra el prototipo ideado para la solución del problema, se explica en detalle la naturaleza de la tecnología que utilizaremos (\gls{nir-hsi}), así como el formato de los datos que tenemos y el siginificado del valor que queremos predecir.
 
-En la tercera sección se explican diferentes conceptos del \gls{ml} que son la base de cualquier proyecto de este tipo, como los tipos de aprendizaje, las fases del desarrollo de un proyecto de \gls{ml} y las diferentes métricas de evaluación de modelos, lo cual depende del tipo de aprendizaje y, por lo tanto, del tipo de datos que tengamos y que queramos predecir.
+En la \textit{\hyperref[sec:marco-teorico]{sección \ref*{sec:marco-teorico}}} se explican diferentes conceptos del \gls{ml} que son la base de cualquier proyecto de este tipo, como los tipos de aprendizaje, las fases del desarrollo de un proyecto de \gls{ml} y las diferentes métricas de evaluación de modelos, lo cual depende del tipo de aprendizaje y, por lo tanto, del tipo de datos que tengamos y que queramos predecir.
 
-En la siguiente sección se muestra el diseño del proyecto, explicando qué pasos hemos ido siguiendo para procesar los datos antes de entrenar los modelos, así como los modelos que hemos utilizado.
+En la \textit{\hyperref[sec:diseno]{sección \ref*{sec:diseno}}} se muestra el diseño del proyecto, explicando qué pasos hemos ido siguiendo para procesar los datos antes de entrenar los modelos, así como los modelos que hemos utilizado.
 
-En la quinta sección se comparan los resultados del entrenamiento de los distintos modelos según el tratamiento de los datos que comentamos en la sección anterior, haciendo émfasis en la importancia de la selección de los hiperparámetros de los modelos.
+En la \textit{\hyperref[sec:experimentacion]{sección \ref*{sec:experimentacion}}} se comparan los resultados del entrenamiento de los distintos modelos según el tratamiento de los datos que comentamos en la sección anterior, haciendo émfasis en la importancia de la selección de los hiperparámetros de los modelos.
 
-En la sexta sección se hace una comparación del modelo resultante con el ya existente modelo de análisis de laboratorio, para ver si han habido mejoras de resultados. También se comenta el entorno de desarrollo con el que se ha trabajado, así como la aplicación de escritorio que se ha desarrollado para la detección en tiempo real de granos contaminados.
+En la \textit{\hyperref[sec:discusion]{sección \ref*{sec:discusion}}} se hace una comparación del modelo resultante con el ya existente modelo de análisis de laboratorio, para ver si han habido mejoras de resultados. También se comenta el entorno de desarrollo con el que se ha trabajado, así como la aplicación de escritorio que se ha desarrollado para la detección en tiempo real de granos contaminados.
 
-Por último, se comentan las conclusiones a las que hemos llegado, así como las posibles mejoras que se podrían hacer en una futura fase del proyecto y se comentan los objetivos marcados al principio del documento.
+Por último, en la \textit{\hyperref[sec:conclusiones]{sección \ref*{sec:conclusiones}}} se comentan las conclusiones a las que hemos llegado, así como las posibles mejoras que se podrían hacer en una futura fase del proyecto y se comentan los objetivos marcados al principio del documento.

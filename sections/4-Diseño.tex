@@ -1,4 +1,4 @@
-\section{Diseño del proyecto}
+\section{Diseño del proyecto}\label{sec:diseno}
 
 \subsection{Análisis del problema y de los datos}\label{sec:obtencion}
 
@@ -49,10 +49,10 @@ Los valores atípicos u \textit{outliers} son aquellos valores inusuales en los 
 
 En todo el proyecto hemos estado utilizando la librería \href{https://scikit-learn.org/stable/}{sklearn}, esta tiene un submódulo con una función \href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html}{sklearn.model\_selection.train\_test\_split} para separar el \gls{dataset} en entreno y prueba. De esta función, lo más importante es que nos permite la opción de utilizar \textit{stratify}, la cual es muy recomendable cuando el \textit{dataset} no está balanceado.
 
-De todas las opciones, cabe recalcar una que hemos habilitado, pues como en el \gls{dataset} original las etiquetas no están balanceadas y hay muchos más granos sanos que contaminados, es importante que los granos contaminados estén igualmente representados tanto en el conjunto de prueba como en el de entreno, esto se consigue con la opción \textit{stratify}.
+De todas las opciones, cabe resaltar una que hemos habilitado, pues como en el \gls{dataset} original las etiquetas no están balanceadas y hay muchos más granos sanos que contaminados, es importante que los granos contaminados estén igualmente representados tanto en el conjunto de prueba como en el de entreno, esto se consigue con la opción \textit{stratify}.
 
 
-\subsubsection{Balanceo de datos}
+\subsubsection{Balanceo de datos}\ \label{sec:balance}
 
 Podemos ver en la \textit{Figura\ \ref{fig:unbalance}} que los datos no están balanceados, es decir, que la columna que nos interesa `Contaminación' no tiene un número de datos similares en cada clase. En nuestro caso, como en general es más complicado encontrarse un grano contaminado, tenemos más granos sanos.
 
@@ -95,7 +95,7 @@ Por último, el algoritmo \textit{Edited Nearest Neighbours} elimina las muestra
 
 El segundo paso es el \textit{oversampling}, el cual consiste en la creación de los datos sintéticos para suplir la carencia de datos de las clases minoritarias. Al igual que en el paso anterior, hay algoritmos para realizar estas técnicas implementados en la librería \textit{imblearn}, sin embargo preferimos utilizar \href{https://sdv.dev/}{The Synthetic Data Vault} \cite{Synthesi69:online}, pues tiene mejor documentación y tiene un método sencillo para evaluar los datos generados. 
 
-En la librería hay cuatro sintetizadores de datos que probaremos y son los siguientes:
+En la librería hay los siguientes cuatro sintetizadores de datos:
 
 \begin{enumerate}
     \item \textit{Gaussian Copula Synthesizer} \cite{Gaussian4:online}, el cual utiliza métodos estadísticos clásicos.
@@ -117,9 +117,14 @@ Los pasos que hemos probado para preprocesar los datos son los que comentamos en
 
 \paragraph{Primera derivada}
 
-Un primer paso recomendado desde el laboratorio, ya que era lo que utilizaban ellos en su modelo estadístico, es aplicar la primera derivada. El hacerlo permite mínimamente separar los granos contaminados de los que no, pues aplicar la derivada suaviza los datos, eliminando parte del ruido y dejando solo las tendencias.
+Un primer paso recomendado desde el laboratorio, ya que era lo que utilizaban ellos en su modelo estadístico, es aplicar la primera derivada. El hacerlo permite mínimamente separar los granos contaminados de los que no, pues aplicar la derivada suaviza los datos, eliminando parte del ruido y dejando solo las tendencias como podemos ver en la \textit{Figura\ \ref{fig:derivative}}.
+De todas formas, probaremos que este paso sea realmente útil haciendo pruebas con y sin él.
 
-% //TODO: Añadir ejemplo gráfico de la derivada
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{media/images/derivative.png}
+    \caption{Comparación de aplicar la primera derivada sobre la primera muestra. Fuente propia}\ \label{fig:derivative}
+\end{figure}
 
 \paragraph{Transformada}
 
